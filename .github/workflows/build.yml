@@ -14,7 +14,7 @@ on:
       - 'v*'
 
 concurrency:
-  group: plotverse-main-build
+  group: plotverse-main-build-v2
   cancel-in-progress: true
 
 permissions:
