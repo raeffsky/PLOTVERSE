@@ -100,6 +100,9 @@ jobs:
           PY
           node --check "$RUNNER_TEMP/plotverse-inline.js"
 
+      - name: Run JavaScript smoke tests
+        run: node scripts/smoke-test.js
+
       - name: Build unsigned release APK
         run: gradle assembleRelease
 
