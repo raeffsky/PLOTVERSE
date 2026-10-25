@@ -96,6 +96,7 @@ first.elements['clubSpoiler-' + testClub.id] = { checked: true };
 first.app.pvAddClubPost(testClub.id);
 assert.equal(first.app.pvAddImportedBook('Smoke Import.md', '# Chapter 1\n\nImported text one.\n\n# Chapter 2\n\nImported text two.'), true, 'Text file should import');
 assert.equal(first.app.state().importedBooks[0].localChapters.length, 2, 'Markdown headings should split chapters');
+assert.match(first.elements.offlineStats.textContent, /1 импортированных книг/, 'Offline storage should count imported books');
 first.app.openBook('Smoke Import');
 first.app.openReaderByIndex(0);
 assert.match(first.elements.readerText.innerHTML, /Imported text one/, 'Imported chapter should render');
