@@ -3,8 +3,12 @@ name: Build PLOTVERSE APK
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     paths:
-      - '*.zip'
+      - 'app/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle.properties'
       - '.github/workflows/build.yml'
     tags:
       - 'v*'
@@ -19,22 +23,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract Android project
+      - name: Validate project structure
         run: |
-          ZIP_FILE=$(find . -maxdepth 1 -type f -iname '*.zip' | sort | tail -n 1)
-          if [ -z "$ZIP_FILE" ]; then
-            echo "Project ZIP not found in repository root"
-            exit 1
-          fi
-          mkdir extracted
-          unzip -q "$ZIP_FILE" -d extracted
-          ROOT=$(find extracted -name settings.gradle -type f -printf '%h\n' | head -n 1)
-          if [ -z "$ROOT" ]; then
-            echo "settings.gradle not found inside ZIP"
-            exit 1
-          fi
-          cp -a "$ROOT"/. .
+          test -f settings.gradle
+          test -f app/build.gradle
+          test -f app/src/main/AndroidManifest.xml
           test -f app/src/main/assets/index.html
+          test -f app/src/main/java/com/plotverse/app/MainActivity.java
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -56,6 +51,7 @@ jobs:
         with:
           name: PLOTVERSE-debug-apk
           path: PLOTVERSE.apk
+          if-no-files-found: error
 
       - name: Publish GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
@@ -64,4 +60,5 @@ jobs:
         run: |
           gh release create "$GITHUB_REF_NAME" PLOTVERSE.apk \
             --title "PLOTVERSE $GITHUB_REF_NAME" \
-            --notes "PLOTVERSE Android update. Download PLOTVERSE.apk and install it over the existing app if the signing key matches."
+            --notes "PLOTVERSE Android update. Download PLOTVERSE.apk and install it over the existing app if the signing key matches." \
+            || gh release upload "$GITHUB_REF_NAME" PLOTVERSE.apk --clobber
