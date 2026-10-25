@@ -48,7 +48,7 @@
  <div class="gridstats"><div class="stat"><span>Главы</span><strong id="detailChapters">27</strong></div><div class="stat"><span>Читатели</span><strong>1,2k</strong></div><div class="stat"><span>Рейтинг</span><strong id="statRating">9.4</strong></div></div>
  <p class="desc" id="detailDesc">В стенах магической академии пробуждается сила, о которой мир предпочёл забыть.</p>
  <div class="rowbtn"><button class="primary" onclick="openReader('Глава 1. Начало')">Читать ранобэ</button><button onclick="toggleBookmark()" id="bookmarkBtn">♧ В библиотеку</button></div>
- <div class="sectionhead"><h2>Содержание</h2><span class="small">Главы</span></div><div id="chapterList"></div>
+ <button class="outline" style="width:100%;margin:12px 0" onclick="go('lore')">Персонажи и мир произведения ↗</button><div class="sectionhead"><h2>Содержание</h2><span class="small">Главы</span></div><div id="chapterList"></div>
 </section>
 
 <section class="screen" id="reader">
@@ -83,6 +83,20 @@
 <div class="sectionhead"><h2>Офлайн-доступ</h2></div><div class="rowbtn" style="margin:12px 0"><button onclick="pvExportData()">Экспорт данных</button><label class="outline" style="display:block;padding:12px;border-radius:13px;text-align:center">Импорт данных<input type="file" accept="application/json,.json" onchange="pvImportData(event)" style="display:none"></label></div><div class="notice">Позиция чтения, закладки и настройки читалки сохраняются на устройстве. Тексты, встроенные в приложение, доступны офлайн; загрузка удалённых произведений появится после подключения реального каталога.</div>
 </section>
 
+<section class="screen" id="lore">
+<h1 class="page-title">Персонажи и мир</h1>
+<div class="notice">Справочник привязан к демонстрационному произведению «Путь теней». Секреты сюжета здесь пока не раскрываются автоматически.</div>
+<div class="sectionhead"><h2>Персонажи</h2><span class="small">3 записи</span></div>
+<div class="card" style="margin-bottom:10px"><div class="eyebrow">ГЛАВНЫЙ ГЕРОЙ</div><h3 style="margin:8px 0">Кайрен Вейл</h3><p class="muted">Ученик магической академии. Красные волосы, золотые глаза, белая одежда с чёрными элементами. На руке светятся символы, а вокруг проявляется чёрная аура.</p><div class="chips"><span class="chip">Магия</span><span class="chip">Тайный знак</span></div></div>
+<div class="card" style="margin-bottom:10px"><div class="eyebrow">ПРЕПОДАВАТЕЛЬ</div><h3 style="margin:8px 0">Селеста Морвейн</h3><p class="muted">Преподаватель магических печатей. Короткие чёрные волосы с седой прядью, светло-серые глаза, чёрный плащ и металлические кольца с рунами.</p></div>
+<div class="card" style="margin-bottom:10px"><div class="eyebrow">НАБЛЮДАТЕЛЬ</div><h3 style="margin:8px 0">Лиора Эстейн</h3><p class="muted">Отслеживает магические сигнатуры и использует устройство для наблюдения за необычными проявлениями силы.</p></div>
+<div class="sectionhead"><h2>Связи и тайны</h2></div>
+<div class="chapter"><span class="chicon">↔</span><span class="chtext">Кайрен ↔ Селеста<small>Ученик и преподаватель магических печатей</small></span></div>
+<div class="chapter"><span class="chicon">⌁</span><span class="chtext">Кайрен ↔ Лиора<small>Его магические сигнатуры находятся под наблюдением</small></span></div>
+<div class="chapter"><span class="chicon">▣</span><span class="chtext">Ночь Безмолвия<small>Событие из прошлого, связанное с исчезновением брата Кайрена</small></span></div>
+<div class="chapter"><span class="chicon">◈</span><span class="chtext">Седьмая башня<small>Запретная часть академии. Подробности скрыты до соответствующего сюжетного момента</small></span></div>
+</section>
+
 <section class="screen" id="settings">
  <button class="link" onclick="go('profile')">← Назад в профиль</button>
  <h1 class="page-title">Настройки</h1>
@@ -104,6 +118,7 @@
  <button class="chapter" onclick="go('library')"><span class="chicon">▤</span><span class="chtext">Моя библиотека<small>Сохранённые произведения и полки</small></span><span>›</span></button>
  <button class="chapter" onclick="go('home')"><span class="chicon">◷</span><span class="chtext">История чтения<small>Недавно открытые главы</small></span><span>›</span></button>
  <button class="chapter" onclick="go('author')"><span class="chicon">✎</span><span class="chtext">Кабинет автора<small>Черновики и публикации</small></span><span>›</span></button>
+ <button class="chapter" onclick="go('lore')"><span class="chicon">✧</span><span class="chtext">Персонажи и лор<small>Герои, связи и тайны мира</small></span><span>›</span></button>
  <button class="chapter" onclick="go('settings')"><span class="chicon">⚙</span><span class="chtext">Настройки<small>Чтение, обновления и приложение</small></span><span>›</span></button>
 </section>
 </div>
