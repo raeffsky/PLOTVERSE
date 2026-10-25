@@ -50,7 +50,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
+      pvToggleChapterBookmark, pvSaveChapter, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
       createBook, go, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -132,6 +132,7 @@ assert.ok(persisted.followingAuthors.includes('RAEFFSKY'), 'Author subscription 
 assert.equal(persisted.drafts.length, 1, 'Draft should persist');
 assert.equal(persisted.chapterBookmarks.length, 1, 'Chapter bookmark should persist');
 assert.equal(persisted.offlineChapters['Путь теней::6'].title, 'Глава 7. Колокол безмолвия', 'Offline chapter should persist');
+assert.match(first.elements.offlineChapterList.innerHTML, /Колокол безмолвия/, 'Offline settings should list saved chapters');
 assert.equal(persisted.comments['Путь теней::6'].length, 1, 'Comment should persist');
 assert.equal(persisted.comments['Путь теней::6'][0].replies.length, 1, 'Comment reply should persist');
 assert.equal(persisted.comments['Путь теней::6'][0].reported, true, 'Local report should persist');
@@ -164,5 +165,7 @@ assert.ok(second.app.state().analyticsEvents.length >= 2, 'Analytics should surv
 second.app.openReaderByIndex(0);
 second.app.openReaderByIndex(6);
 assert.match(second.elements.readerText.innerHTML, /Колокол Седьмой башни не звучал/, 'Saved chapter should restore after restart');
+second.app.pvDeleteOfflineChapter(encodeURIComponent('Путь теней::6'));
+assert.equal(Object.keys(second.app.state().offlineChapters).length, 0, 'Saved offline chapter should be removable from settings');
 
 console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed, analytics, recommendations, book clubs, offline TXT/Markdown import and draft creation.');
