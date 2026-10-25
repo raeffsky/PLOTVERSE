@@ -84,6 +84,8 @@ first.app.pvToggleChapterBookmark();
 first.app.pvAddFeedItem({ id: 'smoke-feed', author: 'RAEFFSKY', title: 'Smoke-test update' });
 first.app.pvToggleHiddenGenre('Фэнтези');
 first.app.renderRecommendations();
+assert.doesNotMatch(first.elements.recommendationList.innerHTML, /Путь теней/, 'Current work should not recommend itself');
+assert.ok(first.elements.analyticsTrend.innerHTML.length > 0, 'Seven-day analytics trend should render');
 first.elements.clubName.value = 'Smoke-test club';
 first.elements.clubDescription.value = 'Local reading group';
 first.app.pvCreateClub();
