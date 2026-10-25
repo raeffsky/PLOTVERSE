@@ -81,6 +81,20 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Validate embedded JavaScript
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          html = Path("app/src/main/assets/index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script>(.*?)</script>", html, re.S)
+          if not scripts:
+              raise SystemExit("No inline JavaScript found in index.html")
+          Path("${{ runner.temp }}/plotverse-inline.js").write_text("\\n".join(scripts), encoding="utf-8")
+          print(f"Extracted {len(scripts)} inline script block(s) for syntax validation")
+          PY
+          node --check "$RUNNER_TEMP/plotverse-inline.js"
+
       - name: Build unsigned release APK
         run: gradle assembleRelease
 
