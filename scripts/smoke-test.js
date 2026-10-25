@@ -49,7 +49,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook,
+      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked,
       createBook, go, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -60,6 +60,10 @@ const store = {};
 const first = createHarness(store);
 assert.ok(first.elements.catalogList.innerHTML.length > 0, 'Catalog should render on startup');
 assert.ok(first.elements.chapterList.innerHTML.length > 0, 'Chapter list should render on startup');
+assert.equal(first.app.pvLoreUnlocked(2), false, 'Lore should remain hidden before its reveal chapter');
+first.app.state().progress['Путь теней'] = { chapterIndex: 2, percent: 40 };
+assert.equal(first.app.pvLoreUnlocked(2), true, 'Lore should unlock at its reveal chapter');
+delete first.app.state().progress['Путь теней'];
 
 first.app.openBook('Путь теней');
 first.app.toggleBookmark();
