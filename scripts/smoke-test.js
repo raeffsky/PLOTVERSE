@@ -50,7 +50,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
+      pvToggleChapterBookmark, pvSaveChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
       createBook, go, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -120,6 +120,10 @@ first.app.openReaderByIndex(0);
 assert.match(first.elements.readerText.innerHTML, /Imported text one/, 'Imported chapter should render');
 first.app.openReaderByIndex(1);
 assert.match(first.elements.readerText.innerHTML, /Imported text two/, 'Next imported chapter should render');
+first.app.saveProgress();
+assert.equal(first.app.state().progress['Smoke Import'].percent, 100, 'Imported reading progress should use the imported chapter count');
+first.app.pvToggleChapterBookmark();
+assert.ok(first.app.state().chapterBookmarks.some(item => item && item.book === 'Smoke Import' && item.index === 1), 'Imported chapter bookmark should use its real chapter index');
 first.app.go('catalog');
 
 const persisted = JSON.parse(store['plotverse.local.v2']);
