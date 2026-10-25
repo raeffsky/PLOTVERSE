@@ -96,7 +96,7 @@ assert.equal(persisted.comments['Путь теней::6'].length, 1, 'Comment sh
 assert.equal(persisted.feedItems.length, 1, 'Feed item should persist');
 assert.ok(persisted.analyticsEvents.some(event => event.type === 'book'), 'Book-open analytics should persist');
 assert.ok(persisted.analyticsEvents.some(event => event.type === 'chapter'), 'Chapter-open analytics should persist');
-assert.deepEqual(persisted.hiddenGenres, [], 'Hidden genre preferences should persist after being restored');
+assert.deepEqual(persisted.hiddenGenres, ['Фэнтези'], 'Hidden genre preferences should persist');
 
 const second = createHarness(store);
 assert.equal(second.app.state().drafts.length, 1, 'Draft should survive app restart');
