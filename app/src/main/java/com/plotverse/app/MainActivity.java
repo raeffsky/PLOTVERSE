@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
-        window.setStatusBarColor(Color.rgb(11, 11, 14));
+        window.setStatusBarColor(Color.rgb(8, 13, 27));
         window.setNavigationBarColor(Color.rgb(11, 11, 14));
         window.getDecorView().setSystemUiVisibility(0);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
