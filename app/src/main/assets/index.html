@@ -70,6 +70,8 @@
 </section>
 
 
+<section class="screen" id="history"><h1 class="page-title">История чтения</h1><div id="historyList"></div><div id="historyEmpty" class="notice hidden">Здесь появятся произведения и главы, которые ты открывал.</div></section>
+
 <section class="screen" id="library">
 <h1 class="page-title">Моя библиотека</h1>
 <div class="chips" id="shelfChips">
@@ -116,7 +118,7 @@
  <h1 class="page-title">Профиль</h1><div class="card" style="text-align:center;padding:24px"><div class="logo" style="margin:0 auto 12px;border-radius:50%">♙</div><h2 style="margin:0 0 6px">Читатель</h2><div class="muted" style="font-size:12px">Твоя библиотека начинается здесь</div><button style="margin-top:15px" onclick="toast('Настройки профиля появятся после реализации аккаунтов.')">Настроить профиль</button></div>
  <div class="sectionhead"><h2>Моё пространство</h2></div>
  <button class="chapter" onclick="go('library')"><span class="chicon">▤</span><span class="chtext">Моя библиотека<small>Сохранённые произведения и полки</small></span><span>›</span></button>
- <button class="chapter" onclick="go('home')"><span class="chicon">◷</span><span class="chtext">История чтения<small>Недавно открытые главы</small></span><span>›</span></button>
+ <button class="chapter" onclick="go('history')"><span class="chicon">◷</span><span class="chtext">История чтения<small>Недавно открытые главы</small></span><span>›</span></button>
  <button class="chapter" onclick="go('author')"><span class="chicon">✎</span><span class="chtext">Кабинет автора<small>Черновики и публикации</small></span><span>›</span></button>
  <button class="chapter" onclick="go('lore')"><span class="chicon">✧</span><span class="chtext">Персонажи и лор<small>Герои, связи и тайны мира</small></span><span>›</span></button>
  <button class="chapter" onclick="go('settings')"><span class="chicon">⚙</span><span class="chtext">Настройки<small>Чтение, обновления и приложение</small></span><span>›</span></button>
@@ -217,5 +219,11 @@ pvLineHeight=Math.max(1.3,Math.min(2.3,Number(pvState.lineHeight)||1.85));
 pvReaderWidth=Math.max(70,Math.min(100,Number(pvState.readerWidth)||100));
 
 applyPVReaderSettings();
+
+function pvOpenHistory(i){const item=pvState.history[i];if(!item)return;currentBook=books.find(function(b){return b.name===item.book;})||books[0];openReader(chapterNames[Math.max(0,Math.min(chapterNames.length-1,Number(item.chapterIndex)||0))],Math.max(0,Math.min(chapterNames.length-1,Number(item.chapterIndex)||0)));}
+function renderHistory(){const root=document.getElementById('historyList');if(!root)return;root.innerHTML=pvState.history.map(function(h,i){return '<button class="chapter" style="width:100%;text-align:left" onclick="pvOpenHistory('+i+')"><span class="chicon">◷</span><span class="chtext">'+pvEscape(h.book)+'<small>'+pvEscape(h.chapter)+' · '+new Date(h.at||Date.now()).toLocaleString()+'</small></span><span>›</span></button>';}).join('');document.getElementById('historyEmpty').classList.toggle('hidden',pvState.history.length>0);}
+const pvGoWithLibrary=go;go=function(id){pvGoWithLibrary(id);if(id==='history')renderHistory();};
+renderHistory();
+
 </script>
 </body></html>
