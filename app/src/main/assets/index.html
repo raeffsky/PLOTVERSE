@@ -203,8 +203,9 @@ function renderChapters(){const root=document.getElementById('chapterList');root
 
 renderChapters();
 
+const pvSampleChapterHtml=document.getElementById('readerText').innerHTML;
 const pvOpenReaderBase=openReader;
-openReader=function(name,index){pvOpenReaderBase(name,index);const key=pvChapterKey(currentBook.name,chapterIndex);const saved=pvState.offlineChapters&&pvState.offlineChapters[key];const node=document.getElementById('readerText');if(node){if(saved&&saved.html){node.innerHTML=saved.html;}else if(chapterIndex!==6){node.innerHTML='<div class=\"notice\"><strong>Текст главы пока недоступен</strong><p>Эта сборка содержит только демонстрационный текст главы «Колокол безмолвия». Полные тексты остальных глав появятся после подключения каталога произведений.</p></div>';}}renderChapters();};
+openReader=function(name,index){pvOpenReaderBase(name,index);const key=pvChapterKey(currentBook.name,chapterIndex);const saved=pvState.offlineChapters&&pvState.offlineChapters[key];const node=document.getElementById('readerText');if(node){if(saved&&saved.html){node.innerHTML=saved.html;}else if(chapterIndex!==6){node.innerHTML='<div class=\"notice\"><strong>Текст главы пока недоступен</strong><p>Эта сборка содержит только демонстрационный текст главы «Колокол безмолвия». Полные тексты остальных глав появятся после подключения каталога произведений.</p></div>';}else{node.innerHTML=pvSampleChapterHtml;}}renderChapters();};
 function pvOfflineStats(){const saved=Object.values(pvState.offlineChapters||{});const bytes=saved.reduce(function(total,item){return total+JSON.stringify(item).length*2;},0);const el=document.getElementById('offlineStats');if(el)el.textContent=saved.length+' сохранённых глав · примерно '+(bytes/1024).toFixed(1)+' КБ';}
 function pvClearOffline(){if(!confirm('Удалить все сохранённые офлайн-главы?'))return;pvState.offlineChapters={};pvSave();renderChapters();pvOfflineStats();toast('Офлайн-хранилище очищено.');}
 
