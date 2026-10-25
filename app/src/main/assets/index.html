@@ -80,7 +80,7 @@
 <button class="chip" onclick="setShelf('Брошено',this)">Брошено</button>
 </div>
 <div id="libraryList"></div><div id="libraryEmpty" class="notice hidden">Библиотека пока пуста. Добавляй произведения из каталога.</div>
-<div class="sectionhead"><h2>Офлайн-доступ</h2></div><div class="rowbtn" style="margin:12px 0"><button onclick="pvExportData()">Экспорт данных</button><label class="outline" style="display:block;padding:12px;border-radius:13px;text-align:center">Импорт данных<input type="file" accept="application/json,.json" onchange="pvImportData(event)" style="display:none"></label></div><div class="notice">Позиция чтения, закладки и настройки читалки сохраняются на устройстве. Тексты, встроенные в приложение, доступны офлайн; загрузка удалённых произведений появится после подключения реального каталога.</div>
+<div class="sectionhead"><h2>Офлайн-доступ</h2></div><div id="offlineStats" class="small" style="margin:8px 0">Нет сохранённых глав</div><button class="outline" style="width:100%;margin-bottom:10px" onclick="pvClearOffline()">Очистить офлайн-хранилище</button><div class="rowbtn" style="margin:12px 0"><button onclick="pvExportData()">Экспорт данных</button><label class="outline" style="display:block;padding:12px;border-radius:13px;text-align:center">Импорт данных<input type="file" accept="application/json,.json" onchange="pvImportData(event)" style="display:none"></label></div><div class="notice">Позиция чтения, закладки и настройки читалки сохраняются на устройстве. Тексты, встроенные в приложение, доступны офлайн; загрузка удалённых произведений появится после подключения реального каталога.</div>
 </section>
 
 <section class="screen" id="lore">
@@ -200,5 +200,11 @@ function pvImportData(event){const file=event.target.files&&event.target.files[0
 function renderChapters(){const root=document.getElementById('chapterList');root.innerHTML=chapterNames.map(function(n,i){const saved=pvIsChapterSaved(i);return '<div class="chapter" style="display:flex;align-items:center;gap:8px"><button style="flex:1;text-align:left;border:0;background:transparent;padding:8px 4px" onclick="openReaderByIndex('+i+')"><span class="chicon">'+(i<chapterIndex?'✓':'▤')+'</span><span class="chtext">'+pvEscape(n)+'<small>'+(i===chapterIndex?'Продолжить чтение':i<chapterIndex?'Прочитано':'Открыть главу')+'</small></span></button><button aria-label="'+(saved?'Удалить офлайн-главу':'Сохранить офлайн')+'" onclick="pvSaveChapter('+i+')">'+(saved?'✓ Офлайн':'↓')+'</button></div>';}).join('');}
 
 renderChapters();
+
+const pvOpenReaderBase=openReader;
+openReader=function(name,index){pvOpenReaderBase(name,index);const key=pvChapterKey(currentBook.name,chapterIndex);const saved=pvState.offlineChapters&&pvState.offlineChapters[key];if(saved&&saved.html){const node=document.getElementById('readerText');if(node)node.innerHTML=saved.html;}renderChapters();};
+function pvOfflineStats(){const saved=Object.values(pvState.offlineChapters||{});const bytes=saved.reduce(function(total,item){return total+JSON.stringify(item).length*2;},0);const el=document.getElementById('offlineStats');if(el)el.textContent=saved.length+' сохранённых глав · примерно '+(bytes/1024).toFixed(1)+' КБ';}
+function pvClearOffline(){if(!confirm('Удалить все сохранённые офлайн-главы?'))return;pvState.offlineChapters={};pvSave();renderChapters();pvOfflineStats();toast('Офлайн-хранилище очищено.');}
+
 </script>
 </body></html>
