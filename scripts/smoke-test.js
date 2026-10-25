@@ -13,7 +13,7 @@ function createHarness(store) {
   const elements = {};
   for (const id of ids) {
     elements[id] = {
-      id, innerHTML: '', textContent: '', value: '', checked: false, style: {},
+      id, innerHTML: '', textContent: '', value: '', checked: false, style: {}, options: { length: 0 },
       classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } }
     };
   }
