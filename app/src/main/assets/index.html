@@ -141,7 +141,6 @@
 
 <section class="screen" id="library">
 <h1 class="page-title">Моя библиотека</h1>
-<div class="card" style="margin-bottom:14px"><h3 style="margin-top:0">Импортировать книгу для офлайн-чтения</h3><p class="small">Поддерживаются TXT и Markdown. Заголовки «Глава», «Пролог», «Эпилог» или Markdown-заголовки разделят файл на главы.</p><label class="outline" style="display:block;text-align:center;padding:12px;border-radius:13px">Выбрать TXT/MD файл<input id="importBookFile" type="file" accept=".txt,.md,.markdown,text/plain,text/markdown" onchange="pvImportTextBook(event)" style="display:none"></label><div class="small" style="margin-top:8px">Импортированные книги хранятся на устройстве. Для стабильной работы ограничь размер файла 2 МБ.</div></div>
 <div class="chips" id="shelfChips">
 <button class="chip selected" onclick="setShelf('Все',this)">Все</button>
 <button class="chip" onclick="setShelf('Читаю',this)">Читаю</button>
@@ -149,8 +148,8 @@
 <button class="chip" onclick="setShelf('Завершено',this)">Завершено</button>
 <button class="chip" onclick="setShelf('Брошено',this)">Брошено</button>
 </div>
-<div id="libraryList"></div><div id="libraryEmpty" class="notice hidden">Библиотека пока пуста. Добавляй произведения из каталога.</div><div class="sectionhead"><h2>Закладки глав</h2></div><div id="chapterBookmarksList"></div><div id="chapterBookmarksEmpty" class="notice hidden">Пока нет закладок на отдельные главы.</div>
-<div class="sectionhead"><h2>Офлайн-доступ</h2></div><div id="offlineStats" class="small" style="margin:8px 0">Нет сохранённых глав</div><div id="offlineChapterList"></div><button class="outline" style="width:100%;margin-bottom:10px" onclick="pvClearOffline()">Очистить офлайн-хранилище</button><div class="rowbtn" style="margin:12px 0"><button onclick="pvExportData()">Экспорт данных</button><label class="outline" style="display:block;padding:12px;border-radius:13px;text-align:center">Импорт данных<input type="file" accept="application/json,.json" onchange="pvImportData(event)" style="display:none"></label></div><div class="notice">Позиция чтения, закладки и настройки читалки сохраняются на устройстве. Тексты, встроенные в приложение, доступны офлайн; загрузка удалённых произведений появится после подключения реального каталога.</div>
+<div id="libraryList"></div><div id="libraryEmpty" class="notice hidden">Библиотека пока пуста. Добавляй произведения из каталога.</div>
+<div class="sectionhead"><h2>Офлайн-доступ</h2></div><div id="offlineStats" class="small" style="margin:8px 0">Нет сохранённых глав</div><div id="offlineChapterList"></div><button class="outline" style="width:100%;margin-bottom:10px" onclick="pvClearOffline()">Очистить офлайн-хранилище</button>
 </section>
 
 
