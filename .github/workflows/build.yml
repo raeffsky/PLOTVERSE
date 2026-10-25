@@ -1,0 +1,51 @@
+
+name: Build PLOTVERSE APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'PLOTVERSE_Android_Starter.zip'
+      - '.github/workflows/build.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract Android project
+        run: |
+          ZIP_FILE=$(find . -maxdepth 1 -type f -iname '*.zip' | head -n 1)
+          if [ -z "$ZIP_FILE" ]; then
+            echo "Project ZIP not found in repository root"
+            exit 1
+          fi
+          mkdir extracted
+          unzip -q "$ZIP_FILE" -d extracted
+          ROOT=$(find extracted -name settings.gradle -type f -printf '%h\n' | head -n 1)
+          if [ -z "$ROOT" ]; then
+            echo "settings.gradle not found inside ZIP"
+            exit 1
+          fi
+          cp -a "$ROOT"/. .
+          test -f app/src/main/assets/index.html
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build APK
+        run: gradle assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: PLOTVERSE-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
