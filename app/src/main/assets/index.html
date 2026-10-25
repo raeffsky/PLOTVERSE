@@ -75,14 +75,14 @@
  <h1 class="page-title">Настройки</h1>
  <div class="card" style="margin-bottom:12px">
   <div class="eyebrow">PLOTVERSE ДЛЯ ANDROID</div>
-  <h2 style="margin:10px 0 5px">Версия 0.3.0</h2>
+  <h2 style="margin:10px 0 5px">Версия <span id="appVersion">0.4.0</span></h2>
   <p class="muted" style="font-size:12px">Проверяй новые версии приложения и устанавливай обновления.</p>
   <button class="primary" style="margin-top:8px" onclick="checkForUpdates()">⟳ Проверить обновления</button>
   <div id="updateStatus" class="small" style="margin-top:10px">Последняя проверка не выполнялась.</div>
  </div>
- <div class="notice">Если доступна новая версия, откроется страница загрузки APK. После скачивания открой файл и подтверди установку Android. Для обновления поверх текущей версии подпись APK должна совпадать.</div>
+ <div class="notice">Приложение скачает APK последнего релиза и автоматически откроет системный установщик Android. Установку нужно подтвердить вручную. Подпись APK должна совпадать с установленной версией.</div>
  <div class="sectionhead"><h2>О приложении</h2></div>
- <div class="card"><div class="small">PLOTVERSE · Stories beyond imagination</div><div class="small">Версия интерфейса: 0.3.0</div></div>
+ <div class="card"><div class="small">PLOTVERSE · Stories beyond imagination</div><div class="small">Версия интерфейса: <span id="appVersionFooter">0.4.0</span></div></div>
 </section>
 
 <section class="screen" id="profile">
@@ -112,7 +112,9 @@ const books=[
 let currentBook=books[0], activeGenre='Все', isBookmarked=false, fontSize=18, chapterIndex=6, readerLight=false, lastProgress=64;
 const chapterNames=['Пролог. Ночь безмолвия','Глава 1. Чужак','Глава 2. Знак','Глава 3. Тайный след','Глава 4. Запретная дверь','Глава 6. Тихий коридор','Глава 7. Колокол безмолвия','Глава 8. За седьмой дверью'];
 function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.page===id));window.scrollTo(0,0);if(id==='catalog')renderCatalog();}
-async function checkForUpdates(){const status=document.getElementById('updateStatus');status.textContent='Проверяем последнюю версию…';try{const response=await fetch('https://api.github.com/repos/raeffsky/PLOTVERSE/releases/latest',{headers:{'Accept':'application/vnd.github+json'}});if(!response.ok)throw new Error('Релиз пока не опубликован');const release=await response.json();const apk=(release.assets||[]).find(a=>a.name==='PLOTVERSE.apk'||a.name.toLowerCase().endsWith('.apk'));if(!apk){status.textContent='Релиз найден, но APK в нём пока нет.';return;}status.textContent='Доступна версия '+release.tag_name+'. Открываем загрузку…';window.location.href=apk.browser_download_url;}catch(e){status.textContent='Не удалось проверить релиз. Открой страницу релизов вручную.';toast('Пока нет доступного релиза с APK.');window.open('https://github.com/raeffsky/PLOTVERSE/releases','_blank');}}
+function setUpdateStatus(message){const el=document.getElementById('updateStatus');if(el)el.textContent=message;}
+function checkForUpdates(){if(window.PlotverseAndroid&&typeof window.PlotverseAndroid.checkAndInstallUpdate==='function'){window.PlotverseAndroid.checkAndInstallUpdate();return;}setUpdateStatus('Эта сборка не поддерживает установку обновлений. Собери APK из последнего коммита.');}
+(function showInstalledVersion(){try{if(window.PlotverseAndroid&&window.PlotverseAndroid.getVersionName){const v=window.PlotverseAndroid.getVersionName();document.getElementById('appVersion').textContent=v;document.getElementById('appVersionFooter').textContent=v;}}catch(e){}})();
 function openBook(name){currentBook=books.find(b=>b.name===name)||books[0];document.getElementById('detailName').textContent=currentBook.name;document.getElementById('detailGenre').textContent=currentBook.genre;document.getElementById('detailAuthor').textContent=currentBook.author;document.getElementById('detailRating').textContent=currentBook.rating;document.getElementById('statRating').textContent=currentBook.rating;document.getElementById('detailChapters').textContent=currentBook.chapters;document.getElementById('detailDesc').textContent=currentBook.desc;document.getElementById('bookmarkBtn').textContent=isBookmarked?'✓ В библиотеке':'♧ В библиотеку';renderChapters();go('detail');}
 function renderCatalog(){let q=(document.getElementById('catalogSearch')?.value||document.getElementById('globalSearch')?.value||'').toLowerCase();let list=books.filter(b=>(activeGenre==='Все'||b.genre===activeGenre)&&(b.name+' '+b.author+' '+b.genre).toLowerCase().includes(q));document.getElementById('catalogList').innerHTML=list.map(b=>`<div class="bookrow" onclick="openBook('${b.name.replaceAll("'","\\'")}')"><div class="cover ${b.cls||''}"><div class="coverlabel">${b.name}</div></div><div style="flex:1"><h3>${b.name}</h3><div class="small">${b.author} · ${b.genre}</div><p>${b.desc}</p><div class="rating">★ ${b.rating}　·　${b.chapters} глав</div><button style="margin-top:9px" onclick="event.stopPropagation();openBook('${b.name.replaceAll("'","\\'")}')">Открыть</button></div></div>`).join('')||'<div class="notice">Ничего не найдено. Попробуй изменить запрос или жанр.</div>';let hints=document.getElementById('searchHints');if(hints)hints.innerHTML=list.slice(0,3).map(b=>`<button class="chapter" onclick="openBook('${b.name}')">${b.name}　→</button>`).join('');}
 function setGenre(g,el){activeGenre=g;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');renderCatalog();}
