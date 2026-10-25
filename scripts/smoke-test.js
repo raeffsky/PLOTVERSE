@@ -92,13 +92,16 @@ assert.equal(persisted.chapterBookmarks.length, 1, 'Chapter bookmark should pers
 assert.equal(persisted.offlineChapters['Путь теней::6'].title, 'Глава 7. Колокол безмолвия', 'Offline chapter should persist');
 assert.equal(persisted.comments['Путь теней::6'].length, 1, 'Comment should persist');
 assert.equal(persisted.feedItems.length, 1, 'Feed item should persist');
+assert.ok(persisted.analyticsEvents.some(event => event.type === 'book'), 'Book-open analytics should persist');
+assert.ok(persisted.analyticsEvents.some(event => event.type === 'chapter'), 'Chapter-open analytics should persist');
 
 const second = createHarness(store);
 assert.equal(second.app.state().drafts.length, 1, 'Draft should survive app restart');
 assert.equal(second.app.state().chapterBookmarks.length, 1, 'Chapter bookmark should survive app restart');
 assert.equal(second.app.state().feedItems.length, 1, 'Feed should survive app restart');
+assert.ok(second.app.state().analyticsEvents.length >= 2, 'Analytics should survive app restart');
 second.app.openReaderByIndex(0);
 second.app.openReaderByIndex(6);
 assert.match(second.elements.readerText.innerHTML, /Колокол Седьмой башни не звучал/, 'Saved chapter should restore after restart');
 
-console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed and draft creation.');
+console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed, analytics and draft creation.');
