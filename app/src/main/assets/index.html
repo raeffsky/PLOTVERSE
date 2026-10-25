@@ -234,5 +234,9 @@ const pvRenderLibraryBase=renderLibrary;renderLibrary=function(){pvRenderLibrary
 renderLibrary();
 
 function openReaderByIndex(index){openReader(chapterNames[index],index);}
+const pvGoHistoryBase=go;
+let pvCurrentScreen=document.querySelector('.screen.active')?.id||'home';
+go=function(id,skipBrowserHistory){if(!skipBrowserHistory&&id!==pvCurrentScreen){try{history.pushState({pvScreen:id},'','#'+id);}catch(e){}}pvGoHistoryBase(id);pvCurrentScreen=id;};
+window.addEventListener('popstate',function(event){const target=event.state&&event.state.pvScreen;go(target||'home',true);});
 </script>
 </body></html>
