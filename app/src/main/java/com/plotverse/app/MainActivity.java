@@ -41,15 +41,30 @@ public class MainActivity extends Activity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
+        if (Build.VERSION.SDK_INT >= 30) window.setDecorFitsSystemWindows(false);
         window.setStatusBarColor(Color.rgb(8, 13, 27));
-        window.setNavigationBarColor(Color.rgb(11, 11, 14));
+        window.setNavigationBarColor(Color.rgb(8, 13, 27));
         window.getDecorView().setSystemUiVisibility(0);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         registerDownloadReceiver();
 
         webView = new WebView(this);
-        webView.setBackgroundColor(Color.rgb(11, 11, 14));
+        webView.setBackgroundColor(Color.rgb(8, 13, 27));
+        webView.setOnApplyWindowInsetsListener((view, insets) -> {
+            int top;
+            int bottom;
+            if (Build.VERSION.SDK_INT >= 30) {
+                android.graphics.Insets bars = insets.getInsets(android.view.WindowInsets.Type.systemBars());
+                top = bars.top;
+                bottom = bars.bottom;
+            } else {
+                top = insets.getSystemWindowInsetTop();
+                bottom = insets.getSystemWindowInsetBottom();
+            }
+            view.setPadding(0, top, 0, bottom);
+            return insets;
+        });
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -71,6 +86,7 @@ public class MainActivity extends Activity {
             }
         });
         setContentView(webView);
+        webView.requestApplyInsets();
         webView.loadUrl("file:///android_asset/index.html");
     }
 
