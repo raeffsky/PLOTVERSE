@@ -10,6 +10,7 @@ on:
       - 'settings.gradle'
       - 'gradle.properties'
       - '.github/workflows/build.yml'
+      - 'scripts/**'
     tags:
       - 'v*'
 
