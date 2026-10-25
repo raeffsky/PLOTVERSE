@@ -49,7 +49,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost,
+      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost,
       createBook, go, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -81,7 +81,8 @@ first.app.openReaderByIndex(6);
 assert.match(first.elements.readerText.innerHTML, /Колокол Седьмой башни не звучал/, 'Known sample chapter should render its actual text');
 first.app.pvSaveChapter(6);
 first.app.pvToggleChapterBookmark();
-first.app.pvAddFeedItem({ id: 'smoke-feed', author: 'RAEFFSKY', title: 'Smoke-test update' });
+first.elements.publishBook.value = 'Путь теней';
+first.app.pvCreateLocalAnnouncement();
 first.app.pvToggleHiddenGenre('Фэнтези');
 first.app.renderRecommendations();
 assert.doesNotMatch(first.elements.recommendationList.innerHTML, /Путь теней/, 'Current work should not recommend itself');
@@ -103,6 +104,7 @@ assert.equal(persisted.chapterBookmarks.length, 1, 'Chapter bookmark should pers
 assert.equal(persisted.offlineChapters['Путь теней::6'].title, 'Глава 7. Колокол безмолвия', 'Offline chapter should persist');
 assert.equal(persisted.comments['Путь теней::6'].length, 1, 'Comment should persist');
 assert.equal(persisted.feedItems.length, 1, 'Feed item should persist');
+assert.equal(persisted.feedItems[0].local, true, 'Local announcement should be marked as local-only');
 assert.ok(persisted.analyticsEvents.some(event => event.type === 'book'), 'Book-open analytics should persist');
 assert.ok(persisted.analyticsEvents.some(event => event.type === 'chapter'), 'Chapter-open analytics should persist');
 assert.deepEqual(persisted.hiddenGenres, ['Фэнтези'], 'Hidden genre preferences should persist');
