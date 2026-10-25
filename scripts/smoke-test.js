@@ -22,7 +22,7 @@ function createHarness(store) {
   const document = {
     getElementById(id) {
       if (!elements[id]) elements[id] = {
-        id, innerHTML: '', textContent: '', value: '', checked: false, style: {},
+        id, innerHTML: '', textContent: '', value: '', checked: false, style: {}, options: { length: 0 },
         classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } }
       };
       return elements[id];
