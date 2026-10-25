@@ -10,7 +10,7 @@ android {
         applicationId 'com.plotverse.app'
         minSdk 23
         targetSdk 35
-        versionCode 27
-        versionName '0.5.24'
+        versionCode project.hasProperty('plotverseVersionCode') ? project.property('plotverseVersionCode').toString().toInteger() : 27
+        versionName project.hasProperty('plotverseVersionName') ? project.property('plotverseVersionName').toString() : '0.5.24'
     }
 }
