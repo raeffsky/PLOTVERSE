@@ -11,8 +11,6 @@ on:
       - 'gradle.properties'
       - '.github/workflows/build.yml'
       - 'scripts/**'
-    tags:
-      - 'v*'
 
 concurrency:
   group: plotverse-main-build-v2
@@ -65,48 +63,37 @@ jobs:
       - name: Run JavaScript smoke tests
         run: node scripts/smoke-test.js
 
-      - name: Increment version for new main build
-        if: github.ref == 'refs/heads/main'
-        run: |
-          python3 - <<'PY'
-          import re
-          from pathlib import Path
-          p = Path("app/build.gradle")
-          s = p.read_text()
-          code = re.search(r"versionCode\s+(\d+)", s)
-          name = re.search(r"versionName\s+['\"]([^'\"]+)['\"]", s)
-          if not code or not name:
-              raise SystemExit("Could not find versionCode/versionName in app/build.gradle")
-          parts = name.group(1).split(".")
-          if len(parts) < 3 or not all(x.isdigit() for x in parts):
-              raise SystemExit("versionName must be numeric, e.g. 0.5.0")
-          parts[-1] = str(int(parts[-1]) + 1)
-          new_name = ".".join(parts)
-          new_code = int(code.group(1)) + 1
-          s = s[:code.start(1)] + str(new_code) + s[code.end(1):]
-          name = re.search(r"versionName\s+['\"]([^'\"]+)['\"]", s)
-          s = s[:name.start(1)] + new_name + s[name.end(1):]
-          p.write_text(s)
-          print(f"Next release version: {new_name} (versionCode {new_code})")
-          PY
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add app/build.gradle
-          git commit -m "Bump PLOTVERSE version for next release [skip ci]"
-          git pull --rebase origin main
-          git push origin HEAD:main
-
-      - name: Read app version
+      - name: Determine release version
         id: version
         run: |
-          VERSION_NAME=$(grep -E "versionName ['\"][^'\"]+['\"]" app/build.gradle | head -n 1 | sed -E "s/.*versionName ['\"]([^'\"]+)['\"].*/\1/")
-          test -n "$VERSION_NAME"
-          echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
-          echo "tag=v$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          python3 - <<'PY'
+          import os
+          import re
+          import subprocess
+          from pathlib import Path
 
+          tags = subprocess.run(
+              ["git", "tag", "--list", "v[0-9]*", "--sort=-version:refname"],
+              check=True, capture_output=True, text=True
+          ).stdout.splitlines()
+          gradle = Path("app/build.gradle").read_text()
+          fallback = re.search(r"versionName\\s+['\\\"]([^'\\\"]+)['\\\"]", gradle)
+          current = tags[0][1:] if tags else (fallback.group(1) if fallback else "0.5.0")
+          parts = current.split(".")
+          if len(parts) != 3 or not all(part.isdigit() for part in parts):
+              raise SystemExit(f"Invalid latest version: {current}")
+          parts[-1] = str(int(parts[-1]) + 1)
+          name = ".".join(parts)
+          code = int(os.environ["GITHUB_RUN_NUMBER"])
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"name={name}\\n")
+              output.write(f"tag=v{name}\\n")
+              output.write(f"code={code}\\n")
+          print(f"Building release {name} (versionCode {code})")
+          PY
 
       - name: Build unsigned release APK
-        run: gradle assembleRelease
+        run: gradle -PplotverseVersionCode=${{ steps.version.outputs.code }} -PplotverseVersionName=${{ steps.version.outputs.name }} assembleRelease
 
       - name: Decode release signing key
         env:
