@@ -94,7 +94,7 @@ const testClub = first.app.state().clubs[0];
 first.elements['clubPost-' + testClub.id] = { value: 'Spoiler discussion' };
 first.elements['clubSpoiler-' + testClub.id] = { checked: true };
 first.app.pvAddClubPost(testClub.id);
-assert.equal(first.app.pvAddImportedBook('Smoke Import.md', '# Chapter 1\\n\\nImported text one.\\n\\n# Chapter 2\\n\\nImported text two.'), true, 'Text file should import');
+assert.equal(first.app.pvAddImportedBook('Smoke Import.md', '# Chapter 1\n\nImported text one.\n\n# Chapter 2\n\nImported text two.'), true, 'Text file should import');
 assert.equal(first.app.state().importedBooks[0].localChapters.length, 2, 'Markdown headings should split chapters');
 first.app.openBook('Smoke Import');
 first.app.openReaderByIndex(0);
