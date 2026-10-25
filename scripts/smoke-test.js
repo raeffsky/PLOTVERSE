@@ -49,7 +49,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvToggleHiddenGenre, renderRecommendations,
+      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost,
       createBook, go, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -84,6 +84,13 @@ first.app.pvToggleChapterBookmark();
 first.app.pvAddFeedItem({ id: 'smoke-feed', author: 'RAEFFSKY', title: 'Smoke-test update' });
 first.app.pvToggleHiddenGenre('Фэнтези');
 first.app.renderRecommendations();
+first.elements.clubName.value = 'Smoke-test club';
+first.elements.clubDescription.value = 'Local reading group';
+first.app.pvCreateClub();
+const testClub = first.app.state().clubs[0];
+first.elements['clubPost-' + testClub.id] = { value: 'Spoiler discussion' };
+first.elements['clubSpoiler-' + testClub.id] = { checked: true };
+first.app.pvAddClubPost(testClub.id);
 first.app.go('catalog');
 
 const persisted = JSON.parse(store['plotverse.local.v2']);
@@ -97,14 +104,17 @@ assert.equal(persisted.feedItems.length, 1, 'Feed item should persist');
 assert.ok(persisted.analyticsEvents.some(event => event.type === 'book'), 'Book-open analytics should persist');
 assert.ok(persisted.analyticsEvents.some(event => event.type === 'chapter'), 'Chapter-open analytics should persist');
 assert.deepEqual(persisted.hiddenGenres, ['Фэнтези'], 'Hidden genre preferences should persist');
+assert.equal(persisted.clubs.length, 1, 'Book club should persist');
+assert.equal(persisted.clubs[0].posts.length, 1, 'Club discussion should persist');
 
 const second = createHarness(store);
 assert.equal(second.app.state().drafts.length, 1, 'Draft should survive app restart');
 assert.equal(second.app.state().chapterBookmarks.length, 1, 'Chapter bookmark should survive app restart');
 assert.equal(second.app.state().feedItems.length, 1, 'Feed should survive app restart');
+assert.equal(second.app.state().clubs.length, 1, 'Book club should survive app restart');
 assert.ok(second.app.state().analyticsEvents.length >= 2, 'Analytics should survive app restart');
 second.app.openReaderByIndex(0);
 second.app.openReaderByIndex(6);
 assert.match(second.elements.readerText.innerHTML, /Колокол Седьмой башни не звучал/, 'Saved chapter should restore after restart');
 
-console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed, analytics, recommendations and draft creation.');
+console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed, analytics, recommendations, book clubs and draft creation.');
