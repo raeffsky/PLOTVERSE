@@ -49,7 +49,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost,
+      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook,
       createBook, go, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -94,6 +94,13 @@ const testClub = first.app.state().clubs[0];
 first.elements['clubPost-' + testClub.id] = { value: 'Spoiler discussion' };
 first.elements['clubSpoiler-' + testClub.id] = { checked: true };
 first.app.pvAddClubPost(testClub.id);
+assert.equal(first.app.pvAddImportedBook('Smoke Import.md', '# Chapter 1\\n\\nImported text one.\\n\\n# Chapter 2\\n\\nImported text two.'), true, 'Text file should import');
+assert.equal(first.app.state().importedBooks[0].localChapters.length, 2, 'Markdown headings should split chapters');
+first.app.openBook('Smoke Import');
+first.app.openReaderByIndex(0);
+assert.match(first.elements.readerText.innerHTML, /Imported text one/, 'Imported chapter should render');
+first.app.openReaderByIndex(1);
+assert.match(first.elements.readerText.innerHTML, /Imported text two/, 'Next imported chapter should render');
 first.app.go('catalog');
 
 const persisted = JSON.parse(store['plotverse.local.v2']);
@@ -110,15 +117,22 @@ assert.ok(persisted.analyticsEvents.some(event => event.type === 'chapter'), 'Ch
 assert.deepEqual(persisted.hiddenGenres, ['Фэнтези'], 'Hidden genre preferences should persist');
 assert.equal(persisted.clubs.length, 1, 'Book club should persist');
 assert.equal(persisted.clubs[0].posts.length, 1, 'Club discussion should persist');
+assert.equal(persisted.importedBooks.length, 1, 'Imported book should persist');
 
 const second = createHarness(store);
 assert.equal(second.app.state().drafts.length, 1, 'Draft should survive app restart');
 assert.equal(second.app.state().chapterBookmarks.length, 1, 'Chapter bookmark should survive app restart');
 assert.equal(second.app.state().feedItems.length, 1, 'Feed should survive app restart');
 assert.equal(second.app.state().clubs.length, 1, 'Book club should survive app restart');
+assert.equal(second.app.state().importedBooks.length, 1, 'Imported book should survive app restart');
+second.app.openBook('Smoke Import');
+second.app.openReaderByIndex(1);
+assert.match(second.elements.readerText.innerHTML, /Imported text two/, 'Imported chapter should restore after restart');
+second.app.pvRemoveImportedBook(second.app.state().importedBooks[0].localId);
+assert.equal(second.app.state().importedBooks.length, 0, 'Imported book should be removable');
 assert.ok(second.app.state().analyticsEvents.length >= 2, 'Analytics should survive app restart');
 second.app.openReaderByIndex(0);
 second.app.openReaderByIndex(6);
 assert.match(second.elements.readerText.innerHTML, /Колокол Седьмой башни не звучал/, 'Saved chapter should restore after restart');
 
-console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed, analytics, recommendations, book clubs and draft creation.');
+console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed, analytics, recommendations, book clubs, offline TXT/Markdown import and draft creation.');
