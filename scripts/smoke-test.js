@@ -50,7 +50,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
+      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
       createBook, go, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -83,6 +83,10 @@ first.elements.commentInput.value = 'Smoke-test theory';
 first.elements.commentType.value = 'theory';
 first.elements.commentSpoiler.checked = true;
 first.app.pvAddComment();
+const localComment = first.app.state().comments['Путь теней::6'][0];
+first.elements['commentReply-' + localComment.id] = { value: 'Smoke-test reply' };
+first.app.pvAddCommentReply(0);
+first.app.pvReportComment(0);
 
 first.elements.newTitle.value = 'Smoke-test draft';
 first.elements.newGenre.value = 'Фэнтези';
@@ -125,6 +129,8 @@ assert.equal(persisted.drafts.length, 1, 'Draft should persist');
 assert.equal(persisted.chapterBookmarks.length, 1, 'Chapter bookmark should persist');
 assert.equal(persisted.offlineChapters['Путь теней::6'].title, 'Глава 7. Колокол безмолвия', 'Offline chapter should persist');
 assert.equal(persisted.comments['Путь теней::6'].length, 1, 'Comment should persist');
+assert.equal(persisted.comments['Путь теней::6'][0].replies.length, 1, 'Comment reply should persist');
+assert.equal(persisted.comments['Путь теней::6'][0].reported, true, 'Local report should persist');
 assert.equal(persisted.feedItems.length, 1, 'Feed item should persist');
 assert.equal(persisted.feedItems[0].local, true, 'Local announcement should be marked as local-only');
 assert.ok(persisted.analyticsEvents.some(event => event.type === 'book'), 'Book-open analytics should persist');
