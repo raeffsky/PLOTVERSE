@@ -3,13 +3,13 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const html = fs.readFileSync('app/src/main/assets/index.html', 'utf8');
-const scripts = [...html.matchAll(/<script>([\\s\\S]*?)<\\/script>/g)].map(match => match[1]);
+const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
 assert.equal(scripts.length, 1, 'Expected one inline application script');
 const source = scripts[0];
 new vm.Script(source, { filename: 'plotverse-inline.js' });
 
 function createHarness(store) {
-  const ids = [...html.matchAll(/\\bid="([^"]+)"/g)].map(match => match[1]);
+  const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
   const elements = {};
   for (const id of ids) {
     elements[id] = {
@@ -17,7 +17,7 @@ function createHarness(store) {
       classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } }
     };
   }
-  const readerText = html.match(/<article[^>]*id="readerText"[^>]*>([\\s\\S]*?)<\\/article>/);
+  const readerText = html.match(/<article[^>]*id="readerText"[^>]*>([\s\S]*?)<\/article>/);
   elements.readerText.innerHTML = readerText ? readerText[1] : '';
   const document = {
     getElementById(id) {
