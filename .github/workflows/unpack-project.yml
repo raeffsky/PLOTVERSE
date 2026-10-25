@@ -1,0 +1,54 @@
+name: Unpack PLOTVERSE project into repository
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Locate and extract project ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          ZIP_FILE="$(find . -maxdepth 1 -type f -iname '*.zip' ! -name 'PLOTVERSE-source-backup.zip' | sort | tail -n 1)"
+          if [ -z "$ZIP_FILE" ]; then
+            echo "::error::No project ZIP found in repository root."
+            exit 1
+          fi
+          echo "Using archive: $ZIP_FILE"
+          mkdir -p extracted
+          unzip -q "$ZIP_FILE" -d extracted
+          ROOT="$(find extracted -name settings.gradle -type f -printf '%h\n' | head -n 1)"
+          if [ -z "$ROOT" ]; then
+            echo "::error::Could not find settings.gradle inside the ZIP."
+            exit 1
+          fi
+          echo "Project root: $ROOT"
+          # Preserve repository workflows and ZIP backup; copy the Android project files only.
+          rsync -a --exclude='.github/' --exclude='*.zip' "$ROOT"/ ./
+          test -f settings.gradle
+          test -f app/src/main/assets/index.html
+          test -f app/src/main/AndroidManifest.xml
+
+      - name: Commit extracted project structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- app settings.gradle build.gradle gradle.properties gradlew gradlew.bat gradle
+          if git diff --cached --quiet; then
+            echo "Project files are already extracted; no commit needed."
+          else
+            git commit -m "Extract PLOTVERSE Android project from ZIP"
+            git push
+          fi
