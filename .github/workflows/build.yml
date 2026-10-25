@@ -22,6 +22,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+          fetch-depth: 0
 
       - name: Validate project structure
         run: |
@@ -30,6 +33,36 @@ jobs:
           test -f app/src/main/AndroidManifest.xml
           test -f app/src/main/assets/index.html
           test -f app/src/main/java/com/plotverse/app/MainActivity.java
+
+      - name: Increment version for new main build
+        if: github.ref == 'refs/heads/main'
+        run: |
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          p = Path("app/build.gradle")
+          s = p.read_text()
+          code = re.search(r"versionCode\s+(\d+)", s)
+          name = re.search(r"versionName\s+['\"]([^'\"]+)['\"]", s)
+          if not code or not name:
+              raise SystemExit("Could not find versionCode/versionName in app/build.gradle")
+          parts = name.group(1).split(".")
+          if len(parts) < 3 or not all(x.isdigit() for x in parts):
+              raise SystemExit("versionName must be numeric, e.g. 0.5.0")
+          parts[-1] = str(int(parts[-1]) + 1)
+          new_name = ".".join(parts)
+          new_code = int(code.group(1)) + 1
+          s = s[:code.start(1)] + str(new_code) + s[code.end(1):]
+          name = re.search(r"versionName\s+['\"]([^'\"]+)['\"]", s)
+          s = s[:name.start(1)] + new_name + s[name.end(1):]
+          p.write_text(s)
+          print(f"Next release version: {new_name} (versionCode {new_code})")
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/build.gradle
+          git commit -m "Bump PLOTVERSE version for next release [skip ci]"
+          git push origin HEAD:main
 
       - name: Read app version
         id: version
@@ -85,17 +118,18 @@ jobs:
           path: PLOTVERSE.apk
           if-no-files-found: error
 
-      - name: Publish or update GitHub Release
+      - name: Publish new versioned GitHub Release
         if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ steps.version.outputs.tag }}
           VERSION_NAME: ${{ steps.version.outputs.name }}
         run: |
-          NOTES="PLOTVERSE Android v$VERSION_NAME. Automatically refreshed from the latest successful main build. APK is signed with the persistent PLOTVERSE release key."
+          NOTES="PLOTVERSE Android v$VERSION_NAME. Automatically published from the latest successful main build. APK is signed with the persistent PLOTVERSE release key."
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" PLOTVERSE.apk --clobber
-            gh release edit "$RELEASE_TAG" --title "PLOTVERSE v$VERSION_NAME" --notes "$NOTES"
-          else
-            gh release create "$RELEASE_TAG" PLOTVERSE.apk --title "PLOTVERSE v$VERSION_NAME" --notes "$NOTES"
+            echo "Release $RELEASE_TAG already exists; refusing to overwrite a versioned release."
+            exit 1
           fi
+          gh release create "$RELEASE_TAG" PLOTVERSE.apk \
+            --title "PLOTVERSE v$VERSION_NAME" \
+            --notes "$NOTES"
