@@ -77,7 +77,7 @@ jobs:
               check=True, capture_output=True, text=True
           ).stdout.splitlines()
           gradle = Path("app/build.gradle").read_text()
-          fallback = re.search(r"versionName\\s+['\\\"]([^'\\\"]+)['\\\"]", gradle)
+          fallback = re.search(r"versionName\s+['\"]([^'\"]+)['\"]", gradle)
           current = tags[0][1:] if tags else (fallback.group(1) if fallback else "0.5.0")
           parts = current.split(".")
           if len(parts) != 3 or not all(part.isdigit() for part in parts):
@@ -86,9 +86,9 @@ jobs:
           name = ".".join(parts)
           code = int(os.environ["GITHUB_RUN_NUMBER"])
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
-              output.write(f"name={name}\\n")
-              output.write(f"tag=v{name}\\n")
-              output.write(f"code={code}\\n")
+              output.write(f"name={name}\n")
+              output.write(f"tag=v{name}\n")
+              output.write(f"code={code}\n")
           print(f"Building release {name} (versionCode {code})")
           PY
 
