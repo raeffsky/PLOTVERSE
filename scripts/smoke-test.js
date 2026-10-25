@@ -123,7 +123,7 @@ assert.match(first.elements.readerText.innerHTML, /Imported text two/, 'Next imp
 first.app.saveProgress();
 assert.equal(first.app.state().progress['Smoke Import'].percent, 100, 'Imported reading progress should use the imported chapter count');
 first.app.pvToggleChapterBookmark();
-assert.ok(first.app.state().chapterBookmarks.some(item => item && item.book === 'Smoke Import' && item.index === 1), 'Imported chapter bookmark should use its real chapter index');
+assert.ok(first.app.state().chapterBookmarks.includes('Smoke Import::1'), 'Imported chapter bookmark should use its real chapter index');
 first.app.go('catalog');
 
 const persisted = JSON.parse(store['plotverse.local.v2']);
