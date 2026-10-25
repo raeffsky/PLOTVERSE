@@ -4,7 +4,7 @@
     <application
         android:allowBackup="true"
         android:label="PLOTVERSE"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/plotverse_launcher"
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
         android:usesCleartextTraffic="false">
         <activity
