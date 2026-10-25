@@ -78,8 +78,8 @@ public class MainActivity extends Activity {
                 fileChooserCallback = callback;
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("application/json");
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/json", "text/json", "application/octet-stream"});
+                intent.setType("*/*");
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/json", "text/json", "text/plain", "text/markdown", "text/x-markdown", "application/octet-stream"});
                 try { startActivityForResult(intent, FILE_CHOOSER_REQUEST); }
                 catch (Exception e) { fileChooserCallback = null; callback.onReceiveValue(null); return false; }
                 return true;
