@@ -19,6 +19,7 @@ function createHarness(store) {
   }
   const readerText = html.match(/<article[^>]*id="readerText"[^>]*>([\s\S]*?)<\/article>/);
   elements.readerText.innerHTML = readerText ? readerText[1] : '';
+  const loreEntries = [{ dataset: { revealAt: '2' }, innerHTML: 'Secret lore', classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } }, closest() { return this; } }];
   const document = {
     getElementById(id) {
       if (!elements[id]) elements[id] = {
@@ -27,7 +28,7 @@ function createHarness(store) {
       };
       return elements[id];
     },
-    querySelectorAll() { return []; },
+    querySelectorAll(selector) { return selector === '#lore [data-reveal-at]' ? loreEntries : []; },
     querySelector() { return { id: 'home' }; },
     createElement() { return { click() {}, style: {} }; }
   };
@@ -49,11 +50,11 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked,
+      pvToggleChapterBookmark, pvSaveChapter, pvAddComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
       createBook, go, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
-  return { context, elements, store, app: context.__app, listeners };
+  return { context, elements, store, app: context.__app, listeners, loreEntries };
 }
 
 const store = {};
@@ -64,6 +65,15 @@ assert.equal(first.app.pvLoreUnlocked(2), false, 'Lore should remain hidden befo
 first.app.state().progress['Путь теней'] = { chapterIndex: 2, percent: 40 };
 assert.equal(first.app.pvLoreUnlocked(2), true, 'Lore should unlock at its reveal chapter');
 delete first.app.state().progress['Путь теней'];
+first.app.go('lore');
+assert.match(first.loreEntries[0].innerHTML, /Спойлер скрыт/, 'Lore card should hide its spoiler before the reveal chapter');
+first.app.state().progress['Путь теней'] = { chapterIndex: 2, percent: 40 };
+first.app.go('lore');
+assert.equal(first.loreEntries[0].innerHTML, 'Secret lore', 'Lore card should reveal at the required chapter');
+delete first.app.state().progress['Путь теней'];
+first.app.go('lore');
+first.app.pvRevealLoreElement({ closest: () => first.loreEntries[0] });
+assert.equal(first.loreEntries[0].innerHTML, 'Secret lore', 'Reader should be able to reveal a spoiler manually');
 
 first.app.openBook('Путь теней');
 first.app.toggleBookmark();
@@ -124,7 +134,12 @@ assert.equal(persisted.clubs.length, 1, 'Book club should persist');
 assert.equal(persisted.clubs[0].posts.length, 1, 'Club discussion should persist');
 assert.equal(persisted.importedBooks.length, 1, 'Imported book should persist');
 
+const beforeRestart = JSON.parse(store['plotverse.local.v2']);
+beforeRestart.currentBook = 'Smoke Import';
+delete beforeRestart.progress['Smoke Import'];
+store['plotverse.local.v2'] = JSON.stringify(beforeRestart);
 const second = createHarness(store);
+assert.equal(second.app.chapterIndex(), 0, 'Imported book should start at chapter one when no progress exists');
 assert.equal(second.app.state().drafts.length, 1, 'Draft should survive app restart');
 assert.equal(second.app.state().chapterBookmarks.length, 1, 'Chapter bookmark should survive app restart');
 assert.equal(second.app.state().feedItems.length, 1, 'Feed should survive app restart');
