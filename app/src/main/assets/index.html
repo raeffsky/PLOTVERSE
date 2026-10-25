@@ -352,5 +352,11 @@ function pvRevealLoreElement(button){const el=button.closest('[data-reveal-at]')
 function pvApplyLoreSpoilers(){const entries=document.querySelectorAll('#lore [data-reveal-at]');entries.forEach(function(el){const unlocked=pvLoreUnlocked(el.dataset.revealAt);if(unlocked||el.dataset.forceReveal==='1'){if(el.dataset.originalHtml)el.innerHTML=el.dataset.originalHtml;return;}if(!el.dataset.originalHtml)el.dataset.originalHtml=el.innerHTML;el.innerHTML='<div class="spoiler-lock"><strong>Спойлер скрыт</strong><p>Эта запись открывается после главы '+(Number(el.dataset.revealAt)+1)+'.</p><button class="outline" onclick="pvRevealLoreElement(this)">Раскрыть вручную</button></div>';});}
 const pvGoWithLoreSpoilers=go;go=function(id,skipBrowserHistory){pvGoWithLoreSpoilers(id,skipBrowserHistory);if(id==='lore')pvApplyLoreSpoilers();};
 
+
+const pvSaveProgressStatic=saveProgress;
+saveProgress=function(){if(!currentBook||!currentBook.local)return pvSaveProgressStatic();const names=pvGetChapterNames(currentBook);lastProgress=Math.max(Number((pvState.progress[currentBook.name]||{}).percent)||0,Math.round(((chapterIndex+1)/Math.max(1,names.length))*100));pvState.progress[currentBook.name]={chapterIndex:chapterIndex,percent:lastProgress};pvState.currentBook=currentBook.name;pvSave();applyPVReaderSettings();toast('Место чтения сохранено на устройстве.');};
+const pvToggleChapterBookmarkStatic=toggleChapterBookmark;
+toggleChapterBookmark=function(){if(!currentBook||!currentBook.local)return pvToggleChapterBookmarkStatic();const key=pvChapterKey(currentBook.name,chapterIndex);if(!Array.isArray(pvState.chapterBookmarks))pvState.chapterBookmarks=[];const exists=pvState.chapterBookmarks.some(function(b){return typeof b==='string'?b===key:b&&b.key===key;});if(exists)pvState.chapterBookmarks=pvState.chapterBookmarks.filter(function(b){return (typeof b==='string'?b:b&&b.key)!==key;});else pvState.chapterBookmarks.push({key:key,book:currentBook.name,index:chapterIndex,title:pvGetChapterTitle(currentBook.name,chapterIndex),at:Date.now()});pvSave();const button=document.getElementById('chapterBookmarkBtn');if(button)button.textContent=exists?'☆ Закладка главы':'★ Глава в закладках';toast(exists?'Закладка главы удалена':'Глава добавлена в закладки');};
+
 </script>
 </body></html>
