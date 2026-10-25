@@ -26,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.io.OutputStream;
 
 public class MainActivity extends Activity {
     private WebView webView;
@@ -34,6 +35,8 @@ public class MainActivity extends Activity {
     private BroadcastReceiver downloadReceiver;
     private ValueCallback<Uri[]> fileChooserCallback;
     private static final int FILE_CHOOSER_REQUEST = 4107;
+    private static final int BACKUP_SAVE_REQUEST = 4108;
+    private String pendingBackupJson;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +118,17 @@ public class MainActivity extends Activity {
     }
 
     private class UpdateBridge {
+        @JavascriptInterface public void saveBackup(String json) {
+            runOnUiThread(() -> {
+                pendingBackupJson = json;
+                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("application/json");
+                intent.putExtra(Intent.EXTRA_TITLE, "plotverse-backup.json");
+                try { startActivityForResult(intent, BACKUP_SAVE_REQUEST); }
+                catch (Exception e) { pendingBackupJson = null; updateStatus("Не удалось открыть сохранение резервной копии."); }
+            });
+        }
         @JavascriptInterface public String getVersionName() {
             try { return getPackageManager().getPackageInfo(getPackageName(), 0).versionName; }
             catch (Exception e) { return "unknown"; }
@@ -165,6 +179,18 @@ public class MainActivity extends Activity {
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == BACKUP_SAVE_REQUEST) {
+            if (resultCode == RESULT_OK && data != null && data.getData() != null && pendingBackupJson != null) {
+                try (OutputStream out = getContentResolver().openOutputStream(data.getData())) {
+                    if (out != null) {
+                        out.write(pendingBackupJson.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+                        updateStatus("Резервная копия PLOTVERSE сохранена.");
+                    } else updateStatus("Не удалось создать файл резервной копии.");
+                } catch (Exception e) { updateStatus("Ошибка сохранения резервной копии: " + e.getMessage()); }
+            }
+            pendingBackupJson = null;
+            return;
+        }
         if (requestCode == FILE_CHOOSER_REQUEST && fileChooserCallback != null) {
             Uri[] result = null;
             if (resultCode == RESULT_OK && data != null && data.getData() != null) result = new Uri[]{data.getData()};
