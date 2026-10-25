@@ -57,7 +57,7 @@
  <article class="readertext" id="readerText"><p>Академия погрузилась в тишину. Даже ветер, обычно гулявший между башнями, словно боялся нарушить покой этого места.</p><p>Кайрен остановился у старой арки. Символ на его запястье едва заметно засветился, и под кожей пробежало знакомое тепло.</p><p>Где-то высоко над ним раздался звук. Один глухой удар, от которого задрожали стёкла в окнах.</p><p>Колокол Седьмой башни не звучал сто двадцать лет.</p></article>
  <div class="reader-controls"><button onclick="changeFont(-1)">A−</button><span class="small">Размер <span id="fontValue">18</span></span><button onclick="changeFont(1)">A+</button></div><div class="reader-controls"><button onclick="changeLineSpacing(-0.1)">Интервал −</button><span class="small">Строки <span id="lineHeightValue">1.8</span></span><button onclick="changeLineSpacing(0.1)">Интервал +</button></div><div class="reader-controls"><button onclick="changeReaderWidth(-20)">Уже</button><span class="small">Ширина <span id="readerWidthValue">100</span>%</span><button onclick="changeReaderWidth(20)">Шире</button></div>
  <div class="rowbtn"><button onclick="prevChapter()">← Предыдущая</button><button class="primary" onclick="nextChapter()">Следующая →</button></div>
- <button class="outline" style="width:100%" onclick="saveProgress()">Сохранить место чтения</button>
+ <div class="rowbtn"><button class="outline" onclick="pvToggleChapterBookmark()">♧ Закладка главы</button><button class="outline" onclick="saveProgress()">Сохранить место</button></div>
 </section>
 
 <section class="screen" id="author">
@@ -81,7 +81,7 @@
 <button class="chip" onclick="setShelf('Завершено',this)">Завершено</button>
 <button class="chip" onclick="setShelf('Брошено',this)">Брошено</button>
 </div>
-<div id="libraryList"></div><div id="libraryEmpty" class="notice hidden">Библиотека пока пуста. Добавляй произведения из каталога.</div>
+<div id="libraryList"></div><div id="libraryEmpty" class="notice hidden">Библиотека пока пуста. Добавляй произведения из каталога.</div><div class="sectionhead"><h2>Закладки глав</h2></div><div id="chapterBookmarksList"></div><div id="chapterBookmarksEmpty" class="notice hidden">Пока нет закладок на отдельные главы.</div>
 <div class="sectionhead"><h2>Офлайн-доступ</h2></div><div id="offlineStats" class="small" style="margin:8px 0">Нет сохранённых глав</div><button class="outline" style="width:100%;margin-bottom:10px" onclick="pvClearOffline()">Очистить офлайн-хранилище</button><div class="rowbtn" style="margin:12px 0"><button onclick="pvExportData()">Экспорт данных</button><label class="outline" style="display:block;padding:12px;border-radius:13px;text-align:center">Импорт данных<input type="file" accept="application/json,.json" onchange="pvImportData(event)" style="display:none"></label></div><div class="notice">Позиция чтения, закладки и настройки читалки сохраняются на устройстве. Тексты, встроенные в приложение, доступны офлайн; загрузка удалённых произведений появится после подключения реального каталога.</div>
 </section>
 
@@ -224,6 +224,13 @@ function pvOpenHistory(i){const item=pvState.history[i];if(!item)return;currentB
 function renderHistory(){const root=document.getElementById('historyList');if(!root)return;root.innerHTML=pvState.history.map(function(h,i){return '<button class="chapter" style="width:100%;text-align:left" onclick="pvOpenHistory('+i+')"><span class="chicon">◷</span><span class="chtext">'+pvEscape(h.book)+'<small>'+pvEscape(h.chapter)+' · '+new Date(h.at||Date.now()).toLocaleString()+'</small></span><span>›</span></button>';}).join('');document.getElementById('historyEmpty').classList.toggle('hidden',pvState.history.length>0);}
 const pvGoWithLibrary=go;go=function(id){pvGoWithLibrary(id);if(id==='history')renderHistory();};
 renderHistory();
+
+
+if(!Array.isArray(pvState.chapterBookmarks))pvState.chapterBookmarks=[];
+function pvToggleChapterBookmark(){const key=pvChapterKey(currentBook.name,chapterIndex);const i=pvState.chapterBookmarks.indexOf(key);if(i>=0)pvState.chapterBookmarks.splice(i,1);else pvState.chapterBookmarks.unshift(key);pvSave();renderLibrary();toast(i>=0?'Закладка главы удалена.':'Глава добавлена в закладки.');}
+function pvOpenChapterBookmark(key){const parts=key.split('::');currentBook=books.find(function(b){return b.name===parts[0];})||books[0];const n=Math.max(0,Math.min(chapterNames.length-1,Number(parts[1])||0));openReader(chapterNames[n],n);}
+const pvRenderLibraryBase=renderLibrary;renderLibrary=function(){pvRenderLibraryBase();const root=document.getElementById('chapterBookmarksList');if(!root)return;root.innerHTML=pvState.chapterBookmarks.map(function(key){const p=key.split('::');return '<button class="chapter" style="width:100%;text-align:left" onclick="pvOpenChapterBookmark(\''+key.replace(/'/g,'')+'\')"><span class="chicon">♧</span><span class="chtext">'+pvEscape(p[0])+'<small>'+pvEscape(chapterNames[Number(p[1])||0]||'Глава')+'</small></span><span>›</span></button>';}).join('');document.getElementById('chapterBookmarksEmpty').classList.toggle('hidden',pvState.chapterBookmarks.length>0);};
+renderLibrary();
 
 </script>
 </body></html>
