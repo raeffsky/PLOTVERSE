@@ -233,5 +233,6 @@ function pvOpenChapterBookmark(key){const parts=key.split('::');currentBook=book
 const pvRenderLibraryBase=renderLibrary;renderLibrary=function(){pvRenderLibraryBase();const root=document.getElementById('chapterBookmarksList');if(!root)return;root.innerHTML=pvState.chapterBookmarks.map(function(key){const p=key.split('::');return '<button class="chapter" style="width:100%;text-align:left" onclick="pvOpenChapterBookmark(\''+key.replace(/'/g,'')+'\')"><span class="chicon">♧</span><span class="chtext">'+pvEscape(p[0])+'<small>'+pvEscape(chapterNames[Number(p[1])||0]||'Глава')+'</small></span><span>›</span></button>';}).join('');document.getElementById('chapterBookmarksEmpty').classList.toggle('hidden',pvState.chapterBookmarks.length>0);};
 renderLibrary();
 
+function openReaderByIndex(index){openReader(chapterNames[index],index);}
 </script>
 </body></html>
