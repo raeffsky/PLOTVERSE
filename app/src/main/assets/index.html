@@ -18,24 +18,6 @@
 </header>
 
 <section class="screen active" id="home">
- <div class="home-shelf">
-  <div class="feature-strip">
-   <article class="feature-card feature-news" onclick="go('feed')"><div class="feature-kicker">PLOTVERSE · ОБНОВЛЕНИЯ</div><h2>Новости вселенных</h2><p>Свежие события, новые главы и авторские анонсы</p><span class="feature-action">Открыть ленту ↗</span></article>
-   <article class="feature-card feature-author" onclick="go('author')"><div class="feature-kicker">ДЛЯ АВТОРОВ</div><h2>Твоя история начинается здесь</h2><p>Работай над произведениями и черновиками</p><span class="feature-action">Мастерская ↗</span></article>
-  </div>
-  <div class="sectionhead"><h2>Новые главы</h2><button class="link" onclick="go('feed')">Все обновления ›</button></div>
-  <div class="horizontal-shelf">
-   <article class="poster-card" onclick="openBook('Путь теней')"><div class="poster-art poster-one"><span class="rank">1</span><span class="poster-symbol">✧</span><strong>Путь теней</strong></div><div class="poster-caption">Путь теней<div class="small">Новая глава · Глава 7</div></div></article>
-   <article class="poster-card" onclick="openBook('ХАМУРА: ИГРА КОРОЛЕЙ')"><div class="poster-art poster-two"><span class="rank">2</span><span class="poster-symbol">♛</span><strong>ХАМУРА: ИГРА КОРОЛЕЙ</strong></div><div class="poster-caption">ХАМУРА: ИГРА КОРОЛЕЙ<div class="small">Продолжение истории</div></div></article>
-   <article class="poster-card" onclick="openBook('За гранью миров')"><div class="poster-art poster-three"><span class="rank">3</span><span class="poster-symbol">◉</span><strong>За гранью миров</strong></div><div class="poster-caption">За гранью миров<div class="small">Новая глава</div></div></article>
-  </div>
-  <div class="sectionhead"><h2>Онгоинги</h2><button class="link" onclick="go('catalog')">Весь каталог ›</button></div>
-  <div class="horizontal-shelf ongoing-shelf">
-   <article class="poster-card" onclick="openBook('Путь теней')"><div class="poster-art ongoing-one"><span class="poster-symbol">✧</span><strong>Путь теней</strong><span class="ongoing-tag">ВЫХОДИТ</span></div><div class="poster-caption">Путь теней<div class="small">Тёмное фэнтези</div></div></article>
-   <article class="poster-card" onclick="openBook('ХАМУРА: ИГРА КОРОЛЕЙ')"><div class="poster-art ongoing-two"><span class="poster-symbol">♛</span><strong>ХАМУРА: ИГРА КОРОЛЕЙ</strong><span class="ongoing-tag">ВЫХОДИТ</span></div><div class="poster-caption">ХАМУРА: ИГРА КОРОЛЕЙ<div class="small">Фэнтези · Приключения</div></div></article>
-   <article class="poster-card" onclick="openBook('За гранью миров')"><div class="poster-art ongoing-three"><span class="poster-symbol">◉</span><strong>За гранью миров</strong><span class="ongoing-tag">ВЫХОДИТ</span></div><div class="poster-caption">За гранью миров<div class="small">Приключения</div></div></article>
-  </div>
- </div>
  <div class="sectionhead"><h2>Популярное</h2><button class="link" onclick="go('catalog')">Весь каталог →</button></div>
  <div class="coverrow">
   <div class="book" onclick="openBook('Путь теней')"><div class="cover"><div class="coverlabel">ПУТЬ<br>ТЕНЕЙ</div></div><div class="bookname">Путь теней</div><div class="rating">★ 9.4</div></div>
@@ -44,8 +26,18 @@
  </div>
  <div class="sectionhead"><h2>Продолжить чтение</h2></div>
  <div class="resume"><div class="mini-cover">✧</div><div class="resumeinfo"><strong>Путь теней</strong><div class="small">Глава 7 · <span id="resumeProgress">0</span>% прочитано</div><div class="progress"><span id="resumeBar"></span></div><button class="link" onclick="resumeReading()">Продолжить →</button></div></div>
- <div class="sectionhead"><h2>Публикуй свои истории</h2></div>
- <div class="card"><p class="muted" style="font-size:13px;margin-top:0">Создавай произведения, собирай аудиторию и готовься отправлять главы из PLOTNEST напрямую в PLOTVERSE.</p><button class="outline" style="width:100%" onclick="go('author')">Открыть кабинет автора　↗</button></div>
+ <div class="sectionhead"><h2>Новые главы</h2><button class="link" onclick="go('feed')">Все обновления ›</button></div>
+ <div class="horizontal-shelf">
+  <article class="poster-card" onclick="openBook('Путь теней')"><div class="poster-art poster-one"><span class="rank">1</span><span class="poster-symbol">✧</span><strong>Путь теней</strong></div><div class="poster-caption">Путь теней<div class="small">Новая глава · Глава 7</div></div></article>
+  <article class="poster-card" onclick="openBook('ХАМУРА: ИГРА КОРОЛЕЙ')"><div class="poster-art poster-two"><span class="rank">2</span><span class="poster-symbol">♛</span><strong>ХАМУРА: ИГРА КОРОЛЕЙ</strong></div><div class="poster-caption">ХАМУРА: ИГРА КОРОЛЕЙ<div class="small">Продолжение истории</div></div></article>
+  <article class="poster-card" onclick="openBook('За гранью миров')"><div class="poster-art poster-three"><span class="rank">3</span><span class="poster-symbol">◉</span><strong>За гранью миров</strong></div><div class="poster-caption">За гранью миров<div class="small">Новая глава</div></div></article>
+ </div>
+ <div class="sectionhead"><h2>Онгоинги</h2><button class="link" onclick="go('catalog')">Весь каталог ›</button></div>
+ <div class="horizontal-shelf ongoing-shelf">
+  <article class="poster-card" onclick="openBook('Путь теней')"><div class="poster-art ongoing-one"><span class="poster-symbol">✧</span><strong>Путь теней</strong><span class="ongoing-tag">ВЫХОДИТ</span></div><div class="poster-caption">Путь теней<div class="small">Тёмное фэнтези</div></div></article>
+  <article class="poster-card" onclick="openBook('ХАМУРА: ИГРА КОРОЛЕЙ')"><div class="poster-art ongoing-two"><span class="poster-symbol">♛</span><strong>ХАМУРА: ИГРА КОРОЛЕЙ</strong><span class="ongoing-tag">ВЫХОДИТ</span></div><div class="poster-caption">ХАМУРА: ИГРА КОРОЛЕЙ<div class="small">Фэнтези · Приключения</div></div></article>
+  <article class="poster-card" onclick="openBook('За гранью миров')"><div class="poster-art ongoing-three"><span class="poster-symbol">◉</span><strong>За гранью миров</strong><span class="ongoing-tag">ВЫХОДИТ</span></div><div class="poster-caption">За гранью миров<div class="small">Приключения</div></div></article>
+ </div>
 </section>
 
 <section class="screen" id="catalog">
