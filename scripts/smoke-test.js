@@ -29,7 +29,11 @@ function createHarness(store) {
       return elements[id];
     },
     querySelectorAll(selector) { return selector === '#lore [data-reveal-at]' ? loreEntries : []; },
-    querySelector() { return { id: 'home' }; },
+    querySelector(selector) {
+      if (selector === '.genre-collapse') return { classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } } };
+      if (selector === '.screen.active') return { id: 'home', classList: { add() {}, remove() {}, toggle() {}, contains() { return true; } } };
+      return { id: 'home', classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } } };
+    },
     createElement() { return { click() {}, style: {} }; }
   };
   const localStorage = {
