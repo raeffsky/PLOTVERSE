@@ -76,6 +76,10 @@ jobs:
                 await page.evaluate(() => document.fonts.ready);
                 const initialOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
                 if (initialOverflow) throw new Error('Horizontal overflow on home at width ' + viewport.width);
+                const nav = page.locator('.bottomnav');
+                if (await nav.count() !== 1) throw new Error('Bottom navigation is missing at width ' + viewport.width);
+                const navPosition = await nav.evaluate(el => getComputedStyle(el).position);
+                if (navPosition !== 'fixed') throw new Error('Bottom navigation is not fixed at width ' + viewport.width);
                 await page.screenshot({ path: path.join('artifacts/visual', 'home-' + viewport.width + 'x' + viewport.height + '.png'), fullPage: false });
                 for (const target of ['catalog', 'library', 'profile']) {
                   const nav = page.locator('.navitem[data-page="' + target + '"]');
@@ -86,6 +90,13 @@ jobs:
                   }
                   const visibleScreen = await page.locator('.screen.active').count();
                   if (visibleScreen !== 1) throw new Error('Expected exactly one active screen after navigating to ' + target);
+                  const activeNav = await page.locator('.navitem.active').getAttribute('data-page');
+                  if (activeNav !== target) throw new Error('Active navigation mismatch: expected ' + target + ', got ' + activeNav);
+                  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+                  await page.waitForTimeout(80);
+                  const navVisible = await nav.evaluate(el => { const r = el.getBoundingClientRect(); return r.bottom <= window.innerHeight + 1 && r.top < window.innerHeight; });
+                  if (!navVisible) throw new Error('Bottom navigation left the viewport after scrolling on ' + target);
+                  await page.evaluate(() => window.scrollTo(0, 0));
                   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
                   if (overflow) throw new Error('Horizontal overflow on ' + target + ' at width ' + viewport.width);
                   await page.screenshot({ path: path.join('artifacts/visual', target + '-' + viewport.width + 'x' + viewport.height + '.png'), fullPage: false });
