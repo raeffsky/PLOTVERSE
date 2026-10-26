@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
-        if (Build.VERSION.SDK_INT >= 30) window.setDecorFitsSystemWindows(false);
+        if (Build.VERSION.SDK_INT >= 30) window.setDecorFitsSystemWindows(true);
         window.setStatusBarColor(Color.rgb(8, 13, 27));
         window.setNavigationBarColor(Color.rgb(8, 13, 27));
         window.getDecorView().setSystemUiVisibility(0);
@@ -51,20 +51,9 @@ public class MainActivity extends Activity {
 
         webView = new WebView(this);
         webView.setBackgroundColor(Color.rgb(8, 13, 27));
-        webView.setOnApplyWindowInsetsListener((view, insets) -> {
-            int top;
-            int bottom;
-            if (Build.VERSION.SDK_INT >= 30) {
-                android.graphics.Insets bars = insets.getInsets(android.view.WindowInsets.Type.systemBars());
-                top = bars.top;
-                bottom = bars.bottom;
-            } else {
-                top = insets.getSystemWindowInsetTop();
-                bottom = insets.getSystemWindowInsetBottom();
-            }
-            view.setPadding(0, top, 0, bottom);
-            return insets;
-        });
+        // Let Android fit the WebView between the system bars. Applying
+        // system-bar insets again as WebView padding causes double offsets.
+        webView.setPadding(0, 0, 0, 0);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
