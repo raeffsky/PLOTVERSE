@@ -53,7 +53,7 @@ function createHarness(store) {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
       pvToggleChapterBookmark, pvSaveChapter, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
-      createBook, go, resumeReading
+      createBook, go, pvNavigateBack, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
   return { context, elements, store, app: context.__app, listeners, loreEntries };
@@ -63,6 +63,8 @@ const store = {};
 const first = createHarness(store);
 assert.ok(first.elements.catalogList.innerHTML.length > 0, 'Catalog should render on startup');
 assert.ok(first.elements.chapterList.innerHTML.length > 0, 'Chapter list should render on startup');
+first.app.go('catalog');
+assert.equal(first.app.pvNavigateBack(), true, 'Android back navigation should return to the previous app screen');
 assert.equal(first.app.pvLoreUnlocked(2), false, 'Lore should remain hidden before its reveal chapter');
 first.app.state().progress['Путь теней'] = { chapterIndex: 2, percent: 40 };
 assert.equal(first.app.pvLoreUnlocked(2), true, 'Lore should unlock at its reveal chapter');
