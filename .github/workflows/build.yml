@@ -11,6 +11,15 @@ on:
       - 'gradle.properties'
       - '.github/workflows/build.yml'
       - 'scripts/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle.properties'
+      - '.github/workflows/build.yml'
+      - 'scripts/**'
 
 concurrency:
   group: plotverse-main-build-v2
@@ -20,7 +29,146 @@ permissions:
   contents: write
 
 jobs:
+  visual-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run application logic smoke tests
+        run: node scripts/smoke-test.js
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Start local PLOTVERSE preview server
+        run: |
+          python3 -m http.server 4173 --directory app/src/main/assets > /tmp/plotverse-http.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/plotverse-http.log
+          exit 1
+
+      - name: Capture screens and verify navigation at mobile sizes
+        run: |
+          mkdir -p artifacts/visual
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          const path = require('node:path');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const errors = [];
+            try {
+              for (const viewport of [
+                { width: 360, height: 800 },
+                { width: 390, height: 844 },
+                { width: 412, height: 915 },
+              ]) {
+                const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
+                page.on('pageerror', error => errors.push(viewport.width + 'x' + viewport.height + ': ' + error.message));
+                await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+                await page.evaluate(() => document.fonts.ready);
+                const initialOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+                if (initialOverflow) throw new Error('Horizontal overflow on home at width ' + viewport.width);
+                const nav = page.locator('.bottomnav');
+                if (await nav.count() !== 1) throw new Error('Bottom navigation is missing at width ' + viewport.width);
+                const navPosition = await nav.evaluate(el => getComputedStyle(el).position);
+                if (navPosition !== 'fixed') throw new Error('Bottom navigation is not fixed at width ' + viewport.width);
+                await page.screenshot({ path: path.join('artifacts/visual', 'home-' + viewport.width + 'x' + viewport.height + '.png'), fullPage: false });
+                for (const target of ['catalog', 'library', 'profile']) {
+                  const nav = page.locator('.navitem[data-page="' + target + '"]');
+                  await nav.click();
+                  await page.waitForTimeout(180);
+                  if (!await nav.evaluate(el => el.classList.contains('active'))) {
+                    throw new Error('Navigation ' + target + ' did not activate at width ' + viewport.width);
+                  }
+                  const visibleScreen = await page.locator('.screen.active').count();
+                  if (visibleScreen !== 1) throw new Error('Expected exactly one active screen after navigating to ' + target);
+                  const activeNav = await page.locator('.navitem.active').getAttribute('data-page');
+                  if (activeNav !== target) throw new Error('Active navigation mismatch: expected ' + target + ', got ' + activeNav);
+                  if (target === 'catalog') {
+                    await page.getByRole('button', { name: 'Фильтры' }).click();
+                    const filterPanel = page.locator('#catalogFilterPanel');
+                    if ((await filterPanel.getAttribute('class') || '').includes('hidden')) {
+                      throw new Error('Catalog filter panel did not open');
+                    }
+                    await filterPanel.locator('.filter-back').click();
+                    if (!(await filterPanel.getAttribute('class') || '').includes('hidden')) {
+                      throw new Error('Catalog filter panel did not close');
+                    }
+                    const catalogSearch = page.locator('#catalogSearch');
+                    await catalogSearch.fill('ХАМУРА');
+                    if (!(await page.locator('#catalogList').innerText()).includes('ХАМУРА')) {
+                      throw new Error('Catalog search did not return the matching work');
+                    }
+                    await catalogSearch.fill('');
+                  }
+                  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+                  await page.waitForTimeout(80);
+                  const navVisible = await nav.evaluate(el => { const r = el.getBoundingClientRect(); return r.bottom <= window.innerHeight + 1 && r.top < window.innerHeight; });
+                  if (!navVisible) throw new Error('Bottom navigation left the viewport after scrolling on ' + target);
+                  await page.evaluate(() => window.scrollTo(0, 0));
+                  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+                  if (overflow) throw new Error('Horizontal overflow on ' + target + ' at width ' + viewport.width);
+                  await page.screenshot({ path: path.join('artifacts/visual', target + '-' + viewport.width + 'x' + viewport.height + '.png'), fullPage: false });
+                }
+                await page.close();
+              }
+              if (errors.length) throw new Error('Browser errors:\n' + errors.join('\n'));
+              console.log('Visual smoke test passed; screenshots are ready for review.');
+            } finally { await browser.close(); }
+          })().catch(error => { console.error(error); process.exit(1); });
+          NODE
+
+      - name: Upload visual screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PLOTVERSE-visual-smoke-screenshots
+          path: artifacts/visual/
+          if-no-files-found: warn
+          retention-days: 14
+
+  android-debug-apk:
+    if: github.event_name == 'pull_request'
+    needs: visual-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build installable debug APK
+        run: gradle assembleDebug
+
+      - name: Upload installable debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: PLOTVERSE-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14
+
   build:
+    if: github.event_name != 'pull_request'
+    needs: visual-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -55,7 +203,7 @@ jobs:
           scripts = re.findall(r"<script>(.*?)</script>", html, re.S)
           if not scripts:
               raise SystemExit("No inline JavaScript found in index.html")
-          Path("${{ runner.temp }}/plotverse-inline.js").write_text("\\n".join(scripts), encoding="utf-8")
+          Path("${{ runner.temp }}/plotverse-inline.js").write_text("\n".join(scripts), encoding="utf-8")
           print(f"Extracted {len(scripts)} inline script block(s) for syntax validation")
           PY
           node --check "$RUNNER_TEMP/plotverse-inline.js"
