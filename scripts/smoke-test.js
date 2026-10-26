@@ -43,7 +43,9 @@ function createHarness(store) {
   };
   const history = { pushState(state, title, url) { store.__lastHistoryUrl = url; } };
   const context = {
-    document, localStorage, window, history, confirm: () => true,
+    document, localStorage, window, history,
+    MutationObserver: class { constructor(callback) { this.callback = callback; } observe() {} disconnect() {} },
+    confirm: () => true,
     setTimeout: () => 1, clearTimeout() {}, console
   };
   vm.runInNewContext(source + `
