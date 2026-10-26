@@ -166,6 +166,7 @@ first.app.pvShareCurrentBook();
 assert.match(first.store.__sharedText, /Путь теней/, 'Share action should pass current work details to Android share sheet');
 first.app.prevChapter();
 assert.equal(first.app.chapterIndex(), 6, 'Previous chapter control should return to the prior chapter');
+assert.equal(first.app.state().progress['Путь теней'].percent, Math.round((7 / 8) * 100), 'Reading progress should follow the current chapter when moving backward');
 first.app.pvSaveChapter(6);
 first.app.pvToggleChapterBookmark();
 first.elements.publishBook.value = 'Путь теней';
