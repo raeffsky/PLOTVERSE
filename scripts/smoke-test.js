@@ -49,14 +49,14 @@ function createHarness(store) {
   const context = {
     document, localStorage, window, history,
     MutationObserver: class { constructor(callback) { this.callback = callback; } observe() {} disconnect() {} },
-    confirm: () => true,
+    confirm: () => true, prompt: () => 'Smoke Reader',
     setTimeout: () => 1, clearTimeout() {}, console
   };
   vm.runInNewContext(source + `
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvSaveAllAvailableChapters, pvShareCurrentBook, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
+      pvToggleChapterBookmark, pvSaveChapter, pvSaveAllAvailableChapters, pvShareCurrentBook, pvEditProfile, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
       createBook, go, pvNavigateBack, changeFont, toggleReaderTheme, changeLineSpacing, changeReaderWidth, nextChapter, prevChapter, setShelf, changeShelfByIndex, renderLibrary, renderHistory, pvClearOffline, pvToggleExcludeRead, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -65,6 +65,9 @@ function createHarness(store) {
 
 const store = {};
 const first = createHarness(store);
+first.app.pvEditProfile();
+assert.equal(first.app.state().profileName, 'Smoke Reader', 'Profile name should save locally');
+assert.equal(first.elements.profileDisplayName.textContent, 'Smoke Reader', 'Profile name should update on screen');
 assert.ok(first.elements.catalogList.innerHTML.length > 0, 'Catalog should render on startup');
 first.app.toggleCatalogFilters();
 first.app.closeCatalogFilters();
