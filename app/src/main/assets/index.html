@@ -79,17 +79,36 @@ button::-moz-focus-inner{border:0}
 .bookrow.pv-status-card .cover {
   border-color: #303a55 !important;
 }
+/* Reset every inherited cover pseudo-element property: otherwise the badge inherits the decorative cover's oversized icon styling. */
 .pv-status-art:after {
-  left: 8px !important;
-  right: auto !important;
-  bottom: 8px !important;
+  content: attr(data-pv-status) !important;
+  position: absolute !important;
+  inset: auto auto 32px 8px !important;
+  display: block !important;
   width: max-content !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
   max-width: calc(100% - 16px) !important;
+  padding: 5px 8px !important;
+  margin: 0 !important;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  letter-spacing: .45px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  transform: none !important;
+  border-radius: 9px !important;
   z-index: 8 !important;
   pointer-events: none !important;
 }
 .cover.pv-status-art .coverlabel {
-  visibility: hidden !important;
+  visibility: visible !important;
+  position: relative !important;
+  z-index: 2 !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
 }
 
 </style>
