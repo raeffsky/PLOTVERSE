@@ -146,6 +146,28 @@ button::-moz-focus-inner{border:0}
 .resume-tile.pv-status-planned:after{color:#c6e1ff!important;border-color:#609de0!important;background:#1d2a40!important}
 
 .library-book-card{align-items:stretch;gap:14px}.library-book-card .cover{flex:0 0 30%;max-width:150px;min-height:190px}.library-book-info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:9px}.library-book-info h3{margin:4px 0 0}.library-status-label{font-size:12px;color:var(--muted);margin-top:2px}.library-status-select{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:15px;padding:0 12px;background:#171521;min-height:52px}.library-status-select select{appearance:none;-webkit-appearance:none;background:transparent;border:0;color:var(--text);font:inherit;font-weight:700;width:100%;min-width:0;padding:12px 4px;outline:none}.library-status-select span{pointer-events:none;color:var(--text);font-size:18px}.library-status-select.status-reading{border-color:#ad79df55;background:#a65ad412}.library-status-select.status-planned{border-color:#3986ff55;background:#2176ff12}.library-status-select.status-completed{border-color:#f0a82055;background:#f0a82012}.library-status-select.status-dropped{border-color:#ff515155;background:#ff515112}@media(max-width:380px){.library-book-card .cover{flex-basis:34%;min-height:160px}.library-book-info{gap:7px}}
+
+/* PLOTVERSE motion polish: короткие, ненавязчивые переходы */
+:root{--motion-fast:150ms;--motion-ui:220ms;--motion-panel:280ms;--motion-ease:cubic-bezier(.2,.75,.25,1)}
+button,.book,.bookrow,.catalog-book,.poster-card,.feature-card,.resume,.resume-tile,.chapter,.card,.listitem,.stat,.chip,.genre-chip,.navitem{
+  transition:background-color var(--motion-ui) var(--motion-ease),border-color var(--motion-ui) var(--motion-ease),color var(--motion-ui) var(--motion-ease),box-shadow var(--motion-ui) var(--motion-ease),transform var(--motion-fast) var(--motion-ease),opacity var(--motion-ui) var(--motion-ease)
+}
+button:active,.book:active,.poster-card:active,.feature-card:active,.resume-tile:active{transform:scale(.985)}
+button:focus-visible,[role="button"]:focus-visible{outline:2px solid #bca0ff;outline-offset:3px}
+.screen.active{animation:pvScreenEnter var(--motion-panel) var(--motion-ease) both}
+@keyframes pvScreenEnter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.bookrow,.catalog-book,.chapter,.resume,.card,.listitem,.stat{animation:pvCardEnter 260ms var(--motion-ease) both}
+@keyframes pvCardEnter{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.bookrow:nth-child(2),.catalog-book:nth-child(2),.chapter:nth-child(2){animation-delay:25ms}
+.bookrow:nth-child(3),.catalog-book:nth-child(3),.chapter:nth-child(3){animation-delay:45ms}
+.bookrow:nth-child(4),.catalog-book:nth-child(4),.chapter:nth-child(4){animation-delay:65ms}
+.bottomnav{transition:background-color var(--motion-ui) ease,box-shadow var(--motion-ui) ease}
+.catalog-filter-backdrop{transition:opacity var(--motion-panel) var(--motion-ease)}
+.catalog-filter-panel{transition:transform var(--motion-panel) var(--motion-ease),opacity var(--motion-panel) var(--motion-ease)}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+
 </style>
 </head>
 <body>
