@@ -98,6 +98,7 @@ first.app.changeShelfByIndex(0, 'В планах');
 assert.equal(first.app.state().shelves['Путь теней'], 'В планах', 'Library shelf selection should persist');
 first.app.renderLibrary();
 assert.match(first.elements.libraryList.innerHTML, /Путь теней/, 'Saved work should appear in the selected library shelf');
+first.app.openReaderByIndex(6);
 first.app.renderHistory();
 assert.match(first.elements.historyList.innerHTML, /Путь теней/, 'Reading history should render opened work');
 first.app.changeLineSpacing(0.1);
