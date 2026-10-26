@@ -57,7 +57,7 @@ function createHarness(store) {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
       pvToggleChapterBookmark, pvSaveChapter, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
-      createBook, go, pvNavigateBack, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
+      createBook, go, pvNavigateBack, changeFont, toggleReaderTheme, nextChapter, prevChapter, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
   return { context, elements, store, app: context.__app, listeners, loreEntries };
@@ -112,6 +112,16 @@ first.app.openReaderByIndex(0);
 assert.match(first.elements.readerText.innerHTML, /Текст главы пока недоступен/, 'Missing chapter text should not be presented as real content');
 first.app.openReaderByIndex(6);
 assert.match(first.elements.readerText.innerHTML, /Колокол Седьмой башни не звучал/, 'Known sample chapter should render its actual text');
+first.app.changeFont(2);
+assert.equal(first.elements.readerText.style.fontSize, '20px', 'Reader font-size control should update text size');
+first.app.toggleReaderTheme();
+assert.equal(first.elements.readerText.style.color, '#29232e', 'Reader theme control should switch to light reading mode');
+first.app.saveProgress();
+assert.ok(first.app.state().progress['Путь теней'].percent > 0, 'Save reading position should persist progress');
+first.app.nextChapter();
+assert.equal(first.app.chapterIndex(), 7, 'Next chapter control should advance the chapter');
+first.app.prevChapter();
+assert.equal(first.app.chapterIndex(), 6, 'Previous chapter control should return to the prior chapter');
 first.app.pvSaveChapter(6);
 first.app.pvToggleChapterBookmark();
 first.elements.publishBook.value = 'Путь теней';
