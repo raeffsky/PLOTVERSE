@@ -11,6 +11,15 @@ on:
       - 'gradle.properties'
       - '.github/workflows/build.yml'
       - 'scripts/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle.properties'
+      - '.github/workflows/build.yml'
+      - 'scripts/**'
 
 concurrency:
   group: plotverse-main-build-v2
@@ -20,7 +29,80 @@ permissions:
   contents: write
 
 jobs:
+  visual-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Start local PLOTVERSE preview server
+        run: |
+          python3 -m http.server 4173 --directory app/src/main/assets > /tmp/plotverse-http.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/plotverse-http.log
+          exit 1
+
+      - name: Capture screens and verify navigation at mobile sizes
+        run: |
+          mkdir -p artifacts/visual
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          const path = require('node:path');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const errors = [];
+            try {
+              for (const viewport of [
+                { width: 360, height: 800 },
+                { width: 390, height: 844 },
+                { width: 412, height: 915 },
+              ]) {
+                const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
+                page.on('pageerror', error => errors.push(viewport.width + 'x' + viewport.height + ': ' + error.message));
+                await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+                await page.screenshot({ path: path.join('artifacts/visual', 'home-' + viewport.width + 'x' + viewport.height + '.png'), fullPage: true });
+                for (const target of ['catalog', 'library', 'profile']) {
+                  const nav = page.locator('.navitem[data-page="' + target + '"]');
+                  await nav.click();
+                  await page.waitForTimeout(180);
+                  if (!await nav.evaluate(el => el.classList.contains('active'))) {
+                    throw new Error('Navigation ' + target + ' did not activate at width ' + viewport.width);
+                  }
+                  await page.screenshot({ path: path.join('artifacts/visual', target + '-' + viewport.width + 'x' + viewport.height + '.png'), fullPage: true });
+                }
+                await page.close();
+              }
+              if (errors.length) throw new Error('Browser errors:\n' + errors.join('\n'));
+              console.log('Visual smoke test passed; screenshots are ready for review.');
+            } finally { await browser.close(); }
+          })().catch(error => { console.error(error); process.exit(1); });
+          NODE
+
+      - name: Upload visual screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PLOTVERSE-visual-smoke-screenshots
+          path: artifacts/visual/
+          if-no-files-found: warn
+          retention-days: 14
+
   build:
+    if: github.event_name != 'pull_request'
+    needs: visual-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
