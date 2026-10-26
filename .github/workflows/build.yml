@@ -15,7 +15,7 @@ on:
       - 'scripts/**'
 
 concurrency:
-  group: plotverse-main-build-v2
+  group: plotverse-build-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
