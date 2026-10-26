@@ -485,6 +485,77 @@ button.iconbtn,.iconbtn{
  .catalog-title{font-size:13px!important}
 }
 
+
+/* Approved mockup: button and small UI control kit */
+button,.button,.btn{
+ transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease,color .18s ease;
+}
+button:focus-visible,.button:focus-visible,.btn:focus-visible{
+ outline:2px solid rgba(190,155,255,.9);outline-offset:2px;
+}
+button:disabled,.button:disabled,.btn:disabled{opacity:.48;box-shadow:none;cursor:not-allowed}
+.primary,.btn-primary,button.primary{
+ color:#fff!important;
+ background:linear-gradient(112deg,#a65bff 0%,#783cff 52%,#5434db 100%)!important;
+ border:1px solid rgba(220,194,255,.88)!important;
+ border-radius:15px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 0 7px rgba(162,91,255,.55),0 0 22px rgba(112,62,255,.32),0 7px 16px rgba(0,0,0,.24)!important;
+ font-weight:750;
+}
+.primary:active,.btn-primary:active,button.primary:active{
+ transform:scale(.985);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 0 12px rgba(162,91,255,.65)!important;
+}
+.outline,.secondary,.btn-secondary,button.outline{
+ color:#e8edff!important;
+ background:linear-gradient(145deg,rgba(15,25,45,.92),rgba(8,14,29,.96))!important;
+ border:1px solid rgba(130,151,202,.52)!important;
+ border-radius:15px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 4px 12px rgba(0,0,0,.15)!important;
+}
+.outline:active,.secondary:active,.btn-secondary:active,button.outline:active{
+ border-color:rgba(174,143,255,.75)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 14px rgba(132,94,255,.2)!important;
+}
+.iconbtn,button.iconbtn,.icon-button{
+ display:inline-grid;place-items:center;
+ background:linear-gradient(145deg,rgba(29,43,72,.96),rgba(12,20,39,.98))!important;
+ border:1px solid rgba(148,137,223,.55)!important;
+ border-radius:15px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 0 15px rgba(115,89,222,.16)!important;
+}
+.iconbtn:active,button.iconbtn:active,.icon-button:active{
+ border-color:rgba(197,169,255,.9)!important;
+ box-shadow:0 0 18px rgba(145,101,255,.3)!important;
+}
+.chip,.pilltabs button,.genre-chip,.work-genre-chip,.badge{
+ border:1px solid rgba(113,139,192,.34)!important;
+ background:linear-gradient(145deg,rgba(17,28,50,.94),rgba(10,17,33,.96))!important;
+ color:#aebddd;
+ border-radius:11px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+.chip.selected,.pilltabs button.active,.genre-chip.active,.work-genre-chip.active{
+ color:#f4eaff!important;
+ background:linear-gradient(180deg,rgba(130,86,217,.38),rgba(70,48,128,.32))!important;
+ border-color:rgba(189,154,255,.7)!important;
+ box-shadow:inset 0 -3px 0 #b18aff,0 0 14px rgba(147,96,255,.19)!important;
+}
+.badge,.status-pill,.tag-success,.success{
+ background:linear-gradient(145deg,rgba(14,91,72,.72),rgba(8,55,47,.84))!important;
+ border-color:rgba(78,210,167,.42)!important;
+ color:#a9f4d8!important;
+}
+.rating,.rating-badge,.score{
+ color:#f2cb76!important;
+}
+.rating-badge,.score{
+ display:inline-flex;align-items:center;gap:5px;
+ padding:5px 9px;border-radius:10px;
+ background:linear-gradient(145deg,rgba(92,64,22,.58),rgba(47,34,19,.78))!important;
+ border:1px solid rgba(238,194,101,.34)!important;
+}
+
 </style>
 
 <style id="plotverse-cinematic-glass-v1">
