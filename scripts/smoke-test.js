@@ -60,7 +60,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvSaveAllAvailableChapters, pvShareCurrentBook, pvEditProfile, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
+      pvToggleChapterBookmark, pvSaveChapter, pvSaveAllAvailableChapters, pvShareCurrentBook, pvEditProfile, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, pvOpenStatusPicker, chapterIndex: () => chapterIndex,
       createBook, go, pvNavigateBack, renderCatalog, setGenre, changeFont, toggleReaderTheme, changeLineSpacing, changeReaderWidth, nextChapter, prevChapter, setShelf, changeShelfByIndex, renderLibrary, renderHistory, pvClearOffline, pvToggleExcludeRead, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
