@@ -95,6 +95,23 @@ jobs:
                   if (visibleScreen !== 1) throw new Error('Expected exactly one active screen after navigating to ' + target);
                   const activeNav = await page.locator('.navitem.active').getAttribute('data-page');
                   if (activeNav !== target) throw new Error('Active navigation mismatch: expected ' + target + ', got ' + activeNav);
+                  if (target === 'catalog') {
+                    await page.getByRole('button', { name: 'Фильтры' }).click();
+                    const filterPanel = page.locator('#catalogFilterPanel');
+                    if ((await filterPanel.getAttribute('class') || '').includes('hidden')) {
+                      throw new Error('Catalog filter panel did not open');
+                    }
+                    await filterPanel.locator('.filter-back').click();
+                    if (!(await filterPanel.getAttribute('class') || '').includes('hidden')) {
+                      throw new Error('Catalog filter panel did not close');
+                    }
+                    const catalogSearch = page.locator('#catalogSearch');
+                    await catalogSearch.fill('ХАМУРА');
+                    if (!(await page.locator('#catalogList').innerText()).includes('ХАМУРА')) {
+                      throw new Error('Catalog search did not return the matching work');
+                    }
+                    await catalogSearch.fill('');
+                  }
                   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
                   await page.waitForTimeout(80);
                   const navVisible = await nav.evaluate(el => { const r = el.getBoundingClientRect(); return r.bottom <= window.innerHeight + 1 && r.top < window.innerHeight; });
