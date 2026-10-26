@@ -14,6 +14,19 @@
 button,a,[role="button"],.navitem,.chapter,.chip,.bookrow,.cover,.work-card,.catalog-book,.work-mini-card,.iconbtn,.bottomnav{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;outline:none}
 button:focus,button:focus-visible,a:focus,a:focus-visible,[role="button"]:focus{outline:none;box-shadow:none}
 button::-moz-focus-inner{border:0}
+
+/* Reading-status treatment on work cards and cover art */
+.pv-status-reading{--pv-status:#b77cff}
+.pv-status-completed{--pv-status:#f4c542}
+.pv-status-dropped{--pv-status:#ff5964}
+.pv-status-planned{--pv-status:#55a5ff}
+.poster-card.pv-status-card,.catalog-book.pv-status-card,.work-mini-card.pv-status-card,.resume.pv-status-card,.bookrow.pv-status-card{outline:2px solid var(--pv-status)!important;outline-offset:-2px;box-shadow:0 0 12px color-mix(in srgb,var(--pv-status) 34%,transparent)}
+.pv-status-art{position:relative!important;overflow:hidden}
+.pv-status-art:after{content:attr(data-pv-status);position:absolute;z-index:4;left:0;right:0;bottom:0;padding:7px 5px;text-align:center;font-size:11px;font-weight:850;letter-spacing:.7px;color:#fff;background:var(--pv-status);text-shadow:0 1px 2px #0008;box-shadow:0 -4px 12px #0003}
+.pv-status-reading .pv-status-art:after{background:#8d42d6}
+.pv-status-completed .pv-status-art:after{background:#d2a51a;color:#171522}
+.pv-status-dropped .pv-status-art:after{background:#d83b4a}
+.pv-status-planned .pv-status-art:after{background:#2879d5}
 </style>
 </head>
 <body>
@@ -246,10 +259,34 @@ let pvActiveShelf='Все';
 function openBookByIndex(i){openBook(books[i]&&books[i].name||books[0].name);}
 function setShelf(shelf,el){pvActiveShelf=shelf;document.querySelectorAll('#shelfChips .chip').forEach(c=>c.classList.remove('selected'));if(el)el.classList.add('selected');renderLibrary();}
 function renderLibrary(){const root=document.getElementById('libraryList');if(!root)return;const list=books.map((b,i)=>({b:b,i:i})).filter(x=>pvBookmarked(x.b.name)&&(pvActiveShelf==='Все'||((pvState.shelves&&pvState.shelves[x.b.name])||'Читаю')===pvActiveShelf));root.innerHTML=list.map(x=>'<div class="bookrow"><div class="cover '+(x.b.cls||'')+'" onclick="openBookByIndex('+x.i+')"><div class="coverlabel">'+x.b.name+'</div></div><div style="flex:1"><h3>'+x.b.name+'</h3><div class="small">'+x.b.author+' · '+x.b.genre+'</div><select class="field" aria-label="Полка" onchange="changeShelfByIndex('+x.i+',this.value)"><option '+(((pvState.shelves&&pvState.shelves[x.b.name])||'Читаю')==='Читаю'?'selected':'')+'>Читаю</option><option '+(((pvState.shelves&&pvState.shelves[x.b.name])||'')==='В планах'?'selected':'')+'>В планах</option><option '+(((pvState.shelves&&pvState.shelves[x.b.name])||'')==='Завершено'?'selected':'')+'>Завершено</option><option '+(((pvState.shelves&&pvState.shelves[x.b.name])||'')==='Брошено'?'selected':'')+'>Брошено</option></select><button onclick="openBookByIndex('+x.i+')">Открыть</button></div></div>').join('');document.getElementById('libraryEmpty').classList.toggle('hidden',list.length>0);}
-function changeShelfByIndex(i,shelf){if(!pvState.shelves)pvState.shelves={};pvState.shelves[books[i].name]=shelf;pvSave();renderLibrary();}
+
+/* Apply a reader's shelf status consistently to cover cards. */
+function pvApplyShelfBadges(){
+ const stateMap={'Читаю':{cls:'pv-status-reading',label:'ЧИТАЮ'},'Завершено':{cls:'pv-status-completed',label:'ПРОЧИТАНО'},'Прочитано':{cls:'pv-status-completed',label:'ПРОЧИТАНО'},'Брошено':{cls:'pv-status-dropped',label:'БРОШЕНО'},'В планах':{cls:'pv-status-planned',label:'В ПЛАНАХ'}};
+ const cards=document.querySelectorAll('.poster-card,.catalog-book,.work-mini-card,.resume-tile,.bookrow');
+ cards.forEach(card=>{
+  card.classList.remove('pv-status-card','pv-status-reading','pv-status-completed','pv-status-dropped','pv-status-planned');
+  card.querySelectorAll('.pv-status-art').forEach(el=>{el.classList.remove('pv-status-art');el.removeAttribute('data-pv-status');});
+  let matched=null;
+  const text=(card.innerText||card.textContent||'').replace(/\s+/g,' ').trim();
+  if(typeof books!=='undefined'&&Array.isArray(books)){
+   matched=books.find(b=>b&&b.name&&text.includes(b.name));
+  }
+  if(!matched)return;
+  const shelf=(pvState&&pvState.shelves&&pvState.shelves[matched.name])||'';
+  const meta=stateMap[shelf];if(!meta)return;
+  card.classList.add('pv-status-card',meta.cls);
+  const art=card.querySelector('.poster-art,.catalog-cover,.work-mini-art,.mini-cover,.cover');
+  if(art){art.classList.add('pv-status-art');art.setAttribute('data-pv-status',meta.label);}
+ });
+}
+
+function changeShelfByIndex(i,shelf){if(!pvState.shelves)pvState.shelves={};pvState.shelves[books[i].name]=shelf;pvSave();renderLibrary();pvApplyShelfBadges();}
 const pvGoOriginal=go;go=function(id){pvGoOriginal(id);if(id==='library')renderLibrary();};
-const pvBookmarkOriginal=toggleBookmark;toggleBookmark=function(){pvBookmarkOriginal();if(pvBookmarked(currentBook.name)){if(!pvState.shelves)pvState.shelves={};if(!pvState.shelves[currentBook.name])pvState.shelves[currentBook.name]='Читаю';pvSave();}renderLibrary();};
-renderLibrary();
+const pvBookmarkOriginal=toggleBookmark;toggleBookmark=function(){pvBookmarkOriginal();if(pvBookmarked(currentBook.name)){if(!pvState.shelves)pvState.shelves={};if(!pvState.shelves[currentBook.name])pvState.shelves[currentBook.name]='Читаю';pvSave();}renderLibrary();pvApplyShelfBadges();};
+renderLibrary();pvApplyShelfBadges();
+const pvStatusObserver=new MutationObserver(function(){pvApplyShelfBadges();});
+pvStatusObserver.observe(document.body,{childList:true,subtree:true});
 
 function pvEscape(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function pvRenderDrafts(){const count=document.getElementById('authorDraftCount');if(count)count.textContent=String(pvState.drafts.length);const root=document.getElementById('authorWorks');if(!root)return;root.innerHTML=pvState.drafts.length?pvState.drafts.map(function(d,i){return '<div class="resume" style="margin-bottom:10px"><div class="mini-cover">✎</div><div class="resumeinfo"><strong>'+pvEscape(d.title)+'</strong><div class="small">'+pvEscape(d.genre||'Без жанра')+'</div><p class="small">'+pvEscape(d.desc||'Описание не добавлено')+'</p><button onclick="pvDeleteDraft('+i+')">Удалить черновик</button></div></div>';}).join(''):'<div class="notice">Черновиков пока нет. Создай произведение, чтобы сохранить его на устройстве.</div>';}
