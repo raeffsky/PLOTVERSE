@@ -222,6 +222,15 @@ public class MainActivity extends Activity {
     }
 
     @Override public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) webView.goBack(); else super.onBackPressed();
+        if (webView == null) {
+            super.onBackPressed();
+            return;
+        }
+        webView.evaluateJavascript(
+            "(function(){return typeof window.pvNavigateBack === 'function' && window.pvNavigateBack();})()",
+            value -> {
+                if (!"true".equals(value)) super.onBackPressed();
+            }
+        );
     }
 }
