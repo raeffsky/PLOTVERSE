@@ -14,7 +14,7 @@ function createHarness(store) {
   for (const id of ids) {
     const tag = html.match(new RegExp('<[^>]*\\bid="' + id + '"[^>]*>'));
     elements[id] = {
-      id, innerHTML: '', textContent: '', value: '', checked: !!(tag && tag[0].includes('checked')), style: {}, options: { length: 0 }, setAttribute() {}, getAttribute() { return null; },
+      id, innerHTML: '', textContent: '', value: '', checked: !!(tag && tag[0].includes('checked')), style: {}, options: { length: 0 }, setAttribute() {}, getAttribute() { return null; }, addEventListener() {},
       classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } }
     };
   }
@@ -24,7 +24,7 @@ function createHarness(store) {
   const document = {
     getElementById(id) {
       if (!elements[id]) elements[id] = {
-        id, innerHTML: '', textContent: '', value: '', checked: false, style: {}, options: { length: 0 }, setAttribute() {}, getAttribute() { return null; },
+        id, innerHTML: '', textContent: '', value: '', checked: false, style: {}, options: { length: 0 }, setAttribute() {}, getAttribute() { return null; }, addEventListener() {},
         classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } }
       };
       return elements[id];
