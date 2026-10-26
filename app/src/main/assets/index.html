@@ -533,7 +533,38 @@ function pvAddImportedBook(fileTitle,text){const raw=String(text||'').trim();if(
 function pvImportTextBook(event){const input=event&&event.target;const file=input&&input.files&&input.files[0];if(!file)return;if(file.size>2*1024*1024){toast('Файл больше 2 МБ. Раздели книгу на несколько файлов.');input.value='';return;}const reader=new FileReader();reader.onload=function(){pvAddImportedBook(file.name,String(reader.result||''));input.value='';};reader.onerror=function(){toast('Не удалось прочитать файл.');input.value='';};reader.readAsText(file,'UTF-8');}
 function pvRemoveImportedBook(localId){const book=pvState.importedBooks.find(function(b){return b.localId===localId;});if(!book)return;const name=book.name;pvState.importedBooks=pvState.importedBooks.filter(function(b){return b.localId!==localId;});pvState.bookmarks=pvState.bookmarks.filter(function(x){return x!==name;});if(pvState.shelves)delete pvState.shelves[name];if(pvState.progress)delete pvState.progress[name];if(pvState.offlineChapters)Object.keys(pvState.offlineChapters).forEach(function(k){if(k.indexOf(name+'::')===0)delete pvState.offlineChapters[k];});if(Array.isArray(pvState.chapterBookmarks))pvState.chapterBookmarks=pvState.chapterBookmarks.filter(function(k){const key=typeof k==='string'?k:k&&k.key;return typeof key!=='string'||key.indexOf(name+'::')!==0;});if(pvState.comments)Object.keys(pvState.comments).forEach(function(k){if(k.indexOf(name+'::')===0)delete pvState.comments[k];});pvState.history=pvState.history.filter(function(h){return h.book!==name;});pvSyncImportedBooks();if(currentBook&&currentBook.localId===localId){currentBook=books[0];pvState.currentBook=currentBook.name;go('catalog');}pvSave();renderCatalog();renderLibrary();renderHistory();renderAnalytics();pvOfflineStats();toast('Импортированная книга удалена.');}
 const pvRenderCatalogBase=renderCatalog;
-renderCatalog=function(){const q=(document.getElementById('catalogSearch')?.value||document.getElementById('globalSearch')?.value||'').toLowerCase().trim();const list=books.filter(function(b){return (activeGenre==='Все'||b.genre===activeGenre)&&(b.name+' '+b.author+' '+b.genre+' '+b.desc).toLowerCase().includes(q);});const root=document.getElementById('catalogList');if(root)root.innerHTML=list.map(function(b){const i=books.indexOf(b);return '<div class="bookrow"><div class="cover '+(b.cls||'')+'" onclick="openBookByIndex('+i+')"><div class="coverlabel">'+pvEscape(b.name)+'</div></div><div style="flex:1"><h3>'+pvEscape(b.name)+'</h3><div class="small">'+pvEscape(b.author)+' · '+pvEscape(b.genre)+'</div><p>'+pvEscape(b.desc)+'</p><div class="rating">'+(b.rating&&Number(b.rating)>0?'★ '+pvEscape(b.rating):'Локальная книга')+'　·　'+b.chapters+' глав</div><div class="rowbtn"><button onclick="openBookByIndex('+i+')">Открыть</button>'+(b.local?'<button onclick="pvRemoveImportedBook(\''+b.localId+'\')">Удалить импорт</button>':'')+'</div></div></div>';}).join('')||'<div class="notice">Ничего не найдено. Попробуй изменить запрос или жанр.</div>';const hints=document.getElementById('searchHints');if(hints)hints.innerHTML=list.slice(0,3).map(function(b){return '<button class="chapter" onclick="openBookByIndex('+books.indexOf(b)+')">'+pvEscape(b.name)+'　→</button>';}).join('');};
+renderCatalog=function(){
+ const value=function(id,fallback){const el=document.getElementById(id);return el&&el.value!==''?el.value:fallback;};
+ const checked=function(id){const el=document.getElementById(id);return !!(el&&el.checked);};
+ const q=String(value('catalogSearch',value('globalSearch',''))||'').toLowerCase().trim();
+ const min=Math.min(Number(value('minChapters',1)),Number(value('maxChapters',1000)));
+ const max=Math.max(Number(value('minChapters',1)),Number(value('maxChapters',1000)));
+ const formats=[];if(checked('formatRanobe'))formats.push('ranobe');if(checked('formatWeb'))formats.push('web');
+ const statuses=[];if(checked('statusReleased'))statuses.push('released');if(checked('statusOngoing'))statuses.push('ongoing');if(checked('statusPaused'))statuses.push('paused');
+ const types=[];if(checked('typeRanobe'))types.push('ranobe');if(checked('typeManhwa'))types.push('manhwa');if(checked('typeManhua'))types.push('manhua');
+ let list=books.filter(function(b){
+  const genres=Array.isArray(b.genres)?b.genres:[b.genre];
+  const genreOk=activeGenre==='Все'||genres.includes(activeGenre)||b.genre===activeGenre;
+  const textOk=(String(b.name||'')+' '+String(b.author||'')+' '+String(b.genre||'')+' '+String(b.desc||'')+' '+genres.join(' ')).toLowerCase().includes(q);
+  const format=b.format||(b.web?'web':'ranobe');
+  const status=b.status||'ongoing';
+  const type=b.type||'ranobe';
+  const formatOk=formats.length===0?false:formats.includes(format);
+  const statusOk=statuses.length===0?false:statuses.includes(status);
+  const typeOk=types.length===0?false:types.includes(type);
+  const chapterCount=Number(b.chapters)||0;
+  const chapterOk=chapterCount>=min&&chapterCount<=max;
+  const myOk=!checked('myListOnly')||pvBookmarked(b.name)||(b.inMyList===true);
+  const availableOk=!checked('chaptersAvailable')||chapterCount>0;
+  return genreOk&&textOk&&formatOk&&statusOk&&typeOk&&chapterOk&&myOk&&availableOk;
+ });
+ if(pvCatalogSort==='rating')list.sort(function(a,b){return Number(b.rating||0)-Number(a.rating||0);});
+ else if(pvCatalogSort==='popular')list.sort(function(a,b){return Number(String(b.readers||'').replace(/[^0-9.]/g,''))-Number(String(a.readers||'').replace(/[^0-9.]/g,''));});
+ else if(pvCatalogSort==='newest')list.sort(function(a,b){return Number(b.year||0)-Number(a.year||0);});
+ const root=document.getElementById('catalogList');
+ if(root)root.innerHTML=list.map(function(b){const i=books.indexOf(b);return '<div class="bookrow"><div class="cover '+pvEscape(b.cls||'')+'" onclick="openBookByIndex('+i+')"><div class="coverlabel">'+pvEscape(b.name)+'</div></div><div style="flex:1"><h3>'+pvEscape(b.name)+'</h3><div class="small">'+pvEscape(b.author)+' · '+pvEscape(b.genre)+'</div><p>'+pvEscape(b.desc)+'</p><div class="rating">'+(b.rating&&Number(b.rating)>0?'★ '+pvEscape(b.rating):'Локальная книга')+'　·　'+pvEscape(b.chapters)+' глав</div><div class="rowbtn"><button onclick="openBookByIndex('+i+')">Открыть</button>'+(b.local?'<button onclick="pvRemoveImportedBook(\\''+pvEscape(b.localId)+'\\')">Удалить импорт</button>':'')+'</div></div></div>';}).join('')||'<div class="notice">Ничего не найдено. Попробуй изменить запрос или фильтры.</div>';
+ const hints=document.getElementById('searchHints');if(hints)hints.innerHTML=list.slice(0,3).map(function(b){return '<button class="chapter" onclick="openBookByIndex('+books.indexOf(b)+')">'+pvEscape(b.name)+'　→</button>';}).join('');
+};
 const pvRenderChaptersStatic=renderChapters;
 renderChapters=function(){const names=pvGetChapterNames();const root=document.getElementById('chapterList');if(!root)return;root.innerHTML=names.map(function(name,i){const offline=currentBook.local||pvIsChapterSaved(i);return '<button class="chapter" onclick="openReaderByIndex('+i+')"><span class="chicon">'+(offline?'✓':'▤')+'</span><span class="chtext">'+pvEscape(name)+'<small>'+(currentBook.local?'Сохранено офлайн':offline?'Сохранено офлайн':i===chapterIndex?'Продолжить чтение':i<chapterIndex?'Прочитано':'Открыть главу')+'</small></span><span>›</span></button>';}).join('');};
 const pvOpenReaderBeforeLocal=openReader;
