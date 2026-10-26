@@ -143,6 +143,7 @@ first.app.createBook();
 first.app.openReaderByIndex(0);
 assert.match(first.elements.readerText.innerHTML, /Текст главы пока недоступен/, 'Missing chapter text should not be presented as real content');
 first.app.openReaderByIndex(6);
+assert.equal(first.elements.readerTitle.textContent, 'Колокол безмолвия', 'Reader title should strip the chapter number prefix');
 assert.match(first.elements.readerText.innerHTML, /Колокол Седьмой башни не звучал/, 'Known sample chapter should render its actual text');
 first.app.changeFont(2);
 assert.equal(first.elements.readerText.style.fontSize, '20px', 'Reader font-size control should update text size');
