@@ -105,6 +105,37 @@ button::-moz-focus-inner{border:0}
 }
 /* Keep the existing cover title untouched; only move the status badge above it. */
 
+
+/* Continue Reading: status badge sits in the unused upper-right space, not over the cover. */
+.resume-tile.pv-status-card{position:relative!important}
+.resume-tile.pv-status-card:after{
+ content:attr(data-pv-status)!important;
+ position:absolute!important;
+ top:16px!important;
+ right:18px!important;
+ bottom:auto!important;
+ left:auto!important;
+ width:max-content!important;
+ max-width:45%!important;
+ padding:6px 10px!important;
+ border:1px solid currentColor!important;
+ border-radius:10px!important;
+ font-size:10px!important;
+ line-height:1.2!important;
+ font-weight:800!important;
+ letter-spacing:.45px!important;
+ white-space:nowrap!important;
+ z-index:5!important;
+ pointer-events:none!important;
+ background:#29283a!important;
+ color:#f4f1ff!important;
+ box-shadow:none!important;
+}
+.resume-tile.pv-status-reading:after{color:#e3c5ff!important;border-color:#a96be9!important;background:#282039!important}
+.resume-tile.pv-status-completed:after{color:#ffe8a0!important;border-color:#d9b444!important;background:#302b20!important}
+.resume-tile.pv-status-dropped:after{color:#ffc1c5!important;border-color:#df6570!important;background:#321f2a!important}
+.resume-tile.pv-status-planned:after{color:#c6e1ff!important;border-color:#609de0!important;background:#1d2a40!important}
+
 </style>
 </head>
 <body>
@@ -338,32 +369,36 @@ function openBookByIndex(i){openBook(books[i]&&books[i].name||books[0].name);}
 function setShelf(shelf,el){pvActiveShelf=shelf;document.querySelectorAll('#shelfChips .chip').forEach(c=>c.classList.remove('selected'));if(el)el.classList.add('selected');renderLibrary();}
 function renderLibrary(){const root=document.getElementById('libraryList');if(!root)return;const list=books.map((b,i)=>({b:b,i:i})).filter(x=>pvBookmarked(x.b.name)&&(pvActiveShelf==='Все'||((pvState.shelves&&pvState.shelves[x.b.name])||'Читаю')===pvActiveShelf));root.innerHTML=list.map(x=>'<div class="bookrow"><div class="cover '+(x.b.cls||'')+'" onclick="openBookByIndex('+x.i+')"><div class="coverlabel">'+x.b.name+'</div></div><div style="flex:1"><h3>'+x.b.name+'</h3><div class="small">'+x.b.author+' · '+x.b.genre+'</div><select class="field" aria-label="Полка" onchange="changeShelfByIndex('+x.i+',this.value)"><option '+(((pvState.shelves&&pvState.shelves[x.b.name])||'Читаю')==='Читаю'?'selected':'')+'>Читаю</option><option '+(((pvState.shelves&&pvState.shelves[x.b.name])||'')==='В планах'?'selected':'')+'>В планах</option><option '+(((pvState.shelves&&pvState.shelves[x.b.name])||'')==='Завершено'?'selected':'')+'>Завершено</option><option '+(((pvState.shelves&&pvState.shelves[x.b.name])||'')==='Брошено'?'selected':'')+'>Брошено</option></select><button onclick="openBookByIndex('+x.i+')">Открыть</button></div></div>').join('');document.getElementById('libraryEmpty').classList.toggle('hidden',list.length>0);}
 
-/* Apply a reader's shelf status consistently to cover cards. */
+/* Apply shelf badges to covers; in Continue Reading, place the badge in the card's upper-right empty area. */
 function pvApplyShelfBadges(){
  const stateMap={'Читаю':{cls:'pv-status-reading',label:'ЧИТАЮ'},'Завершено':{cls:'pv-status-completed',label:'ПРОЧИТАНО'},'Прочитано':{cls:'pv-status-completed',label:'ПРОЧИТАНО'},'Брошено':{cls:'pv-status-dropped',label:'БРОШЕНО'},'В планах':{cls:'pv-status-planned',label:'В ПЛАНАХ'}};
  const cards=document.querySelectorAll('.poster-card,.catalog-book,.work-mini-card,.resume-tile,.bookrow');
  cards.forEach(card=>{
   let matched=null;
   const text=(card.innerText||card.textContent||'').replace(/\s+/g,' ').trim();
-  if(typeof books!=='undefined'&&Array.isArray(books)){
-   matched=books.find(b=>b&&b.name&&text.includes(b.name));
-  }
+  if(typeof books!=='undefined'&&Array.isArray(books))matched=books.find(b=>b&&b.name&&text.includes(b.name));
   const shelf=matched?((pvState&&pvState.shelves&&pvState.shelves[matched.name])||''):'';
   const meta=stateMap[shelf];
   const allStatus=['pv-status-reading','pv-status-completed','pv-status-dropped','pv-status-planned'];
   const art=card.querySelector('.poster-art,.catalog-cover,.work-mini-art,.mini-cover,.cover');
   if(!meta){
-   if(card.classList.contains('pv-status-card')){card.classList.remove('pv-status-card',...allStatus);}
+   card.classList.remove('pv-status-card',...allStatus);
+   card.removeAttribute('data-pv-status');
    if(art&&art.classList.contains('pv-status-art')){art.classList.remove('pv-status-art');art.removeAttribute('data-pv-status');}
    return;
   }
-  if(card.classList.contains('pv-status-card')&&card.classList.contains(meta.cls)&&art&&art.classList.contains('pv-status-art')&&art.getAttribute('data-pv-status')===meta.label)return;
   card.classList.add('pv-status-card');
   allStatus.forEach(cls=>card.classList.toggle(cls,cls===meta.cls));
-  if(art){art.classList.add('pv-status-art');art.setAttribute('data-pv-status',meta.label);}
+  if(card.classList.contains('resume-tile')){
+   card.setAttribute('data-pv-status',meta.label);
+   if(art&&art.classList.contains('pv-status-art')){art.classList.remove('pv-status-art');art.removeAttribute('data-pv-status');}
+  }else if(art){
+   card.removeAttribute('data-pv-status');
+   art.classList.add('pv-status-art');
+   art.setAttribute('data-pv-status',meta.label);
+  }
  });
 }
-
 function changeShelfByIndex(i,shelf){if(!pvState.shelves)pvState.shelves={};pvState.shelves[books[i].name]=shelf;pvSave();renderLibrary();pvApplyShelfBadges();}
 const pvGoOriginal=go;go=function(id){pvGoOriginal(id);if(id==='library')renderLibrary();};
 const pvBookmarkOriginal=toggleBookmark;toggleBookmark=function(){pvBookmarkOriginal();if(pvBookmarked(currentBook.name)){if(!pvState.shelves)pvState.shelves={};if(!pvState.shelves[currentBook.name])pvState.shelves[currentBook.name]='Читаю';pvSave();}renderLibrary();pvApplyShelfBadges();};
