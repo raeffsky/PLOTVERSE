@@ -53,7 +53,7 @@ function createHarness(store) {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
       pvToggleChapterBookmark, pvSaveChapter, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
-      createBook, go, pvNavigateBack, resumeReading
+      createBook, go, pvNavigateBack, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
   return { context, elements, store, app: context.__app, listeners, loreEntries };
@@ -62,6 +62,13 @@ function createHarness(store) {
 const store = {};
 const first = createHarness(store);
 assert.ok(first.elements.catalogList.innerHTML.length > 0, 'Catalog should render on startup');
+first.app.toggleCatalogFilters();
+first.app.closeCatalogFilters();
+first.app.toggleGenreList();
+first.app.toggleGenreList();
+first.app.resetCatalogFilters();
+first.app.applyCatalogFilters();
+assert.ok(first.elements.catalogList.innerHTML.length > 0, 'Catalog should still render after filter controls are used');
 assert.ok(first.elements.chapterList.innerHTML.length > 0, 'Chapter list should render on startup');
 first.app.go('catalog');
 assert.equal(first.app.pvNavigateBack(), true, 'Android back navigation should return to the previous app screen');
