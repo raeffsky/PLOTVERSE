@@ -23,7 +23,7 @@ button,a,[role="button"],.navitem,.chapter,.chip,.bookrow,.cover,.work-card,.cat
 button:focus,button:focus-visible,a:focus,a:focus-visible,[role="button"]:focus{outline:none;box-shadow:none}
 button::-moz-focus-inner{border:0}
 
-.work-status-picker-btn{border:1px solid #7b65d8!important;background:#29243d!important;color:#e8dcff!important;border-radius:12px!important;padding:10px 12px!important;font-weight:700!important;white-space:nowrap}.work-status-picker-btn[data-status="Читаю"]{border-color:#b77cff!important;color:#e3c5ff!important}.work-status-picker-btn[data-status="Завершено"]{border-color:#f4c542!important;color:#ffe8a0!important}.work-status-picker-btn[data-status="Брошено"]{border-color:#ff5964!important;color:#ffc1c5!important}.work-status-picker-btn[data-status="В планах"]{border-color:#55a5ff!important;color:#c6e1ff!important}
+.work-status-picker-btn{display:none!important}.pv-floating-status{position:fixed!important;right:18px!important;bottom:calc(24px + env(safe-area-inset-bottom,0px))!important;z-index:9999!important;width:56px!important;height:56px!important;min-width:56px!important;padding:0!important;display:none;align-items:center!important;justify-content:center!important;border:1px solid #8d79ed!important;border-radius:18px!important;background:rgba(37,32,59,.94)!important;color:#eee7ff!important;box-shadow:0 8px 24px #0007,0 0 18px #8060e533!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.pv-floating-status svg{width:25px;height:25px;display:block}.pv-floating-status[data-status="Читаю"]{border-color:#b77cff!important;color:#e3c5ff!important}.pv-floating-status[data-status="Завершено"]{border-color:#f4c542!important;color:#ffe8a0!important}.pv-floating-status[data-status="Брошено"]{border-color:#ff5964!important;color:#ffc1c5!important}.pv-floating-status[data-status="В планах"]{border-color:#55a5ff!important;color:#c6e1ff!important}.pv-floating-status[data-status=""]{border-color:#8d79ed!important;color:#eee7ff!important}
 /* Reading status is shown by a compact badge, not a loud outline around the whole card. */
 .pv-status-reading{--pv-status:#b77cff}
 .pv-status-completed{--pv-status:#f4c542}
@@ -265,7 +265,7 @@ button:focus-visible,[role="button"]:focus-visible{outline:2px solid #bca0ff;out
  <div class="work-fold"><button class="work-fold-head related-head" onclick="toggleWorkFold('relatedWorks')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V9M12 13C5 13 4 5 8 3c2-1 4 1 4 4 0-3 2-5 4-4 4 2 3 10-4 10Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>　Связанные <span id="relatedChevron">⌄</span></button><div id="relatedWorks" class="work-fold-content"></div></div>
  <button class="work-comments-button" onclick="go('comments')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v13H9l-5 4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 8h8M8 12h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>　Комментарии <span id="detailComments">0</span>　›</button>
  <div class="work-extra-meta"><div><small>Оригинальное название:</small><p id="detailOriginalTitle">—</p></div><div><small>Автор:</small><p id="detailAuthor">RAEFFSKY</p></div><div><small>Описание:</small><p id="detailDesc">Описание произведения.</p></div></div>
- <div class="rowbtn work-detail-actions"><button onclick="toggleBookmark()" id="bookmarkBtn">♧ В библиотеку</button><button onclick="pvOpenStatusPicker()" id="workStatusBtn" class="work-status-picker-btn">＋ Статус</button><button onclick="pvToggleFollow()" id="followAuthorBtn">Подписаться</button></div>
+ <div class="rowbtn work-detail-actions"><button onclick="toggleBookmark()" id="bookmarkBtn">♧ В библиотеку</button><button onclick="pvOpenStatusPicker()" id="workStatusBtn" class="work-status-picker-btn" aria-label="Статус произведения" title="Статус произведения"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><button onclick="pvToggleFollow()" id="followAuthorBtn">Подписаться</button></div>
 </section>
 
 <section class="screen chapters-screen" id="chapters">
@@ -446,10 +446,10 @@ function pvApplyShelfBadges(){
   else if(art){art.classList.add('pv-status-art');art.setAttribute('data-pv-status',meta.label);}
  });
 }
-function pvUpdateWorkStatusButton(){const button=document.getElementById('workStatusBtn');if(!button||!currentBook)return;const status=pvState.shelves&&pvState.shelves[currentBook.name]||'';button.dataset.status=status;button.textContent=status?({'Читаю':'◉ Читаю','Завершено':'✓ Завершено','Брошено':'⊘ Брошено','В планах':'◷ В планах'}[status]||status):'＋ Статус';}
+function pvUpdateWorkStatusButton(){const status=pvState.shelves&&currentBook&&pvState.shelves[currentBook.name]||'';['workStatusBtn','pvFloatingStatus'].forEach(function(id){const button=document.getElementById(id);if(button)button.dataset.status=status;});const floating=document.getElementById('pvFloatingStatus');const detail=document.getElementById('detail');if(floating)floating.style.display=detail&&detail.classList.contains('active')?'flex':'none';}
 function pvOpenStatusPicker(){if(!currentBook)return;const current=pvState.shelves&&pvState.shelves[currentBook.name]||'Без метки';const answer=prompt('Статус произведения:\n1 — Читаю\n2 — Завершено\n3 — Брошено\n4 — В планах\n0 — Без метки',({'Читаю':'1','Завершено':'2','Брошено':'3','В планах':'4','Без метки':'0'})[current]||'0');if(answer===null)return;const choices={'1':'Читаю','2':'Завершено','3':'Брошено','4':'В планах','0':''};const value=String(answer).trim();if(!Object.prototype.hasOwnProperty.call(choices,value)){toast('Выбери номер от 0 до 4.');return;}changeShelfByIndex(books.indexOf(currentBook),choices[value]);pvUpdateWorkStatusButton();toast(choices[value]?'Статус произведения обновлён.':'Метка статуса снята.');}
 function changeShelfByIndex(i,shelf){if(!books[i])return;if(!pvState.shelves)pvState.shelves={};if(!shelf||shelf==='Без метки')delete pvState.shelves[books[i].name];else pvState.shelves[books[i].name]=shelf;pvSave();renderLibrary();pvApplyShelfBadges();}
-const pvGoOriginal=go;go=function(id){pvGoOriginal(id);if(id==='library')renderLibrary();if(typeof pvApplyShelfBadges==='function')pvApplyShelfBadges();};
+const pvGoOriginal=go;go=function(id){pvGoOriginal(id);if(id==='library')renderLibrary();if(typeof pvApplyShelfBadges==='function')pvApplyShelfBadges();pvUpdateWorkStatusButton();};
 const pvBookmarkOriginal=toggleBookmark;toggleBookmark=function(){pvBookmarkOriginal();renderLibrary();pvApplyShelfBadges();};
 renderLibrary();pvApplyShelfBadges();
 const pvStatusObserver=new MutationObserver(function(){pvApplyShelfBadges();});
@@ -638,4 +638,5 @@ const pvOfflineStatsWithList=pvOfflineStats;
 pvOfflineStats=function(){pvOfflineStatsWithList();pvRenderOfflineChapterList();};
 
 </script>
+<button id="pvFloatingStatus" class="pv-floating-status" onclick="pvOpenStatusPicker()" aria-label="Статус произведения" title="Статус произведения"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 </body></html>
