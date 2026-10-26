@@ -34,6 +34,10 @@ button::-moz-focus-inner{border:0}
 .pv-status-completed .pv-status-art:after{color:#ffe8a0;border-color:#d9b444;background:#302b20}
 .pv-status-dropped .pv-status-art:after{color:#ffc1c5;border-color:#df6570;background:#321f2a}
 .pv-status-planned .pv-status-art:after{color:#c6e1ff;border-color:#609de0;background:#1d2a40}
+/* On the home Ongoing shelf, keep the reading-status badge beside the release tag without covering the title. */
+.ongoing-shelf .pv-status-art:after{left:auto;right:7px;bottom:8px;max-width:calc(100% - 14px);padding:4px 6px;font-size:8px;letter-spacing:.25px}
+.ongoing-shelf .ongoing-tag{position:absolute;left:7px;bottom:8px;margin:0;z-index:5;padding:4px 6px;font-size:8px;letter-spacing:.25px}
+.ongoing-shelf .pv-status-art strong{max-width:100%;overflow-wrap:anywhere;padding-bottom:27px}
 /* Keep the card frame neutral; status color belongs only to the badge. */
 .poster-card.pv-status-card,.catalog-book.pv-status-card,.work-mini-card.pv-status-card,.resume.pv-status-card,.bookrow.pv-status-card,.pv-status-card{outline:none!important;outline-offset:0;box-shadow:none!important}
 .poster-card.pv-status-card .poster-art,.catalog-book.pv-status-card .catalog-cover,.work-mini-card.pv-status-card .work-mini-art,.resume-tile.pv-status-card .mini-cover{border-color:#303a55!important}
