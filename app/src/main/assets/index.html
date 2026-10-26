@@ -421,34 +421,28 @@ function openBookByIndex(i){openBook(books[i]&&books[i].name||books[0].name);}
 function setShelf(shelf,el){pvActiveShelf=shelf;document.querySelectorAll('#shelfChips .chip').forEach(c=>c.classList.remove('selected'));if(el)el.classList.add('selected');renderLibrary();}
 function renderLibrary(){const root=document.getElementById('libraryList');if(!root)return;const list=books.map((b,i)=>({b:b,i:i})).filter(x=>{if(!pvBookmarked(x.b.name))return false;if(pvActiveShelf==='Все')return true;return !!(pvState.shelves&&pvState.shelves[x.b.name])&&pvState.shelves[x.b.name]===pvActiveShelf;});root.innerHTML=list.map(x=>'<div class="bookrow library-book-card"><div class="cover '+pvEscape(x.b.cls||'')+'" onclick="openBookByIndex('+x.i+')"><div class="coverlabel">'+pvEscape(x.b.name)+'</div></div><div class="library-book-info"><h3>'+pvEscape(x.b.name)+'</h3><div class="small">'+pvEscape(x.b.author)+' · '+pvEscape(x.b.genre)+'</div><button onclick="openBookByIndex('+x.i+')">Открыть</button></div></div>').join('');document.getElementById('libraryEmpty').classList.toggle('hidden',list.length>0);}
 
-/* Apply shelf badges to covers; in Continue Reading, place the badge in the card's upper-right empty area. */
+/* Reading badges are rendered only for an explicitly saved shelf status. No default "Читаю". */
 function pvApplyShelfBadges(){
  const stateMap={'Читаю':{cls:'pv-status-reading',label:'ЧИТАЮ'},'Завершено':{cls:'pv-status-completed',label:'ПРОЧИТАНО'},'Прочитано':{cls:'pv-status-completed',label:'ПРОЧИТАНО'},'Брошено':{cls:'pv-status-dropped',label:'БРОШЕНО'},'В планах':{cls:'pv-status-planned',label:'В ПЛАНАХ'}};
- const cards=document.querySelectorAll('.poster-card,.catalog-book,.work-mini-card,.resume-tile,.bookrow');
- cards.forEach(card=>{
-  let matched=null;
+ const allStatus=['pv-status-reading','pv-status-completed','pv-status-dropped','pv-status-planned'];
+ document.querySelectorAll('.poster-card,.catalog-book,.work-mini-card,.resume-tile,.bookrow').forEach(card=>{
   const text=(card.innerText||card.textContent||'').replace(/\s+/g,' ').trim();
-  if(typeof books!=='undefined'&&Array.isArray(books))matched=books.find(b=>b&&b.name&&text.includes(b.name));
-  const shelf=matched?((pvState&&pvState.shelves&&pvState.shelves[matched.name])||''):'';
-  const meta=stateMap[shelf];
-  const allStatus=['pv-status-reading','pv-status-completed','pv-status-dropped','pv-status-planned'];
   const art=card.querySelector('.poster-art,.catalog-cover,.work-mini-art,.mini-cover,.cover');
-  if(!meta){
-   card.classList.remove('pv-status-card',...allStatus);
-   card.removeAttribute('data-pv-status');
-   if(art&&art.classList.contains('pv-status-art')){art.classList.remove('pv-status-art');art.removeAttribute('data-pv-status');}
-   return;
+  let matched=null;
+  if(typeof books!=='undefined'&&Array.isArray(books)){
+   matched=books.filter(b=>b&&b.name&&text.includes(b.name)).sort((a,b)=>b.name.length-a.name.length)[0]||null;
   }
-  card.classList.add('pv-status-card');
-  allStatus.forEach(cls=>card.classList.toggle(cls,cls===meta.cls));
-  if(card.classList.contains('resume-tile')){
-   card.setAttribute('data-pv-status',meta.label);
-   if(art&&art.classList.contains('pv-status-art')){art.classList.remove('pv-status-art');art.removeAttribute('data-pv-status');}
-  }else if(art){
-   card.removeAttribute('data-pv-status');
-   art.classList.add('pv-status-art');
-   art.setAttribute('data-pv-status',meta.label);
-  }
+  const shelves=pvState&&pvState.shelves&&typeof pvState.shelves==='object'?pvState.shelves:{};
+  const shelf=matched&&Object.prototype.hasOwnProperty.call(shelves,matched.name)?shelves[matched.name]:'';
+  const meta=stateMap[shelf];
+  /* Clear every old badge first, including stale classes/data from previous renders. */
+  card.classList.remove('pv-status-card',...allStatus);
+  card.removeAttribute('data-pv-status');
+  if(art){art.classList.remove('pv-status-art');art.removeAttribute('data-pv-status');}
+  if(!meta||!matched)return;
+  card.classList.add('pv-status-card',meta.cls);
+  if(card.classList.contains('resume-tile'))card.setAttribute('data-pv-status',meta.label);
+  else if(art){art.classList.add('pv-status-art');art.setAttribute('data-pv-status',meta.label);}
  });
 }
 function changeShelfByIndex(i,shelf){if(!books[i])return;if(!pvState.shelves)pvState.shelves={};if(!shelf||shelf==='Без метки')delete pvState.shelves[books[i].name];else pvState.shelves[books[i].name]=shelf;pvSave();renderLibrary();pvApplyShelfBadges();}
