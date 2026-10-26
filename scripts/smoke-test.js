@@ -241,4 +241,11 @@ assert.equal(Object.keys(second.app.state().offlineChapters).length, 1, 'Offline
 second.app.pvClearOffline();
 assert.equal(Object.keys(second.app.state().offlineChapters).length, 0, 'Clear offline storage should remove all saved chapters');
 
+const failedImportStore = {};
+const failedImport = createHarness(failedImportStore);
+failedImport.context.localStorage.setItem = () => { throw new Error('simulated storage quota exceeded'); };
+assert.equal(failedImport.app.pvAddImportedBook('Rejected Import.txt', '# Chapter 1\\n\\nThis import must fail.'), false, 'Import should fail cleanly when local storage is unavailable');
+assert.equal(failedImport.app.state().importedBooks.length, 0, 'Failed import must roll back imported book state');
+assert.equal(failedImport.app.state().bookmarks.includes('Rejected Import'), false, 'Failed import must not leave a stale bookmark');
+
 console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed, analytics, recommendations, book clubs, offline TXT/Markdown import and draft creation.');
