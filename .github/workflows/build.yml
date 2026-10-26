@@ -73,7 +73,10 @@ jobs:
                 const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
                 page.on('pageerror', error => errors.push(viewport.width + 'x' + viewport.height + ': ' + error.message));
                 await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
-                await page.screenshot({ path: path.join('artifacts/visual', 'home-' + viewport.width + 'x' + viewport.height + '.png'), fullPage: true });
+                await page.evaluate(() => document.fonts.ready);
+                const initialOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+                if (initialOverflow) throw new Error('Horizontal overflow on home at width ' + viewport.width);
+                await page.screenshot({ path: path.join('artifacts/visual', 'home-' + viewport.width + 'x' + viewport.height + '.png'), fullPage: false });
                 for (const target of ['catalog', 'library', 'profile']) {
                   const nav = page.locator('.navitem[data-page="' + target + '"]');
                   await nav.click();
@@ -81,7 +84,11 @@ jobs:
                   if (!await nav.evaluate(el => el.classList.contains('active'))) {
                     throw new Error('Navigation ' + target + ' did not activate at width ' + viewport.width);
                   }
-                  await page.screenshot({ path: path.join('artifacts/visual', target + '-' + viewport.width + 'x' + viewport.height + '.png'), fullPage: true });
+                  const visibleScreen = await page.locator('.screen.active').count();
+                  if (visibleScreen !== 1) throw new Error('Expected exactly one active screen after navigating to ' + target);
+                  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+                  if (overflow) throw new Error('Horizontal overflow on ' + target + ' at width ' + viewport.width);
+                  await page.screenshot({ path: path.join('artifacts/visual', target + '-' + viewport.width + 'x' + viewport.height + '.png'), fullPage: false });
                 }
                 await page.close();
               }
