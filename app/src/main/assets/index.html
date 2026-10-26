@@ -22,11 +22,13 @@ button::-moz-focus-inner{border:0}
 .pv-status-planned{--pv-status:#55a5ff}
 .poster-card.pv-status-card,.catalog-book.pv-status-card,.work-mini-card.pv-status-card,.resume.pv-status-card,.bookrow.pv-status-card{outline:2px solid var(--pv-status)!important;outline-offset:-2px;box-shadow:0 0 12px color-mix(in srgb,var(--pv-status) 34%,transparent)}
 .pv-status-art{position:relative!important;overflow:hidden}
-.pv-status-art:after{content:attr(data-pv-status);position:absolute;z-index:4;left:0;right:0;bottom:0;padding:7px 5px;text-align:center;font-size:11px;font-weight:850;letter-spacing:.7px;color:#fff;background:var(--pv-status);text-shadow:0 1px 2px #0008;box-shadow:0 -4px 12px #0003}
-.pv-status-reading .pv-status-art:after{background:#8d42d6}
-.pv-status-completed .pv-status-art:after{background:#d2a51a;color:#171522}
-.pv-status-dropped .pv-status-art:after{background:#d83b4a}
-.pv-status-planned .pv-status-art:after{background:#2879d5}
+.pv-status-art:after{content:attr(data-pv-status);position:absolute;z-index:4;left:8px;right:8px;bottom:8px;width:max-content;max-width:calc(100% - 16px);padding:5px 9px;text-align:center;font-size:10px;font-weight:800;letter-spacing:.45px;color:#f4f1ff;background:#29283a;border:1px solid #ffffff22;border-radius:9px;box-shadow:0 3px 12px #0005;text-shadow:none}
+.pv-status-reading .pv-status-art:after{color:#e3c5ff;border-color:#a96be9;background:#282039}
+.pv-status-completed .pv-status-art:after{color:#ffe8a0;border-color:#d9b444;background:#302b20}
+.pv-status-dropped .pv-status-art:after{color:#ffc1c5;border-color:#df6570;background:#321f2a}
+.pv-status-planned .pv-status-art:after{color:#c6e1ff;border-color:#609de0;background:#1d2a40}
+.pv-status-card{outline:1.5px solid var(--pv-status)!important;outline-offset:-1px;box-shadow:0 0 0 1px #0b1020,0 0 10px color-mix(in srgb,var(--pv-status) 17%,transparent)!important}
+.poster-card.pv-status-card .poster-art,.catalog-book.pv-status-card .catalog-cover,.work-mini-card.pv-status-card .work-mini-art,.resume-tile.pv-status-card .mini-cover{border-color:var(--pv-status)!important}
 </style>
 </head>
 <body>
