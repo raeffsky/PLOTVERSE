@@ -284,6 +284,164 @@ button:focus-visible{outline:2px solid #9f8bff;outline-offset:2px}
  button,.navitem,.catalog-book,.book{transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
 }
 
+
+/* Approved PLOTVERSE visual system: cinematic navy, luminous glass and restrained violet light. */
+:root{
+ --bg:#050a16;--panel:rgba(13,22,42,.82);--panel2:rgba(21,32,57,.88);
+ --line:rgba(112,139,194,.30);--text:#f0f4ff;--muted:#9eafd0;
+ --accent:#a88aff;--accent2:#526ee8;--gold:#f0cb79;
+}
+html,body{
+ background:
+   radial-gradient(ellipse at 12% 5%,rgba(56,91,191,.23),transparent 38%),
+   radial-gradient(ellipse at 92% 30%,rgba(100,43,165,.15),transparent 35%),
+   radial-gradient(ellipse at 48% 100%,rgba(29,64,126,.13),transparent 45%),
+   #050a16;
+}
+body{padding-bottom:calc(94px + env(safe-area-inset-bottom,0px))}
+.app{padding:20px 16px calc(28px + env(safe-area-inset-bottom,0px))}
+.top{gap:12px;padding:4px 0 18px}
+.logo{
+ width:48px;height:48px;border-radius:15px;
+ background:linear-gradient(145deg,rgba(46,67,123,.95),rgba(35,25,66,.95));
+ border:1px solid rgba(164,150,255,.38);
+ box-shadow:inset 0 1px 0 #ffffff2b,0 0 22px rgba(103,112,255,.18);
+}
+.brand strong{font-size:19px;letter-spacing:1.7px}
+.tag{font-size:12px;letter-spacing:.1px}
+.notification-top-btn{
+ flex-basis:54px;height:54px;border-radius:17px;
+ background:linear-gradient(145deg,rgba(29,46,77,.92),rgba(16,24,44,.94));
+ border-color:rgba(121,149,203,.38);
+ box-shadow:inset 0 1px 0 #ffffff18,0 8px 22px #0003;
+}
+button,.field,.resume,.card,.listitem,.stat,.bookrow,.chapter,.notice,.authorhero{
+ border-color:rgba(113,139,192,.26);
+}
+button{
+ background:linear-gradient(145deg,rgba(28,42,69,.94),rgba(15,23,42,.96));
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 5px 14px rgba(0,0,0,.13);
+}
+button.iconbtn,.iconbtn{
+ background:linear-gradient(145deg,rgba(35,48,81,.94),rgba(19,25,48,.96));
+ border-color:rgba(148,130,226,.34);
+ box-shadow:inset 0 1px 0 #ffffff1c,0 0 20px rgba(111,94,225,.12);
+}
+.hero,.feature-card,.resume,.card,.listitem,.stat,.bookrow,.chapter,.authorhero,.catalog-book,.work-mini-card,.resume-tile{
+ background:linear-gradient(145deg,rgba(20,32,55,.91),rgba(10,17,33,.93));
+ border:1px solid rgba(106,133,188,.28);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 10px 26px rgba(0,0,0,.16);
+}
+.hero{
+ background:radial-gradient(ellipse at 82% 12%,rgba(103,68,150,.23),transparent 48%),
+ linear-gradient(145deg,rgba(20,31,56,.96),rgba(9,15,29,.97));
+ border-radius:22px;
+}
+.sectionhead{margin:24px 0 13px}
+.sectionhead h2{letter-spacing:-.2px}
+.cover,.poster-art,.mini-cover,.catalog-cover,.work-cover,.detailcover,.work-mini-art{
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 8px 20px rgba(0,0,0,.22);
+}
+.cover,.poster-art,.catalog-cover{
+ border-color:rgba(190,153,226,.34);
+}
+.cover:before,.poster-art:before,.catalog-cover:before,.work-cover:before{
+ border-color:rgba(198,177,255,.34);
+}
+.cover:after,.poster-symbol{
+ filter:drop-shadow(0 0 12px rgba(191,151,255,.35));
+}
+.chip,.pilltabs button,.genre-chip,.work-genre-chip{
+ background:rgba(19,29,51,.88);
+ border-color:rgba(109,132,184,.28);
+}
+.chip.selected,.pilltabs button.active{
+ background:linear-gradient(180deg,rgba(122,94,196,.28),rgba(85,57,150,.2));
+ border-color:rgba(177,145,255,.42);
+ color:#f1e8ff;
+ box-shadow:inset 0 -3px 0 #b18aff,0 0 18px rgba(146,102,255,.12);
+}
+.catalog-searchbox{
+ background:rgba(13,21,39,.92);
+ border:1.5px solid rgba(131,151,202,.48);
+ border-radius:17px;
+ box-shadow:inset 0 1px 0 #ffffff0b,0 5px 18px #0002;
+}
+.catalog-filter{
+ border:1px solid rgba(113,139,192,.18);
+ border-radius:15px;
+ background:rgba(13,20,38,.64);
+}
+.catalog-book{
+ border-radius:20px;
+ background:linear-gradient(145deg,rgba(21,32,54,.96),rgba(10,17,32,.97));
+ min-height:176px;
+ padding-bottom:42px;
+}
+.catalog-cover{border-radius:15px 12px 12px 15px}
+.catalog-main{padding:15px 14px 8px}
+.catalog-title{color:#f0f3ff;font-weight:700;letter-spacing:-.15px}
+.catalog-meta{background:rgba(12,20,37,.96);border-color:rgba(106,133,188,.24)}
+.catalog-rating{color:var(--gold)}
+.bookrow{border-radius:17px}
+.notification-backdrop{background:rgba(1,4,13,.68)}
+#notifications.active,.catalog-filter-panel{
+ background:linear-gradient(160deg,rgba(17,25,46,.99),rgba(7,12,25,.99));
+ border-color:rgba(118,139,190,.26);
+ box-shadow:-22px 0 50px rgba(0,0,0,.52),inset 1px 0 0 rgba(255,255,255,.04);
+}
+.notification-empty{
+ border-radius:20px;
+ background:linear-gradient(145deg,rgba(17,28,49,.76),rgba(9,16,31,.72));
+ color:#9da9c6;
+}
+.bottomnav{
+ background:linear-gradient(180deg,rgba(19,31,54,.97),rgba(7,13,27,.99));
+ border:1px solid rgba(122,145,199,.35);
+ border-bottom:0;
+ border-radius:25px 25px 0 0;
+ backdrop-filter:blur(20px) saturate(135%);
+ -webkit-backdrop-filter:blur(20px) saturate(135%);
+ padding:9px 10px calc(9px + env(safe-area-inset-bottom,0px));
+ box-shadow:0 -8px 28px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.09);
+}
+.navinner{gap:7px}
+.navitem{
+ border-radius:19px;padding:8px 2px 7px;gap:5px;
+ color:#91a2c4;
+}
+.navitem .ico svg{width:25px;height:25px}
+.navitem.active{
+ color:#f0e4ff;
+ background:linear-gradient(155deg,rgba(111,89,184,.32),rgba(31,32,68,.35));
+ border-color:rgba(172,147,255,.36);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 22px rgba(129,95,239,.17);
+}
+.navitem.active:before{
+ left:28%;right:28%;height:3px;
+ background:linear-gradient(90deg,#8d71ff,#d2a4ff);
+ box-shadow:0 0 12px rgba(166,121,255,.9);
+}
+.field{background:rgba(12,20,37,.94);border-color:rgba(109,132,184,.34)}
+.primary{
+ background:linear-gradient(120deg,#8b5dce,#5d54bd 55%,#426bd5);
+ border-color:rgba(204,178,255,.55);
+ box-shadow:inset 0 1px 0 #ffffff30,0 7px 20px rgba(102,74,197,.25);
+}
+.link{color:#c3a5ff}
+.badge{background:rgba(92,64,140,.25);border-color:rgba(176,143,239,.4)}
+@media(max-width:380px){
+ .app{padding-left:13px;padding-right:13px}
+ .top{gap:9px}
+ .brand strong{font-size:17px}
+ .tag{font-size:10px}
+ .bottomnav{padding-left:7px;padding-right:7px}
+ .navitem{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .screen,.notification-backdrop,#notifications.active{animation:none;transition:none}
+}
+
 </style>
 
 <style id="plotverse-cinematic-glass-v1">
