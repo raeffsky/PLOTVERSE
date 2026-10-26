@@ -12,8 +12,9 @@ function createHarness(store) {
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
   const elements = {};
   for (const id of ids) {
+    const tag = html.match(new RegExp('<[^>]*\\\\bid="' + id + '"[^>]*>'));
     elements[id] = {
-      id, innerHTML: '', textContent: '', value: '', checked: false, style: {}, options: { length: 0 },
+      id, innerHTML: '', textContent: '', value: '', checked: !!(tag && /\\bchecked\\b/.test(tag[0])), style: {}, options: { length: 0 },
       classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } }
     };
   }
@@ -57,7 +58,7 @@ function createHarness(store) {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
       pvToggleChapterBookmark, pvSaveChapter, pvSaveAllAvailableChapters, pvShareCurrentBook, pvEditProfile, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
-      createBook, go, pvNavigateBack, changeFont, toggleReaderTheme, changeLineSpacing, changeReaderWidth, nextChapter, prevChapter, setShelf, changeShelfByIndex, renderLibrary, renderHistory, pvClearOffline, pvToggleExcludeRead, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
+      createBook, go, pvNavigateBack, renderCatalog, setGenre, changeFont, toggleReaderTheme, changeLineSpacing, changeReaderWidth, nextChapter, prevChapter, setShelf, changeShelfByIndex, renderLibrary, renderHistory, pvClearOffline, pvToggleExcludeRead, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
   return { context, elements, store, app: context.__app, listeners, loreEntries };
@@ -69,6 +70,17 @@ first.app.pvEditProfile();
 assert.equal(first.app.state().profileName, 'Smoke Reader', 'Profile name should save locally');
 assert.equal(first.elements.profileDisplayName.textContent, 'Smoke Reader', 'Profile name should update on screen');
 assert.ok(first.elements.catalogList.innerHTML.length > 0, 'Catalog should render on startup');
+assert.match(first.elements.catalogList.innerHTML, /Путь теней/, 'Default catalog filters should show matching works');
+first.elements.statusReleased.checked = false;
+first.elements.statusOngoing.checked = false;
+first.elements.statusPaused.checked = false;
+first.app.renderCatalog();
+assert.doesNotMatch(first.elements.catalogList.innerHTML, /Путь теней/, 'Disabling all status filters should exclude works');
+first.elements.statusReleased.checked = true;
+first.elements.statusOngoing.checked = true;
+first.elements.statusPaused.checked = true;
+first.app.renderCatalog();
+assert.match(first.elements.catalogList.innerHTML, /Путь теней/, 'Re-enabling status filters should restore matching works');
 first.app.toggleCatalogFilters();
 first.app.closeCatalogFilters();
 first.app.toggleGenreList();
