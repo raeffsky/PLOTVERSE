@@ -57,7 +57,7 @@ function createHarness(store) {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
       pvToggleChapterBookmark, pvSaveChapter, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
-      createBook, go, pvNavigateBack, changeFont, toggleReaderTheme, nextChapter, prevChapter, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
+      createBook, go, pvNavigateBack, changeFont, toggleReaderTheme, changeLineSpacing, changeReaderWidth, nextChapter, prevChapter, setShelf, changeShelfByIndex, renderLibrary, renderHistory, pvClearOffline, pvToggleExcludeRead, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
   return { context, elements, store, app: context.__app, listeners, loreEntries };
@@ -93,6 +93,19 @@ assert.equal(first.loreEntries[0].innerHTML, 'Secret lore', 'Reader should be ab
 first.app.openBook('Путь теней');
 first.app.toggleBookmark();
 first.app.pvToggleFollow();
+first.app.setShelf('В планах', null);
+first.app.changeShelfByIndex(0, 'В планах');
+assert.equal(first.app.state().shelves['Путь теней'], 'В планах', 'Library shelf selection should persist');
+first.app.renderLibrary();
+assert.match(first.elements.libraryList.innerHTML, /Путь теней/, 'Saved work should appear in the selected library shelf');
+first.app.renderHistory();
+assert.match(first.elements.historyList.innerHTML, /Путь теней/, 'Reading history should render opened work');
+first.app.changeLineSpacing(0.1);
+assert.equal(first.app.state().lineHeight, 2, 'Reader line spacing should update and persist');
+first.app.changeReaderWidth(-10);
+assert.equal(first.app.state().readerWidth, 90, 'Reader width should update and persist');
+first.app.pvToggleExcludeRead(false);
+assert.equal(first.app.state().excludeReadWorks, false, 'Recommendation preference should persist');
 
 first.elements.commentInput.value = 'Smoke-test theory';
 first.elements.commentType.value = 'theory';
@@ -192,5 +205,9 @@ second.app.openReaderByIndex(6);
 assert.match(second.elements.readerText.innerHTML, /Колокол Седьмой башни не звучал/, 'Saved chapter should restore after restart');
 second.app.pvDeleteOfflineChapter(encodeURIComponent('Путь теней::6'));
 assert.equal(Object.keys(second.app.state().offlineChapters).length, 0, 'Saved offline chapter should be removable from settings');
+second.app.pvSaveChapter(6);
+assert.equal(Object.keys(second.app.state().offlineChapters).length, 1, 'Offline chapter should be saved before clearing');
+second.app.pvClearOffline();
+assert.equal(Object.keys(second.app.state().offlineChapters).length, 0, 'Clear offline storage should remove all saved chapters');
 
 console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed, analytics, recommendations, book clubs, offline TXT/Markdown import and draft creation.');
