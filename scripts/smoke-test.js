@@ -14,7 +14,7 @@ function createHarness(store) {
   for (const id of ids) {
     const tag = html.match(new RegExp('<[^>]*\\bid="' + id + '"[^>]*>'));
     elements[id] = {
-      id, innerHTML: '', textContent: '', value: '', checked: !!(tag && /\\bchecked\\b/.test(tag[0])), style: {}, options: { length: 0 },
+      id, innerHTML: '', textContent: '', value: '', checked: !!(tag && tag[0].includes('checked')), style: {}, options: { length: 0 },
       classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } }
     };
   }
