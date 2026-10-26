@@ -155,7 +155,7 @@ jobs:
           scripts = re.findall(r"<script>(.*?)</script>", html, re.S)
           if not scripts:
               raise SystemExit("No inline JavaScript found in index.html")
-          Path("${{ runner.temp }}/plotverse-inline.js").write_text("\\n".join(scripts), encoding="utf-8")
+          Path("${{ runner.temp }}/plotverse-inline.js").write_text("\n".join(scripts), encoding="utf-8")
           print(f"Extracted {len(scripts)} inline script block(s) for syntax validation")
           PY
           node --check "$RUNNER_TEMP/plotverse-inline.js"
