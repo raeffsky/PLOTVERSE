@@ -145,6 +145,16 @@ public class MainActivity extends Activity {
                 catch (Exception e) { pendingBackupJson = null; updateStatus("Не удалось открыть сохранение резервной копии."); }
             });
         }
+        @JavascriptInterface public void shareText(String text) {
+            if (text == null || text.trim().isEmpty()) return;
+            runOnUiThread(() -> {
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.setType("text/plain");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+                try { startActivity(Intent.createChooser(sendIntent, "Поделиться произведением")); }
+                catch (Exception e) { updateStatus("Не удалось открыть меню отправки."); }
+            });
+        }
         @JavascriptInterface public String getVersionName() {
             try { return getPackageManager().getPackageInfo(getPackageName(), 0).versionName; }
             catch (Exception e) { return "unknown"; }

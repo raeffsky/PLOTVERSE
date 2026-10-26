@@ -56,7 +56,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
+      pvToggleChapterBookmark, pvSaveChapter, pvSaveAllAvailableChapters, pvShareCurrentBook, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, chapterIndex: () => chapterIndex,
       createBook, go, pvNavigateBack, changeFont, toggleReaderTheme, changeLineSpacing, changeReaderWidth, nextChapter, prevChapter, setShelf, changeShelfByIndex, renderLibrary, renderHistory, pvClearOffline, pvToggleExcludeRead, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -138,6 +138,13 @@ first.app.pvSaveChapter(6);
 assert.ok(first.app.state().offlineChapters['Путь теней::6'], 'Available chapter should be saveable directly from the chapter list');
 first.app.pvSaveChapter(6);
 assert.equal(first.app.state().offlineChapters['Путь теней::6'], undefined, 'Tapping saved chapter control again should remove offline copy');
+first.app.pvSaveAllAvailableChapters();
+assert.ok(first.app.state().offlineChapters['Путь теней::6'], 'Save all should save available full-text chapters');
+first.app.pvClearOffline();
+assert.equal(Object.keys(first.app.state().offlineChapters).length, 0, 'Clear offline storage should clear chapters saved by save all');
+first.context.window.PlotverseAndroid = { shareText: text => { first.store.__sharedText = text; } };
+first.app.pvShareCurrentBook();
+assert.match(first.store.__sharedText, /Путь теней/, 'Share action should pass current work details to Android share sheet');
 first.app.prevChapter();
 assert.equal(first.app.chapterIndex(), 6, 'Previous chapter control should return to the prior chapter');
 first.app.pvSaveChapter(6);
