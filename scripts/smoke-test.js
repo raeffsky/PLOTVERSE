@@ -249,4 +249,5 @@ assert.equal(failedImport.app.pvAddImportedBook('Rejected Import.txt', '# Chapte
 assert.equal(failedImport.app.state().importedBooks.length, 0, 'Failed import must roll back imported book state');
 assert.equal(failedImport.app.state().bookmarks.includes('Rejected Import'), false, 'Failed import must not leave a stale bookmark');
 
+assert.equal(first.app.pvOpenStatusPicker instanceof Function, true, 'Work status picker should be available');
 console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed, analytics, recommendations, book clubs, offline TXT/Markdown import and draft creation.');
