@@ -271,6 +271,13 @@ button::-moz-focus-inner{border:0}
 
 <section class="screen" id="library">
 <h1 class="page-title">Моя библиотека</h1>
+<div class="chips" id="shelfChips">
+<button class="chip selected" onclick="setShelf('Все',this)">Все</button>
+<button class="chip" onclick="setShelf('Читаю',this)">Читаю</button>
+<button class="chip" onclick="setShelf('В планах',this)">В планах</button>
+<button class="chip" onclick="setShelf('Завершено',this)">Завершено</button>
+<button class="chip" onclick="setShelf('Брошено',this)">Брошено</button>
+</div>
 <div id="libraryList"></div><div id="libraryEmpty" class="notice hidden">Библиотека пока пуста. Добавляй произведения из каталога.</div>
 <div class="sectionhead"><h2>Офлайн-доступ</h2></div><div id="offlineStats" class="small" style="margin:8px 0">Нет сохранённых глав</div><div id="offlineChapterList"></div><button class="outline" style="width:100%;margin-bottom:10px" onclick="pvClearOffline()">Очистить офлайн-хранилище</button>
 </section>
@@ -369,7 +376,7 @@ function resumeReading(){const last=pvState.history[0];const name=(last&&last.bo
 
 let pvActiveShelf='Все';
 function openBookByIndex(i){openBook(books[i]&&books[i].name||books[0].name);}
-function setShelf(shelf,el){pvActiveShelf='Все';renderLibrary();}
+function setShelf(shelf,el){pvActiveShelf=shelf;document.querySelectorAll('#shelfChips .chip').forEach(c=>c.classList.remove('selected'));if(el)el.classList.add('selected');renderLibrary();}
 function renderLibrary(){const root=document.getElementById('libraryList');if(!root)return;const list=books.map((b,i)=>({b:b,i:i})).filter(x=>pvBookmarked(x.b.name));const labels={'Читаю':'ЧИТАЮ','В планах':'В ПЛАНАХ','Завершено':'ЗАВЕРШЕНО','Брошено':'БРОШЕНО'};root.innerHTML=list.map(x=>{const shelf=(pvState.shelves&&pvState.shelves[x.b.name])||'Читаю';const escaped=pvEscape(x.b.name);return '<div class="bookrow library-book-card"><div class="cover '+pvEscape(x.b.cls||'')+'" onclick="openBookByIndex('+x.i+')"><div class="coverlabel">'+pvEscape(x.b.name)+'</div></div><div class="library-book-info"><h3>'+pvEscape(x.b.name)+'</h3><div class="small">'+pvEscape(x.b.author)+' · '+pvEscape(x.b.genre)+'</div><label class="library-status-label" for="shelf-'+x.i+'">Статус чтения</label><div class="library-status-select status-'+({'Читаю':'reading','В планах':'planned','Завершено':'completed','Брошено':'dropped'}[shelf]||'reading')+'"><select id="shelf-'+x.i+'" aria-label="Статус: '+escaped+'" onchange="changeShelfByIndex('+x.i+',this.value)">'+['Читаю','В планах','Завершено','Брошено'].map(function(v){return '<option value="'+v+'"'+(shelf===v?' selected':'')+'>'+labels[v]+'</option>';}).join('')+'</select><span aria-hidden="true">⌄</span></div><button onclick="openBookByIndex('+x.i+')">Открыть</button></div></div>';}).join('');document.getElementById('libraryEmpty').classList.toggle('hidden',list.length>0);}
 
 /* Apply shelf badges to covers; in Continue Reading, place the badge in the card's upper-right empty area. */
