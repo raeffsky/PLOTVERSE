@@ -442,6 +442,49 @@ button.iconbtn,.iconbtn{
  .screen,.notification-backdrop,#notifications.active{animation:none;transition:none}
 }
 
+
+/* Catalog: compact editorial rows, matching the approved mockup instead of oversized cover blocks. */
+.catalog-results{gap:10px}
+.catalog-book{
+ min-height:104px!important;height:auto!important;padding:0!important;
+ border-radius:15px!important;align-items:stretch;
+}
+.catalog-cover{
+ flex:0 0 76px!important;width:76px!important;min-height:96px!important;
+ align-self:stretch!important;border-radius:12px!important;margin:6px;
+}
+.catalog-cover span{font-size:31px!important}
+.catalog-cover:before{inset:12% 13%!important}
+.catalog-main{
+ display:flex;flex-direction:column;justify-content:center;
+ padding:10px 12px 10px 4px!important;gap:5px;
+}
+.catalog-title{
+ font-size:14px!important;line-height:1.28!important;
+ font-weight:750!important;margin:0!important;
+}
+.catalog-chapters{font-size:12px!important;color:#aebbd8!important}
+.catalog-chapters span{font-size:13px!important;color:#e9c879}
+.catalog-meta{
+ position:static!important;left:auto!important;right:auto!important;bottom:auto!important;
+ height:auto!important;display:flex!important;justify-content:flex-start!important;
+ gap:12px!important;padding:0!important;margin-top:2px;
+ background:transparent!important;border:0!important;
+}
+.catalog-rating{font-size:12px!important;color:#efca79!important}
+.catalog-readers{font-size:11px!important;color:#a9b8d8!important}
+.catalog-origin{
+ width:27px!important;height:27px!important;right:0!important;top:0!important;
+ border-radius:0 0 0 11px!important;font-size:12px!important;padding:0 0 3px 3px!important;
+}
+.catalog-rank{font-size:10px!important;padding:3px 6px!important;border-radius:0 0 8px 0!important}
+.catalog-book:active{transform:scale(.995)!important}
+@media(max-width:380px){
+ .catalog-cover{flex-basis:68px!important;width:68px!important;min-height:92px!important}
+ .catalog-main{padding-right:9px!important}
+ .catalog-title{font-size:13px!important}
+}
+
 </style>
 
 <style id="plotverse-cinematic-glass-v1">
