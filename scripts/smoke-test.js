@@ -60,7 +60,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvSaveAllAvailableChapters, pvShareCurrentBook, pvEditProfile, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, pvOpenStatusPicker, pvUpdateWorkStatusButton, chapterIndex: () => chapterIndex,
+      pvToggleChapterBookmark, pvSaveChapter, pvSaveAllAvailableChapters, pvShareCurrentBook, pvEditProfile, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, pvOpenStatusPicker, pvUpdateWorkStatusButton, pvChooseWorkStatus, pvCloseStatusPicker, chapterIndex: () => chapterIndex,
       createBook, go, pvNavigateBack, renderCatalog, setGenre, changeFont, toggleReaderTheme, changeLineSpacing, changeReaderWidth, nextChapter, prevChapter, setShelf, changeShelfByIndex, renderLibrary, renderHistory, pvClearOffline, pvToggleExcludeRead, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -251,4 +251,5 @@ assert.equal(failedImport.app.state().bookmarks.includes('Rejected Import'), fal
 
 assert.equal(typeof first.app.pvOpenStatusPicker, 'function', 'Work status picker should be available');
 assert.equal(typeof first.app.pvUpdateWorkStatusButton, 'function', 'Floating status control should be supported');
+assert.equal(typeof first.app.pvChooseWorkStatus, 'function', 'Status options should be selectable without text input');
 console.log('PLOTVERSE smoke tests passed: startup, catalog, navigation, local persistence, offline chapter, comments, subscriptions, feed, analytics, recommendations, book clubs, offline TXT/Markdown import and draft creation.');
