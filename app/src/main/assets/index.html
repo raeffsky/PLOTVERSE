@@ -15,20 +15,20 @@ button,a,[role="button"],.navitem,.chapter,.chip,.bookrow,.cover,.work-card,.cat
 button:focus,button:focus-visible,a:focus,a:focus-visible,[role="button"]:focus{outline:none;box-shadow:none}
 button::-moz-focus-inner{border:0}
 
-/* Reading-status treatment on work cards and cover art */
+/* Reading status is shown by a compact badge, not a loud outline around the whole card. */
 .pv-status-reading{--pv-status:#b77cff}
 .pv-status-completed{--pv-status:#f4c542}
 .pv-status-dropped{--pv-status:#ff5964}
 .pv-status-planned{--pv-status:#55a5ff}
-.poster-card.pv-status-card,.catalog-book.pv-status-card,.work-mini-card.pv-status-card,.resume.pv-status-card,.bookrow.pv-status-card{outline:2px solid var(--pv-status)!important;outline-offset:-2px;box-shadow:0 0 12px color-mix(in srgb,var(--pv-status) 34%,transparent)}
 .pv-status-art{position:relative!important;overflow:hidden}
-.pv-status-art:after{content:attr(data-pv-status);position:absolute;z-index:4;left:8px;right:8px;bottom:8px;width:max-content;max-width:calc(100% - 16px);padding:5px 9px;text-align:center;font-size:10px;font-weight:800;letter-spacing:.45px;color:#f4f1ff;background:#29283a;border:1px solid #ffffff22;border-radius:9px;box-shadow:0 3px 12px #0005;text-shadow:none}
+.pv-status-art:after{content:attr(data-pv-status);position:absolute;z-index:4;left:8px;bottom:8px;width:max-content;max-width:calc(100% - 16px);padding:5px 9px;text-align:center;font-size:10px;font-weight:800;letter-spacing:.45px;color:#f4f1ff;background:#29283a;border:1px solid #ffffff22;border-radius:9px;box-shadow:0 3px 12px #0005;text-shadow:none;white-space:nowrap}
 .pv-status-reading .pv-status-art:after{color:#e3c5ff;border-color:#a96be9;background:#282039}
 .pv-status-completed .pv-status-art:after{color:#ffe8a0;border-color:#d9b444;background:#302b20}
 .pv-status-dropped .pv-status-art:after{color:#ffc1c5;border-color:#df6570;background:#321f2a}
 .pv-status-planned .pv-status-art:after{color:#c6e1ff;border-color:#609de0;background:#1d2a40}
-.pv-status-card{outline:1.5px solid var(--pv-status)!important;outline-offset:-1px;box-shadow:0 0 0 1px #0b1020,0 0 10px color-mix(in srgb,var(--pv-status) 17%,transparent)!important}
-.poster-card.pv-status-card .poster-art,.catalog-book.pv-status-card .catalog-cover,.work-mini-card.pv-status-card .work-mini-art,.resume-tile.pv-status-card .mini-cover{border-color:var(--pv-status)!important}
+/* Keep the card frame neutral; status color belongs only to the badge. */
+.poster-card.pv-status-card,.catalog-book.pv-status-card,.work-mini-card.pv-status-card,.resume.pv-status-card,.bookrow.pv-status-card,.pv-status-card{outline:none!important;outline-offset:0;box-shadow:none!important}
+.poster-card.pv-status-card .poster-art,.catalog-book.pv-status-card .catalog-cover,.work-mini-card.pv-status-card .work-mini-art,.resume-tile.pv-status-card .mini-cover{border-color:#303a55!important}
 
 /* Compact detail actions: keep the reader's primary action, remove decorative gaps and fold dividers. */
 .work-read-button{margin-bottom:22px!important;height:72px!important;border-radius:16px!important;background:linear-gradient(135deg,#20263a,#242737)!important;border:1px solid #343b54!important;box-shadow:0 6px 18px #0002}
