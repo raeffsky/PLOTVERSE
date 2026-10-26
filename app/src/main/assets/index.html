@@ -55,6 +55,43 @@ button::-moz-focus-inner{border:0}
 .work-read-button{background:linear-gradient(135deg,#151d31,#242737)!important;border:1px solid #343b54!important;color:#eef1fb!important}
 .work-read-button span{background:linear-gradient(145deg,#303a56,#252d45)!important;color:#e3c4ff!important;border-right:1px solid #414965!important}
 .work-read-button:active{background:#20283b!important}
+
+/* Final status-card override: status must never draw a frame around the whole work. */
+.poster-card.pv-status-card,
+.catalog-book.pv-status-card,
+.work-mini-card.pv-status-card,
+.resume.pv-status-card,
+.resume-tile.pv-status-card,
+.bookrow.pv-status-card,
+.pv-status-card,
+.poster-card.pv-status-card:focus,
+.catalog-book.pv-status-card:focus,
+.bookrow.pv-status-card:focus {
+  outline: 0 !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+  border-color: #293653 !important;
+}
+.poster-card.pv-status-card .poster-art,
+.catalog-book.pv-status-card .catalog-cover,
+.work-mini-card.pv-status-card .work-mini-art,
+.resume-tile.pv-status-card .mini-cover,
+.bookrow.pv-status-card .cover {
+  border-color: #303a55 !important;
+}
+.pv-status-art:after {
+  left: 8px !important;
+  right: auto !important;
+  bottom: 8px !important;
+  width: max-content !important;
+  max-width: calc(100% - 16px) !important;
+  z-index: 8 !important;
+  pointer-events: none !important;
+}
+.cover.pv-status-art .coverlabel {
+  visibility: hidden !important;
+}
+
 </style>
 </head>
 <body>
