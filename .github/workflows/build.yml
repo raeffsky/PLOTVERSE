@@ -40,6 +40,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Run application logic smoke tests
+        run: node scripts/smoke-test.js
+
       - name: Install Playwright
         run: |
           npm install --no-save playwright
