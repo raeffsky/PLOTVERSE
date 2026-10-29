@@ -619,6 +619,60 @@ button svg{filter:drop-shadow(0 1px 3px #0005)}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 
+
+<style id="plotverse-updatiq-fixed-shell">
+/* Match UPDATIQ's fixed header and dedicated scroll container on Android WebView. */
+html,body{height:100%;min-height:0;overflow:hidden}
+body{height:100dvh;overflow:hidden;padding:0;overscroll-behavior:none}
+.app{
+  height:100dvh;max-height:100dvh;min-height:0;
+  overflow-y:auto;overflow-x:hidden;
+  padding:calc(108px + env(safe-area-inset-top,0px)) 16px calc(116px + env(safe-area-inset-bottom,0px));
+  overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;touch-action:pan-y;
+}
+.app::-webkit-scrollbar{display:none}
+.top{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  width:100%;max-width:none;height:calc(80px + env(safe-area-inset-top,0px));
+  margin:0;
+  padding:calc(12px + env(safe-area-inset-top,0px)) max(16px,calc((100vw - 728px)/2 + 16px)) 10px;
+  box-sizing:border-box;
+  background:rgba(7,12,26,.98);
+  border-bottom:1px solid rgba(112,139,192,.25);
+  box-shadow:0 8px 20px rgba(0,0,0,.22);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+.logo{width:40px;height:40px;border-radius:0;background:transparent;box-shadow:none}
+.brand strong{font-size:21px;letter-spacing:.8px}
+.tag{font-size:9px;letter-spacing:1.5px;color:#5dd8ff;margin-top:2px}
+.notification-top-btn{width:40px;height:40px;border-radius:13px}
+.bottomnav{
+  position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+  z-index:1200!important;
+  transform:none!important;animation:none!important;
+  transition:none!important;will-change:auto!important;
+  backface-visibility:hidden;
+  background:rgba(7,12,26,.98);
+  border-top:1px solid rgba(72,101,148,.28);
+  box-shadow:0 -6px 20px rgba(0,0,0,.25);
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+}
+.navinner{width:100%;max-width:760px;margin:0 auto;gap:7px}
+.navitem{transform:none!important;animation:none!important;transition:color .15s ease,background .15s ease,border-color .15s ease!important}
+.navitem:active{transform:none!important}
+.screen{animation:none!important;transform:none!important}
+@media(max-width:380px){
+ .app{padding-left:13px;padding-right:13px}
+ .top{padding-left:13px;padding-right:13px}
+ .brand strong{font-size:19px}
+ .bottomnav{padding-left:7px;padding-right:7px}
+}
+@media(prefers-reduced-motion:reduce){
+ .bottomnav,.navitem,.screen{animation:none!important;transition:none!important;transform:none!important}
+}
+</style>
+
 </head>
 <body>
 <div class="app">
