@@ -3,9 +3,9 @@ name: Build PLOTVERSE APK
 on:
   workflow_dispatch:
   push:
-  branches:
-    - main
-    - 'design/**'
+    branches:
+      - main
+      - 'design/**'
     paths:
       - 'app/**'
       - 'build.gradle'
