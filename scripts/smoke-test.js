@@ -56,7 +56,13 @@ function createHarness(store) {
     confirm: () => true, prompt: () => 'Smoke Reader',
     setTimeout: () => 1, clearTimeout() {}, console
   };
-  vm.runInNewContext(source + `
+  // Keep the production catalog empty; inject a fixture only into the isolated test harness
+  // so the reader, bookmarks, comments, and progress flows can still be exercised.
+  const testSource = source.replace(
+    'const books=[];',
+    `const books=[{name:'Путь теней',author:'Smoke Test',genre:'Фэнтези',genres:['Фэнтези','Магия'],rating:'9.4',chapters:27,desc:'Тестовое произведение только для smoke-тестов.',cls:'',format:'ranobe',type:'ranobe',status:'ongoing',web:true,origin:'🇯🇵',inMyList:true}];`
+  );
+  vm.runInNewContext(testSource + `
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
