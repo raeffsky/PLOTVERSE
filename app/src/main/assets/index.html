@@ -848,6 +848,15 @@ button:active{transform:none}
  .work-overview{grid-template-columns:38% 1fr}
  .work-cover{height:250px}
 }
+.pv-feature-controls{position:absolute;right:10px;bottom:9px;display:flex;align-items:center;gap:4px;z-index:3}
+.pv-feature-controls button{width:27px;height:27px;padding:0;display:grid;place-items:center;border-radius:9px;border:1px solid #ffffff24;background:#101522c9;color:#e6d8ff}
+.pv-feature-controls button iconify-icon{width:16px;height:16px}
+.pv-feature-index{position:static;font-size:10px}
+.pv-feature-art.pv-feature-hamura{background:radial-gradient(ellipse at 65% 32%,#a45c75 0,#583147 24%,#211628 54%,transparent 75%),linear-gradient(135deg,#241522,#0b1020)}
+.pv-feature-art.pv-feature-hamura:before{background:linear-gradient(145deg,#f0b9ca 0%,#8a455d 28%,#301a2b 58%,#080e1c 100%)}
+.pv-feature-art.pv-feature-worlds{background:radial-gradient(ellipse at 65% 32%,#7f8ed0 0,#3e456e 24%,#1c1c36 54%,transparent 75%),linear-gradient(135deg,#17172c,#0b1020)}
+.pv-feature-art.pv-feature-worlds:before{background:linear-gradient(145deg,#b4c6ff 0%,#59649a 28%,#262542 58%,#080e1c 100%)}
+@media(max-width:380px){.pv-feature-controls{right:7px;bottom:7px}.pv-feature-copy{right:9px}.pv-feature-copy p{max-width:92%}}
 </style>
 
 </head>
@@ -861,10 +870,10 @@ button:active{transform:none}
 <div class="notification-backdrop" id="notificationBackdrop" onclick="closeNotifications()" aria-hidden="true"></div>
 <section class="screen" id="notifications"><div class="notifications-header"><h1 class="page-title">Уведомления</h1><div class="notifications-actions"><button class="link" onclick="pvMarkAllFeedRead()">Отметить всё прочитанным</button><button class="notification-close" onclick="closeNotifications()" aria-label="Закрыть уведомления">×</button></div></div><div class="notice notification-empty"><svg viewBox="0 0 160 130" aria-hidden="true"><path d="M25 25h80a18 18 0 0 1 18 18v40a18 18 0 0 1-18 18H77l-18 16-8-16H25A18 18 0 0 1 7 83V43a18 18 0 0 1 18-18Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><path d="M101 20c-7-13-25-7-25 5 0 11 14 19 25 27 11-8 25-16 25-27 0-12-18-18-25-5Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><circle cx="40" cy="61" r="4" fill="currentColor"/><circle cx="62" cy="61" r="4" fill="currentColor"/><circle cx="84" cy="61" r="4" fill="currentColor"/></svg><p>Здесь будут уведомления об обновлениях произведений, на которые ты подписан, и новых ответах на комментарии.</p></div><div id="notificationList"></div></section>
 <section class="screen active" id="home">
- <article class="pv-feature-hero" onclick="openBook('Путь теней')">
-  <div class="pv-feature-art" aria-hidden="true"><div class="pv-feature-orbit"></div><iconify-icon icon="solar:stars-minimalistic-line-duotone"></iconify-icon></div>
-  <div class="pv-feature-copy"><span class="pv-feature-kicker">РЕКОМЕНДУЕМ</span><h1>Путь Теней</h1><div class="pv-feature-tags"><span>Фэнтези</span><span>Академия</span><span>Приключения</span></div><p>Там, где заканчивается свет, начинается его история.</p><span class="pv-feature-cta">Открыть произведение <iconify-icon icon="solar:arrow-right-line-duotone"></iconify-icon></span></div>
-  <span class="pv-feature-index">01 <i>/ 04</i></span>
+ <article class="pv-feature-hero" id="pvFeatureHero" onclick="openBook(document.getElementById('pvFeatureTitle').dataset.bookName)">
+  <div class="pv-feature-art" aria-hidden="true"><div class="pv-feature-orbit"></div><iconify-icon id="pvFeatureIcon" icon="solar:stars-minimalistic-line-duotone"></iconify-icon></div>
+  <div class="pv-feature-copy"><span class="pv-feature-kicker" id="pvFeatureKicker">ПОПУЛЯРНОЕ СЕЙЧАС</span><h1 id="pvFeatureTitle" data-book-name="">Загружаем подборку</h1><div class="pv-feature-tags" id="pvFeatureTags"><span>Ранобэ</span></div><p id="pvFeatureDesc">Подбираем произведения с высоким рейтингом.</p><span class="pv-feature-cta">Открыть произведение <iconify-icon icon="solar:arrow-right-line-duotone"></iconify-icon></span></div>
+  <div class="pv-feature-controls"><button type="button" aria-label="Предыдущее популярное произведение" onclick="event.stopPropagation();pvFeatureStep(-1)"><iconify-icon icon="solar:alt-arrow-left-line-duotone"></iconify-icon></button><span class="pv-feature-index" id="pvFeatureIndex">01 <i>/ 03</i></span><button type="button" aria-label="Следующее популярное произведение" onclick="event.stopPropagation();pvFeatureStep(1)"><iconify-icon icon="solar:alt-arrow-right-line-duotone"></iconify-icon></button></div>
  </article>
  <div class="sectionhead"><h2>Популярное</h2><button class="link" onclick="go('catalog')">Весь каталог →</button></div>
  <div class="horizontal-shelf popular-shelf">
@@ -1046,6 +1055,26 @@ const books=[
  {name:'ХАМУРА: ИГРА КОРОЛЕЙ',author:'Автор',genre:'Фэнтези',genres:['Фэнтези','Экшен','Приключения','Боевые искусства','История','Магия'],rating:'9.1',chapters:42,desc:'Королевства вступают в игру, где каждая победа имеет свою цену.',cls:'hamura',format:'ranobe',type:'ranobe',status:'ongoing',web:true,origin:'🇯🇵',inMyList:false},
  {name:'За гранью миров',author:'Автор',genre:'Приключения',genres:['Приключения','Фантастика','Космос','Мистика','Экшен'],rating:'8.9',chapters:16,desc:'Портал в неизвестность меняет судьбу обычного путешественника.',cls:'worlds',format:'ranobe',type:'ranobe',status:'released',web:false,origin:'🇰🇷',inMyList:false}
 ];
+let pvFeaturedBooks=[],pvFeaturedIndex=0;
+function pvRenderFeaturedBook(){
+ const candidates=books.slice().sort((a,b)=>(Number(b.rating)||0)-(Number(a.rating)||0)||(Number(b.chapters)||0)-(Number(a.chapters)||0));
+ pvFeaturedBooks=candidates.slice(0,Math.min(5,candidates.length));
+ if(!pvFeaturedBooks.length)return;
+ pvFeaturedIndex=((pvFeaturedIndex%pvFeaturedBooks.length)+pvFeaturedBooks.length)%pvFeaturedBooks.length;
+ const b=pvFeaturedBooks[pvFeaturedIndex],title=document.getElementById('pvFeatureTitle'),desc=document.getElementById('pvFeatureDesc'),tags=document.getElementById('pvFeatureTags'),index=document.getElementById('pvFeatureIndex'),art=document.querySelector('.pv-feature-art'),hero=document.getElementById('pvFeatureHero'),kicker=document.getElementById('pvFeatureKicker');
+ if(!title||!desc||!tags||!index||!art||!hero)return;
+ title.textContent=b.name;title.dataset.bookName=b.name;desc.textContent=b.desc||'Открой новую историю и добавь её в свою библиотеку.';
+ kicker.textContent='ПОПУЛЯРНОЕ СЕЙЧАС · ★ '+(b.rating||'—');
+ tags.innerHTML=(Array.isArray(b.genres)?b.genres:b.genre?[b.genre]:['Ранобэ']).slice(0,3).map(g=>'<span>'+pvEscape(g)+'</span>').join('');
+ index.innerHTML=String(pvFeaturedIndex+1).padStart(2,'0')+' <i>/ '+String(pvFeaturedBooks.length).padStart(2,'0')+'</i>';
+ hero.setAttribute('aria-label','Популярное произведение: '+b.name);
+ art.classList.remove('pv-feature-hamura','pv-feature-worlds');
+ if(/хамура/i.test(b.name))art.classList.add('pv-feature-hamura');
+ else if(/за гранью/i.test(b.name))art.classList.add('pv-feature-worlds');
+ const icon=document.getElementById('pvFeatureIcon');
+ if(icon)icon.setAttribute('icon',/хамура/i.test(b.name)?'solar:crown-line-duotone':/за гранью/i.test(b.name)?'solar:planet-3-line-duotone':'solar:stars-minimalistic-line-duotone');
+}
+function pvFeatureStep(step){if(!pvFeaturedBooks.length)pvRenderFeaturedBook();if(!pvFeaturedBooks.length)return;pvFeaturedIndex=(pvFeaturedIndex+step+pvFeaturedBooks.length)%pvFeaturedBooks.length;pvRenderFeaturedBook();}
 let currentBook=books[0], activeGenre='Все', isBookmarked=false, fontSize=18, chapterIndex=6, readerLight=false, lastProgress=64;
 const chapterNames=['Пролог. Ночь безмолвия','Глава 1. Чужак','Глава 2. Знак','Глава 3. Тайный след','Глава 4. Запретная дверь','Глава 6. Тихий коридор','Глава 7. Колокол безмолвия','Глава 8. За седьмой дверью'];
 function openNotifications(){const panel=document.getElementById('notifications');if(panel&&panel.classList.contains('active')){closeNotifications();return;}go('notifications');const backdrop=document.getElementById('notificationBackdrop');if(backdrop)backdrop.classList.add('visible');document.body.classList.add('notifications-open');}
@@ -1094,7 +1123,7 @@ function toggleReaderTheme(){readerLight=!readerLight;pvState.readerLight=reader
 function saveProgress(){lastProgress=Math.round(((chapterIndex+1)/Math.max(1,chapterNames.length))*100);pvState.progress[currentBook.name]={chapterIndex:chapterIndex,percent:lastProgress};pvSave();applyPVReaderSettings();toast('Место чтения сохранено на устройстве.');}
 function toggleBookmark(){const name=currentBook.name;const i=pvState.bookmarks.indexOf(name);if(i>=0)pvState.bookmarks.splice(i,1);else pvState.bookmarks.push(name);pvSave();document.getElementById('bookmarkBtn').textContent=pvBookmarked(name)?'✓ В библиотеке':'♧ В библиотеку';toast(pvBookmarked(name)?'Добавлено в библиотеку':'Удалено из библиотеки');}
 function pvCreateBook(){const title=document.getElementById('newTitle').value.trim();if(!title){toast('Введи название произведения.');return;}pvState.drafts.push({title:title,genre:document.getElementById('newGenre').value.trim(),desc:document.getElementById('newDesc').value.trim(),createdAt:Date.now()});pvSave();document.getElementById('newTitle').value='';document.getElementById('newGenre').value='';document.getElementById('newDesc').value='';toast('Черновик сохранён на устройстве.');}
-function pvInit(){pvLoad();const profileNameEl=document.getElementById('profileDisplayName');if(profileNameEl)profileNameEl.textContent=pvState.profileName||'Читатель';pvSyncImportedBooks();fontSize=Math.max(14,Math.min(26,Number(pvState.fontSize)||18));readerLight=!!pvState.readerLight;currentBook=books.find(b=>b.name===pvState.currentBook)||books[0];const p=pvState.progress[currentBook.name]||{};const initialChapterNames=pvGetChapterNames(currentBook);chapterIndex=Math.max(0,Math.min(initialChapterNames.length-1,p.chapterIndex==null?(currentBook.local?0:6):Number(p.chapterIndex)));lastProgress=p.percent==null?0:Number(p.percent);document.getElementById('bookmarkBtn').textContent=pvBookmarked(currentBook.name)?'✓ В библиотеке':'♧ В библиотеку';applyPVReaderSettings();}
+function pvInit(){pvLoad();pvRenderFeaturedBook();const profileNameEl=document.getElementById('profileDisplayName');if(profileNameEl)profileNameEl.textContent=pvState.profileName||'Читатель';pvSyncImportedBooks();fontSize=Math.max(14,Math.min(26,Number(pvState.fontSize)||18));readerLight=!!pvState.readerLight;currentBook=books.find(b=>b.name===pvState.currentBook)||books[0];const p=pvState.progress[currentBook.name]||{};const initialChapterNames=pvGetChapterNames(currentBook);chapterIndex=Math.max(0,Math.min(initialChapterNames.length-1,p.chapterIndex==null?(currentBook.local?0:6):Number(p.chapterIndex)));lastProgress=p.percent==null?0:Number(p.percent);document.getElementById('bookmarkBtn').textContent=pvBookmarked(currentBook.name)?'✓ В библиотеке':'♧ В библиотеку';applyPVReaderSettings();}
 pvInit();
 function openBook(name){try{const picked=books.find(b=>b.name===name)||books.find(b=>String(b.name).toLowerCase()===String(name).toLowerCase())||books[0];if(!picked){toast('Произведения пока недоступны');return;}currentBook=picked;if(typeof pvState==='object'){pvState.currentBook=currentBook.name;pvSave();}const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val==null?'':val;};set('detailName',currentBook.name);set('detailGenre',currentBook.genre);set('detailAuthor',currentBook.author);set('detailRating',currentBook.rating);set('statRating',currentBook.rating);set('detailChapters',currentBook.chapters);set('detailDesc',currentBook.desc);set('bookmarkBtn',pvBookmarked(currentBook.name)?'✓ В библиотеке':'♧ В библиотеку');try{renderChapters();}catch(e){console.error('renderChapters failed',e);}go('detail');}catch(e){console.error('openBook failed',e);const detail=document.getElementById('detail');if(detail){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));detail.classList.add('active');window.scrollTo(0,0);}else toast('Не удалось открыть карточку произведения');}}
 function resumeReading(){const last=pvState.history[0];const name=(last&&last.book)||pvState.currentBook||'Путь теней';currentBook=books.find(b=>b.name===name)||books[0];const p=pvState.progress[currentBook.name]||{};const names=pvGetChapterNames(currentBook);const index=Math.max(0,Math.min(names.length-1,p.chapterIndex==null?(currentBook.local?0:6):Number(p.chapterIndex)));openReader(names[index],index);}
