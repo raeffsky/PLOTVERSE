@@ -7,8 +7,8 @@ const idsInMarkup = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1])
 const duplicateIds = idsInMarkup.filter((id, index) => idsInMarkup.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicateIds)], [], 'HTML must not contain duplicate element IDs');
 const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
-assert.equal(scripts.length, 1, 'Expected one inline application script');
-const source = scripts[0];
+assert.equal(scripts.length, 2, 'Expected the icon enhancement script and the application script');
+const source = scripts.join('\n');
 new vm.Script(source, { filename: 'plotverse-inline.js' });
 
 function createHarness(store) {
