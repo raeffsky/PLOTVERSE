@@ -6,7 +6,7 @@ const html = fs.readFileSync('app/src/main/assets/index.html', 'utf8');
 const idsInMarkup = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 const duplicateIds = idsInMarkup.filter((id, index) => idsInMarkup.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicateIds)], [], 'HTML must not contain duplicate element IDs');
-const scripts = [...html.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/g)].map(match => match[1]);
+const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(match => match[1]);
 const source = scripts.find(script => script.includes('function pvInit()') && script.includes('const books='));
 assert.ok(source, 'Expected the inline PLOTVERSE application script');
 new vm.Script(source, { filename: 'plotverse-inline.js' });
