@@ -673,6 +673,77 @@ body{height:100dvh;overflow:hidden;padding:0;overscroll-behavior:none}
 }
 </style>
 
+
+<!-- Iconify: unified icon set for PLOTVERSE -->
+<script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+<style id="plotverse-iconify-system">
+iconify-icon{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.18em;flex:0 0 auto}
+.ico iconify-icon{width:22px;height:22px;vertical-align:middle}
+.logo iconify-icon{width:28px;height:28px}
+.poster-symbol iconify-icon{width:32px;height:32px}
+.mini-cover iconify-icon{width:22px;height:22px}
+.catalog-search-icon iconify-icon{width:20px;height:20px}
+.navitem .ico{display:flex;align-items:center;justify-content:center}
+</style>
+<script>
+(function(){
+ const iconMap={
+  '✧':'solar:stars-minimalistic-line-duotone','✦':'solar:star-fall-minimalistic-2-line-duotone',
+  '♛':'solar:crown-line-duotone','♧':'solar:bookmark-line-duotone','♟':'solar:users-group-rounded-line-duotone',
+  '♙':'solar:user-circle-line-duotone','✎':'solar:pen-new-square-line-duotone','★':'solar:star-bold',
+  '☆':'solar:star-line-duotone','❯':'solar:alt-arrow-right-line-duotone','⚑':'solar:filter-line-duotone',
+  '🌐':'solar:global-line-duotone','☷':'solar:library-line-duotone','⚙':'solar:settings-line-duotone',
+  '⌄':'solar:alt-arrow-down-line-duotone','⌃':'solar:alt-arrow-up-line-duotone',
+  '›':'solar:alt-arrow-right-line-duotone','‹':'solar:alt-arrow-left-line-duotone',
+  '→':'solar:arrow-right-line-duotone','＋':'solar:add-circle-line-duotone','⬇':'solar:download-line-duotone',
+  '✓':'solar:check-circle-line-duotone','×':'solar:close-circle-line-duotone'
+ };
+ function replaceTextIcons(root){
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+   if(!node.parentElement||node.parentElement.closest('script,style,textarea,input,iconify-icon,svg'))return;
+   const text=node.nodeValue;if(!text||!Object.keys(iconMap).some(k=>text.includes(k)))return;
+   const frag=document.createDocumentFragment();let rest=text;
+   while(rest.length){
+    let found=-1,key='';
+    for(const k of Object.keys(iconMap)){const i=rest.indexOf(k);if(i>=0&&(found<0||i<found)){found=i;key=k;}}
+    if(found<0){frag.appendChild(document.createTextNode(rest));break;}
+    if(found)frag.appendChild(document.createTextNode(rest.slice(0,found)));
+    const icon=document.createElement('iconify-icon');icon.setAttribute('icon',iconMap[key]);icon.setAttribute('aria-hidden','true');frag.appendChild(icon);
+    rest=rest.slice(found+key.length);
+   }
+   node.parentNode.replaceChild(frag,node);
+  });
+ }
+ function replaceInlineSvg(){
+  const map=[
+   ['.notification-top-btn','solar:bell-line-duotone'],
+   ['.catalog-search-icon','solar:magnifer-line-duotone'],
+   ['.catalog-filter','solar:filter-line-duotone'],
+   ['.filter-tab[aria-label="Сортировка"]','solar:sort-line-duotone'],
+   ['.filter-tab[aria-label="По популярности"]','solar:users-group-rounded-line-duotone'],
+   ['.follow-heart-btn','solar:heart-line-duotone'],
+   ['.work-read-button','solar:book-open-line-duotone'],
+   ['.work-genres-block h2','solar:tag-line-duotone'],
+   ['.related-head','solar:leaf-line-duotone'],
+   ['.work-comments-button','solar:chat-round-line-duotone'],
+   ['.work-status-picker-btn','solar:sort-vertical-line-duotone'],
+   ['.navitem[data-page="home"]','solar:home-2-line-duotone'],
+   ['.navitem[data-page="catalog"]','solar:compass-line-duotone'],
+   ['.navitem[data-page="library"]','solar:book-2-line-duotone'],
+   ['.navitem[data-page="profile"]','solar:user-circle-line-duotone'],
+   ['#pvFloatingStatus','solar:sort-vertical-line-duotone']
+  ];
+  map.forEach(([selector,name])=>document.querySelectorAll(selector+' svg').forEach(svg=>{
+   const icon=document.createElement('iconify-icon');icon.setAttribute('icon',name);icon.setAttribute('aria-hidden','true');svg.replaceWith(icon);
+  }));
+ }
+ function run(){replaceTextIcons(document.body);replaceInlineSvg();}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+ new MutationObserver(()=>{replaceTextIcons(document.body);replaceInlineSvg();}).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </head>
 <body>
 <div class="app">
