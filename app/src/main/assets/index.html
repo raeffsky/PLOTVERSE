@@ -759,6 +759,97 @@ iconify-icon{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.18
  new MutationObserver(()=>{replaceTextIcons(document.body);replaceInlineSvg();}).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+
+<style id="plotverse-cinematic-concept">
+:root{--bg:#070a12;--panel:#0e1422;--panel2:#151d30;--line:#263149;--text:#f2f3fb;--muted:#9ca9c4;--accent:#a78bfa;--accent2:#7c3aed;--gold:#f2c879}
+html,body{background:#070a12;color:var(--text)}
+body{background:radial-gradient(ellipse at 50% -12%,#252044 0,transparent 42%),#070a12}
+.app{max-width:760px;padding:calc(12px + env(safe-area-inset-top)) 15px calc(118px + env(safe-area-inset-bottom))}
+.top{gap:12px;padding:5px 0 18px}
+.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,#29254a,#11182b);border:1px solid #6f5ab4;box-shadow:inset 0 1px #ffffff20,0 0 24px #8b5cf620}
+.brand strong{font-size:20px;letter-spacing:1.4px}
+.tag{font-size:11px;letter-spacing:.2px;color:#9ba9c8}
+.notification-top-btn{width:46px;height:46px;flex-basis:46px;border-radius:15px;background:#10182a;border-color:#2a3855}
+.screen{animation:none!important}
+.sectionhead{margin:25px 0 13px}
+.sectionhead h2{font-size:18px;font-weight:750;letter-spacing:-.2px}
+.link{color:#c4a7ff;font-weight:650}
+.pv-feature-hero{height:250px;position:relative;overflow:hidden;isolation:isolate;cursor:pointer;margin:3px 0 22px;border:1px solid #53417a;border-radius:20px;background:linear-gradient(115deg,#19152a 0%,#201a36 48%,#0c1322 100%);box-shadow:0 12px 28px #0005}
+.pv-feature-art{position:absolute;inset:0 0 0 34%;z-index:-1;background:radial-gradient(ellipse at 65% 32%,#8d69b9 0,#4a356c 20%,#1d1a37 48%,transparent 72%),linear-gradient(135deg,#17172c,#0b1020);overflow:hidden}
+.pv-feature-art:before{content:"";position:absolute;width:220px;height:260px;right:-30px;top:-25px;border-radius:48% 52% 43% 57%;transform:rotate(24deg);background:linear-gradient(145deg,#b7a0e8 0%,#51416f 28%,#19172b 58%,#080e1c 100%);filter:blur(.3px);opacity:.72}
+.pv-feature-art:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#1a162b 0%,#1a162b60 25%,transparent 72%),linear-gradient(0deg,#151326 0%,transparent 65%)}
+.pv-feature-art iconify-icon{position:absolute;right:20%;top:27%;font-size:56px;color:#eadcff;filter:drop-shadow(0 0 24px #c4a7ff90);z-index:1}
+.pv-feature-orbit{position:absolute;z-index:1;right:7%;top:13%;width:155px;height:185px;border:1px solid #e1ceff45;border-radius:50%;transform:rotate(-24deg)}
+.pv-feature-copy{position:absolute;left:17px;right:12px;bottom:17px;max-width:75%;z-index:2}
+.pv-feature-kicker{display:inline-flex;padding:5px 8px;border:1px solid #9b78ed60;border-radius:7px;background:#201637d9;color:#d7c1ff;font-size:9px;font-weight:800;letter-spacing:.8px}
+.pv-feature-copy h1{font-size:27px;line-height:1.1;margin:8px 0 9px;letter-spacing:-.5px}
+.pv-feature-tags{display:flex;gap:5px;flex-wrap:wrap}
+.pv-feature-tags span{font-size:9px;padding:4px 7px;border:1px solid #ffffff20;border-radius:20px;background:#101522c9;color:#d4d7e8}
+.pv-feature-copy p{font-size:11px;line-height:1.4;color:#c0c4d7;margin:10px 0}
+.pv-feature-cta{display:inline-flex;align-items:center;gap:5px;color:#d6bdff;font-size:11px;font-weight:750}
+.pv-feature-index{position:absolute;right:13px;bottom:12px;font-size:11px;color:#eee5ff;z-index:2}
+.pv-feature-index i{font-style:normal;color:#aaa0c7}
+.horizontal-shelf{gap:10px;padding-bottom:8px}
+.popular-shelf .poster-card{flex-basis:38%}
+.poster-art{height:190px;border-radius:15px;background:linear-gradient(145deg,#322747,#17182a 64%,#0b101c);border-color:#403650}
+.poster-art:before{inset:12% 12%;border-color:#cbb5f52e}
+.poster-symbol{top:26%;font-size:44px}
+.poster-two{background:linear-gradient(145deg,#472637,#201522 66%,#0b101c)}
+.poster-three{background:linear-gradient(145deg,#303452,#17182a 66%,#0b101c)}
+.poster-caption{font-size:12px;margin-top:8px}
+.rating{color:#f2c879}
+.resume-tile{flex-basis:86%;padding:12px;border-radius:17px;background:linear-gradient(135deg,#111b2c,#15152a);border-color:#2d3852;box-shadow:0 7px 18px #0002}
+.mini-cover{width:62px;border:1px solid #4a4771;background:linear-gradient(145deg,#30375c,#17172a);font-size:22px}
+.progress{background:#292d43;height:5px}
+.progress span{background:linear-gradient(90deg,#6b8cff,#b48bff);border-radius:9px}
+.bottomnav{background:rgba(8,13,24,.97)!important;border-top:1px solid #28334b!important;box-shadow:0 -8px 25px #0005!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important;padding:7px 10px calc(8px + env(safe-area-inset-bottom))!important}
+.navinner{gap:5px}
+.navitem{min-height:60px;gap:5px;border-radius:14px;font-size:10px;color:#8d9bb8;padding:7px 2px 6px}
+.navitem .ico iconify-icon{width:24px;height:24px}
+.navitem.active{background:linear-gradient(145deg,#252044,#14172a)!important;border-color:#57418a!important;color:#eee5ff!important;box-shadow:inset 0 1px #ffffff12,0 0 18px #8b5cf625!important}
+.navitem.active:before{left:30%;right:30%;height:3px;background:linear-gradient(90deg,#8b5cf6,#c4a7ff)!important}
+.card,.resume,.listitem,.stat,.bookrow,.chapter{background:linear-gradient(145deg,#111a2a,#0e1421);border-color:#26334b;border-radius:16px;box-shadow:0 5px 18px #0002}
+.chips{gap:7px}
+.chip{background:#111827;border-color:#273149;color:#aab6cf}
+.chip.selected{background:#241b3b;border-color:#8c6bd8;color:#e4d7ff;box-shadow:inset 0 -2px #a78bfa}
+.catalog-searchbox{border:1px solid #303a54;background:#0e1421;border-radius:15px}
+.catalog-filter{border:1px solid #303a54;border-radius:14px;background:#0e1421}
+.catalog-book{background:linear-gradient(145deg,#111a2b,#0c1220);border-color:#27334a;border-radius:16px;box-shadow:0 6px 18px #0002}
+.catalog-cover{border-radius:13px 0 0 13px}
+.catalog-title{font-size:16px;font-weight:700;color:#f1effa}
+.catalog-chapters{font-size:13px;color:#98a5c0}
+.catalog-meta{background:#0d1421;border-color:#273149}
+.catalog-rating{color:#f2c879}
+.work-overview{gap:14px}
+.work-cover{border:1px solid #53427a;box-shadow:0 8px 24px #0004;background:radial-gradient(ellipse at 50% 28%,#5b4c84,#242039 56%,#101421)}
+.work-cover span{color:#e2d3ff}
+.work-read-button{border-radius:15px;min-height:58px;margin-bottom:28px;background:linear-gradient(110deg,#7551d9,#8d5df3);border-color:#a48bff;box-shadow:0 7px 24px #7545d633}
+.work-read-button strong{font-size:18px}
+.work-stat-grid>div{background:#0e1421;border-color:#28334a;border-radius:14px;min-height:95px}
+.work-stat-grid span{color:#c4a7ff}
+.work-genres-block h2,.work-fold-head{color:#c9b5ff}
+.work-genre-chip{background:#121a2a;border-color:#2c3851;color:#c4cce0}
+.work-fold{border-color:#252f45}
+.readertext{max-width:100%;font-size:19px;line-height:1.9;color:#e7e6f1}
+.readerhead{border-bottom:1px solid #252d42;padding-bottom:13px}
+.reader-controls{border:1px solid #242f46;background:#0e1421;border-radius:14px;padding:9px}
+.reader-controls button{background:#171e30;border-color:#2a3650}
+.field{background:#0e1421;border-color:#2b3650}
+.primary{background:linear-gradient(110deg,#7650d7,#8b5cf6);border-color:#a58bff;border-radius:13px}
+button:active{transform:none}
+@media(max-width:380px){
+ .app{padding-left:13px;padding-right:13px}
+ .pv-feature-hero{height:238px}
+ .pv-feature-copy{left:13px;max-width:83%}
+ .pv-feature-copy h1{font-size:24px}
+ .popular-shelf .poster-card{flex-basis:41%}
+ .poster-art{height:176px}
+ .resume-tile{flex-basis:91%}
+ .work-overview{grid-template-columns:38% 1fr}
+ .work-cover{height:250px}
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -770,6 +861,11 @@ iconify-icon{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.18
 <div class="notification-backdrop" id="notificationBackdrop" onclick="closeNotifications()" aria-hidden="true"></div>
 <section class="screen" id="notifications"><div class="notifications-header"><h1 class="page-title">Уведомления</h1><div class="notifications-actions"><button class="link" onclick="pvMarkAllFeedRead()">Отметить всё прочитанным</button><button class="notification-close" onclick="closeNotifications()" aria-label="Закрыть уведомления">×</button></div></div><div class="notice notification-empty"><svg viewBox="0 0 160 130" aria-hidden="true"><path d="M25 25h80a18 18 0 0 1 18 18v40a18 18 0 0 1-18 18H77l-18 16-8-16H25A18 18 0 0 1 7 83V43a18 18 0 0 1 18-18Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><path d="M101 20c-7-13-25-7-25 5 0 11 14 19 25 27 11-8 25-16 25-27 0-12-18-18-25-5Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><circle cx="40" cy="61" r="4" fill="currentColor"/><circle cx="62" cy="61" r="4" fill="currentColor"/><circle cx="84" cy="61" r="4" fill="currentColor"/></svg><p>Здесь будут уведомления об обновлениях произведений, на которые ты подписан, и новых ответах на комментарии.</p></div><div id="notificationList"></div></section>
 <section class="screen active" id="home">
+ <article class="pv-feature-hero" onclick="openBook('Путь теней')">
+  <div class="pv-feature-art" aria-hidden="true"><div class="pv-feature-orbit"></div><iconify-icon icon="solar:stars-minimalistic-line-duotone"></iconify-icon></div>
+  <div class="pv-feature-copy"><span class="pv-feature-kicker">РЕКОМЕНДУЕМ</span><h1>Путь Теней</h1><div class="pv-feature-tags"><span>Фэнтези</span><span>Академия</span><span>Приключения</span></div><p>Там, где заканчивается свет, начинается его история.</p><span class="pv-feature-cta">Открыть произведение <iconify-icon icon="solar:arrow-right-line-duotone"></iconify-icon></span></div>
+  <span class="pv-feature-index">01 <i>/ 04</i></span>
+ </article>
  <div class="sectionhead"><h2>Популярное</h2><button class="link" onclick="go('catalog')">Весь каталог →</button></div>
  <div class="horizontal-shelf popular-shelf">
   <article class="poster-card" onclick="openBook('Путь теней')"><div class="poster-art poster-one"><span class="poster-symbol">✧</span><strong>ПУТЬ ТЕНЕЙ</strong></div><div class="poster-caption">Путь теней<div class="rating">★ 9.4</div></div></article>
