@@ -1307,7 +1307,7 @@ function pvCreateLocalAnnouncement(){const name=document.getElementById('publish
 function pvSyncImportedBooks(){if(!Array.isArray(pvState.importedBooks))pvState.importedBooks=[];for(let i=books.length-1;i>=0;i--){if(books[i].local)books.splice(i,1);}pvState.importedBooks.forEach(function(book){if(book&&book.name&&Array.isArray(book.localChapters))books.push(Object.assign({},book,{local:true,cls:'imported'}));});}
 function pvGetChapterNames(book){const target=book||currentBook;return target&&target.local&&Array.isArray(target.localChapters)?target.localChapters.map(function(c){return c.title||'Глава';}):chapterNames;}
 function pvUpdateResumeTile(){
- const tile=document.querySelector('.resume-shelf .resume-tile');if(!tile)return;
+ const tile=document.querySelector('.resume-shelf .resume-tile');if(!tile||typeof tile.querySelector!=='function')return;
  const last=Array.isArray(pvState.history)?pvState.history[0]:null;
  const name=(last&&last.book)||pvState.currentBook||'Путь теней';
  const book=books.find(function(b){return b.name===name;})||books[0];if(!book)return;
