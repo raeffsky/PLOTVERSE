@@ -6,9 +6,9 @@ const html = fs.readFileSync('app/src/main/assets/index.html', 'utf8');
 const idsInMarkup = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 const duplicateIds = idsInMarkup.filter((id, index) => idsInMarkup.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicateIds)], [], 'HTML must not contain duplicate element IDs');
-const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
-assert.equal(scripts.length, 1, 'Expected one inline application script');
-const source = scripts[0];
+const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(match => match[1]);
+const source = scripts.find(script => script.includes('function pvInit()') && script.includes('const books='));
+assert.ok(source, 'Expected the inline PLOTVERSE application script');
 new vm.Script(source, { filename: 'plotverse-inline.js' });
 
 function createHarness(store) {
@@ -17,7 +17,7 @@ function createHarness(store) {
   for (const id of ids) {
     const tag = html.match(new RegExp('<[^>]*\\bid="' + id + '"[^>]*>'));
     elements[id] = {
-      id, innerHTML: '', textContent: '', value: '', checked: !!(tag && tag[0].includes('checked')), style: {}, options: { length: 0 }, setAttribute() {}, getAttribute() { return null; }, addEventListener() {},
+      id, innerHTML: '', textContent: '', value: '', dataset: {}, checked: !!(tag && tag[0].includes('checked')), style: {}, options: { length: 0 }, setAttribute() {}, getAttribute() { return null; }, addEventListener() {},
       classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } }
     };
   }
@@ -27,7 +27,7 @@ function createHarness(store) {
   const document = {
     getElementById(id) {
       if (!elements[id]) elements[id] = {
-        id, innerHTML: '', textContent: '', value: '', checked: false, style: {}, options: { length: 0 }, setAttribute() {}, getAttribute() { return null; }, addEventListener() {},
+        id, innerHTML: '', textContent: '', value: '', dataset: {}, checked: false, style: {}, options: { length: 0 }, setAttribute() {}, getAttribute() { return null; }, addEventListener() {},
         classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } }
       };
       return elements[id];
@@ -60,7 +60,7 @@ function createHarness(store) {
     globalThis.__app = {
       state: () => pvState,
       openBook, openReaderByIndex, toggleBookmark, pvToggleFollow,
-      pvToggleChapterBookmark, pvSaveChapter, pvSaveAllAvailableChapters, pvShareCurrentBook, pvEditProfile, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, pvOpenStatusPicker, pvUpdateWorkStatusButton, pvChooseWorkStatus, pvCloseStatusPicker, chapterIndex: () => chapterIndex,
+      pvToggleChapterBookmark, pvSaveChapter, pvSaveAllAvailableChapters, pvShareCurrentBook, pvEditProfile, pvRenderOfflineChapterList, pvDeleteOfflineChapter, saveProgress, pvAddComment, pvAddCommentReply, pvReportComment, pvAddFeedItem, pvCreateLocalAnnouncement, pvToggleHiddenGenre, renderRecommendations, pvCreateClub, pvAddClubPost, pvAddImportedBook, pvAddPublishedWork, pvRemoveImportedBook, pvLoreUnlocked, pvApplyLoreSpoilers, pvRevealLoreElement, pvOpenStatusPicker, pvUpdateWorkStatusButton, pvChooseWorkStatus, pvCloseStatusPicker, chapterIndex: () => chapterIndex,
       createBook, go, pvNavigateBack, renderCatalog, setGenre, changeFont, toggleReaderTheme, changeLineSpacing, changeReaderWidth, nextChapter, prevChapter, setShelf, changeShelfByIndex, renderLibrary, renderHistory, pvClearOffline, pvToggleExcludeRead, toggleCatalogFilters, closeCatalogFilters, setFilterTab, toggleGenreList, resetCatalogFilters, applyCatalogFilters, resumeReading
     };
   `, context, { filename: 'plotverse-smoke.js' });
@@ -192,6 +192,14 @@ first.app.openReaderByIndex(1);
 assert.match(first.elements.readerText.innerHTML, /Imported text two/, 'Next imported chapter should render');
 first.app.saveProgress();
 assert.equal(first.app.state().progress['Smoke Import'].percent, 100, 'Imported reading progress should use the imported chapter count');
+assert.equal(first.app.pvAddPublishedWork({format:'PLOTVERSE_PUBLICATION_V1',title:'PLOTNEST Test Publish',author:'RAEFFSKY',genre:'Фэнтези',description:'Проверка публикации между приложениями',chapters:[{number:1,title:'Глава 1. Первый мост',text:'Текст первой опубликованной главы.'},{number:2,title:'Глава 2. Второй мост',text:'Текст второй опубликованной главы.'}]}), true, 'PLOTNEST publication package should import');
+assert.equal(first.app.state().importedBooks.length, 2, 'Published work should be stored alongside imported text books');
+first.app.openBook('PLOTNEST Test Publish');
+first.app.openReaderByIndex(0);
+assert.match(first.elements.readerText.innerHTML, /Текст первой опубликованной главы/, 'Published chapter should open in the reader');
+first.app.openReaderByIndex(1);
+assert.match(first.elements.readerText.innerHTML, /Текст второй опубликованной главы/, 'Next published chapter should open in the reader');
+first.app.openBook('Smoke Import');
 first.app.pvToggleChapterBookmark();
 assert.ok(first.app.state().chapterBookmarks.includes('Smoke Import::1'), 'Imported chapter bookmark should use its real chapter index');
 first.app.go('catalog');
@@ -213,7 +221,7 @@ assert.ok(persisted.analyticsEvents.some(event => event.type === 'chapter'), 'Ch
 assert.deepEqual(persisted.hiddenGenres, ['Фэнтези'], 'Hidden genre preferences should persist');
 assert.equal(persisted.clubs.length, 1, 'Book club should persist');
 assert.equal(persisted.clubs[0].posts.length, 1, 'Club discussion should persist');
-assert.equal(persisted.importedBooks.length, 1, 'Imported book should persist');
+assert.equal(persisted.importedBooks.length, 2, 'Imported text book and PLOTNEST publication should persist');
 
 const beforeRestart = JSON.parse(store['plotverse.local.v2']);
 beforeRestart.currentBook = 'Smoke Import';
@@ -225,12 +233,12 @@ assert.equal(second.app.state().drafts.length, 1, 'Draft should survive app rest
 assert.ok(second.app.state().chapterBookmarks.some(item => item === 'Путь теней::6' || (item && item.book === 'Путь теней' && item.index === 6)), 'Chapter bookmark should survive app restart');
 assert.equal(second.app.state().feedItems.length, 1, 'Feed should survive app restart');
 assert.equal(second.app.state().clubs.length, 1, 'Book club should survive app restart');
-assert.equal(second.app.state().importedBooks.length, 1, 'Imported book should survive app restart');
+assert.equal(second.app.state().importedBooks.length, 2, 'Imported text book and PLOTNEST publication should survive app restart');
 second.app.openBook('Smoke Import');
 second.app.openReaderByIndex(1);
 assert.match(second.elements.readerText.innerHTML, /Imported text two/, 'Imported chapter should restore after restart');
 second.app.pvRemoveImportedBook(second.app.state().importedBooks[0].localId);
-assert.equal(second.app.state().importedBooks.length, 0, 'Imported book should be removable');
+assert.equal(second.app.state().importedBooks.length, 1, 'Imported book should be removable without deleting published work');
 assert.ok(second.app.state().analyticsEvents.length >= 2, 'Analytics should survive app restart');
 second.app.openReaderByIndex(0);
 second.app.openReaderByIndex(6);
