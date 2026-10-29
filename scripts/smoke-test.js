@@ -199,6 +199,7 @@ first.app.openReaderByIndex(0);
 assert.match(first.elements.readerText.innerHTML, /Текст первой опубликованной главы/, 'Published chapter should open in the reader');
 first.app.openReaderByIndex(1);
 assert.match(first.elements.readerText.innerHTML, /Текст второй опубликованной главы/, 'Next published chapter should open in the reader');
+first.app.openBook('Smoke Import');
 first.app.pvToggleChapterBookmark();
 assert.ok(first.app.state().chapterBookmarks.includes('Smoke Import::1'), 'Imported chapter bookmark should use its real chapter index');
 first.app.go('catalog');
