@@ -60,7 +60,7 @@ function createHarness(store) {
   // so the reader, bookmarks, comments, and progress flows can still be exercised.
   const testSource = source.replace(
     'const books=[];',
-    `const books=[{name:'Путь теней',author:'Smoke Test',genre:'Фэнтези',genres:['Фэнтези','Магия'],rating:'9.4',chapters:27,desc:'Тестовое произведение только для smoke-тестов.',cls:'',format:'ranobe',type:'ranobe',status:'ongoing',web:true,origin:'🇯🇵',inMyList:true}];`
+    `const books=[{name:'Путь теней',author:'RAEFFSKY',genre:'Фэнтези',genres:['Фэнтези','Магия'],rating:'9.4',chapters:27,desc:'Тестовое произведение только для smoke-тестов.',cls:'',format:'ranobe',type:'ranobe',status:'ongoing',web:true,origin:'🇯🇵',inMyList:true}];`
   );
   vm.runInNewContext(testSource + `
     globalThis.__app = {
