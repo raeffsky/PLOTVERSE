@@ -284,6 +284,278 @@ button:focus-visible{outline:2px solid #9f8bff;outline-offset:2px}
  button,.navitem,.catalog-book,.book{transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
 }
 
+
+/* Approved PLOTVERSE visual system: cinematic navy, luminous glass and restrained violet light. */
+:root{
+ --bg:#050a16;--panel:rgba(13,22,42,.82);--panel2:rgba(21,32,57,.88);
+ --line:rgba(112,139,194,.30);--text:#f0f4ff;--muted:#9eafd0;
+ --accent:#a88aff;--accent2:#526ee8;--gold:#f0cb79;
+}
+html,body{
+ background:
+   radial-gradient(ellipse at 12% 5%,rgba(56,91,191,.23),transparent 38%),
+   radial-gradient(ellipse at 92% 30%,rgba(100,43,165,.15),transparent 35%),
+   radial-gradient(ellipse at 48% 100%,rgba(29,64,126,.13),transparent 45%),
+   #050a16;
+}
+body{padding-bottom:calc(94px + env(safe-area-inset-bottom,0px))}
+.app{padding:20px 16px calc(28px + env(safe-area-inset-bottom,0px))}
+.top{gap:12px;padding:4px 0 18px}
+.logo{
+ width:48px;height:48px;border-radius:15px;
+ background:linear-gradient(145deg,rgba(46,67,123,.95),rgba(35,25,66,.95));
+ border:1px solid rgba(164,150,255,.38);
+ box-shadow:inset 0 1px 0 #ffffff2b,0 0 22px rgba(103,112,255,.18);
+}
+.brand strong{font-size:19px;letter-spacing:1.7px}
+.tag{font-size:12px;letter-spacing:.1px}
+.notification-top-btn{
+ flex-basis:54px;height:54px;border-radius:17px;
+ background:linear-gradient(145deg,rgba(29,46,77,.92),rgba(16,24,44,.94));
+ border-color:rgba(121,149,203,.38);
+ box-shadow:inset 0 1px 0 #ffffff18,0 8px 22px #0003;
+}
+button,.field,.resume,.card,.listitem,.stat,.bookrow,.chapter,.notice,.authorhero{
+ border-color:rgba(113,139,192,.26);
+}
+button{
+ background:linear-gradient(145deg,rgba(28,42,69,.94),rgba(15,23,42,.96));
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 5px 14px rgba(0,0,0,.13);
+}
+button.iconbtn,.iconbtn{
+ background:linear-gradient(145deg,rgba(35,48,81,.94),rgba(19,25,48,.96));
+ border-color:rgba(148,130,226,.34);
+ box-shadow:inset 0 1px 0 #ffffff1c,0 0 20px rgba(111,94,225,.12);
+}
+.hero,.feature-card,.resume,.card,.listitem,.stat,.bookrow,.chapter,.authorhero,.catalog-book,.work-mini-card,.resume-tile{
+ background:linear-gradient(145deg,rgba(20,32,55,.91),rgba(10,17,33,.93));
+ border:1px solid rgba(106,133,188,.28);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 10px 26px rgba(0,0,0,.16);
+}
+.hero{
+ background:radial-gradient(ellipse at 82% 12%,rgba(103,68,150,.23),transparent 48%),
+ linear-gradient(145deg,rgba(20,31,56,.96),rgba(9,15,29,.97));
+ border-radius:22px;
+}
+.sectionhead{margin:24px 0 13px}
+.sectionhead h2{letter-spacing:-.2px}
+.cover,.poster-art,.mini-cover,.catalog-cover,.work-cover,.detailcover,.work-mini-art{
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 8px 20px rgba(0,0,0,.22);
+}
+.cover,.poster-art,.catalog-cover{
+ border-color:rgba(190,153,226,.34);
+}
+.cover:before,.poster-art:before,.catalog-cover:before,.work-cover:before{
+ border-color:rgba(198,177,255,.34);
+}
+.cover:after,.poster-symbol{
+ filter:drop-shadow(0 0 12px rgba(191,151,255,.35));
+}
+.chip,.pilltabs button,.genre-chip,.work-genre-chip{
+ background:rgba(19,29,51,.88);
+ border-color:rgba(109,132,184,.28);
+}
+.chip.selected,.pilltabs button.active{
+ background:linear-gradient(180deg,rgba(122,94,196,.28),rgba(85,57,150,.2));
+ border-color:rgba(177,145,255,.42);
+ color:#f1e8ff;
+ box-shadow:inset 0 -3px 0 #b18aff,0 0 18px rgba(146,102,255,.12);
+}
+.catalog-searchbox{
+ background:rgba(13,21,39,.92);
+ border:1.5px solid rgba(131,151,202,.48);
+ border-radius:17px;
+ box-shadow:inset 0 1px 0 #ffffff0b,0 5px 18px #0002;
+}
+.catalog-filter{
+ border:1px solid rgba(113,139,192,.18);
+ border-radius:15px;
+ background:rgba(13,20,38,.64);
+}
+.catalog-book{
+ border-radius:20px;
+ background:linear-gradient(145deg,rgba(21,32,54,.96),rgba(10,17,32,.97));
+ min-height:176px;
+ padding-bottom:42px;
+}
+.catalog-cover{border-radius:15px 12px 12px 15px}
+.catalog-main{padding:15px 14px 8px}
+.catalog-title{color:#f0f3ff;font-weight:700;letter-spacing:-.15px}
+.catalog-meta{background:rgba(12,20,37,.96);border-color:rgba(106,133,188,.24)}
+.catalog-rating{color:var(--gold)}
+.bookrow{border-radius:17px}
+.notification-backdrop{background:rgba(1,4,13,.68)}
+#notifications.active,.catalog-filter-panel{
+ background:linear-gradient(160deg,rgba(17,25,46,.99),rgba(7,12,25,.99));
+ border-color:rgba(118,139,190,.26);
+ box-shadow:-22px 0 50px rgba(0,0,0,.52),inset 1px 0 0 rgba(255,255,255,.04);
+}
+.notification-empty{
+ border-radius:20px;
+ background:linear-gradient(145deg,rgba(17,28,49,.76),rgba(9,16,31,.72));
+ color:#9da9c6;
+}
+.bottomnav{
+ background:linear-gradient(180deg,rgba(19,31,54,.97),rgba(7,13,27,.99));
+ border:1px solid rgba(122,145,199,.35);
+ border-bottom:0;
+ border-radius:25px 25px 0 0;
+ backdrop-filter:blur(20px) saturate(135%);
+ -webkit-backdrop-filter:blur(20px) saturate(135%);
+ padding:9px 10px calc(9px + env(safe-area-inset-bottom,0px));
+ box-shadow:0 -8px 28px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.09);
+}
+.navinner{gap:7px}
+.navitem{
+ border-radius:19px;padding:8px 2px 7px;gap:5px;
+ color:#91a2c4;
+}
+.navitem .ico svg{width:25px;height:25px}
+.navitem.active{
+ color:#f0e4ff;
+ background:linear-gradient(155deg,rgba(111,89,184,.32),rgba(31,32,68,.35));
+ border-color:rgba(172,147,255,.36);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 22px rgba(129,95,239,.17);
+}
+.navitem.active:before{
+ left:28%;right:28%;height:3px;
+ background:linear-gradient(90deg,#8d71ff,#d2a4ff);
+ box-shadow:0 0 12px rgba(166,121,255,.9);
+}
+.field{background:rgba(12,20,37,.94);border-color:rgba(109,132,184,.34)}
+.primary{
+ background:linear-gradient(120deg,#8b5dce,#5d54bd 55%,#426bd5);
+ border-color:rgba(204,178,255,.55);
+ box-shadow:inset 0 1px 0 #ffffff30,0 7px 20px rgba(102,74,197,.25);
+}
+.link{color:#c3a5ff}
+.badge{background:rgba(92,64,140,.25);border-color:rgba(176,143,239,.4)}
+@media(max-width:380px){
+ .app{padding-left:13px;padding-right:13px}
+ .top{gap:9px}
+ .brand strong{font-size:17px}
+ .tag{font-size:10px}
+ .bottomnav{padding-left:7px;padding-right:7px}
+ .navitem{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .screen,.notification-backdrop,#notifications.active{animation:none;transition:none}
+}
+
+
+/* Catalog: compact editorial rows, matching the approved mockup instead of oversized cover blocks. */
+.catalog-results{gap:10px}
+.catalog-book{
+ min-height:104px!important;height:auto!important;padding:0!important;
+ border-radius:15px!important;align-items:stretch;
+}
+.catalog-cover{
+ flex:0 0 76px!important;width:76px!important;min-height:96px!important;
+ align-self:stretch!important;border-radius:12px!important;margin:6px;
+}
+.catalog-cover span{font-size:31px!important}
+.catalog-cover:before{inset:12% 13%!important}
+.catalog-main{
+ display:flex;flex-direction:column;justify-content:center;
+ padding:10px 12px 10px 4px!important;gap:5px;
+}
+.catalog-title{
+ font-size:14px!important;line-height:1.28!important;
+ font-weight:750!important;margin:0!important;
+}
+.catalog-chapters{font-size:12px!important;color:#aebbd8!important}
+.catalog-chapters span{font-size:13px!important;color:#e9c879}
+.catalog-meta{
+ position:static!important;left:auto!important;right:auto!important;bottom:auto!important;
+ height:auto!important;display:flex!important;justify-content:flex-start!important;
+ gap:12px!important;padding:0!important;margin-top:2px;
+ background:transparent!important;border:0!important;
+}
+.catalog-rating{font-size:12px!important;color:#efca79!important}
+.catalog-readers{font-size:11px!important;color:#a9b8d8!important}
+.catalog-origin{
+ width:27px!important;height:27px!important;right:0!important;top:0!important;
+ border-radius:0 0 0 11px!important;font-size:12px!important;padding:0 0 3px 3px!important;
+}
+.catalog-rank{font-size:10px!important;padding:3px 6px!important;border-radius:0 0 8px 0!important}
+.catalog-book:active{transform:scale(.995)!important}
+@media(max-width:380px){
+ .catalog-cover{flex-basis:68px!important;width:68px!important;min-height:92px!important}
+ .catalog-main{padding-right:9px!important}
+ .catalog-title{font-size:13px!important}
+}
+
+
+/* Approved mockup: button and small UI control kit */
+button,.button,.btn{
+ transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease,color .18s ease;
+}
+button:focus-visible,.button:focus-visible,.btn:focus-visible{
+ outline:2px solid rgba(190,155,255,.9);outline-offset:2px;
+}
+button:disabled,.button:disabled,.btn:disabled{opacity:.48;box-shadow:none;cursor:not-allowed}
+.primary,.btn-primary,button.primary{
+ color:#fff!important;
+ background:linear-gradient(112deg,#a65bff 0%,#783cff 52%,#5434db 100%)!important;
+ border:1px solid rgba(220,194,255,.88)!important;
+ border-radius:15px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 0 7px rgba(162,91,255,.55),0 0 22px rgba(112,62,255,.32),0 7px 16px rgba(0,0,0,.24)!important;
+ font-weight:750;
+}
+.primary:active,.btn-primary:active,button.primary:active{
+ transform:scale(.985);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 0 12px rgba(162,91,255,.65)!important;
+}
+.outline,.secondary,.btn-secondary,button.outline{
+ color:#e8edff!important;
+ background:linear-gradient(145deg,rgba(15,25,45,.92),rgba(8,14,29,.96))!important;
+ border:1px solid rgba(130,151,202,.52)!important;
+ border-radius:15px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 4px 12px rgba(0,0,0,.15)!important;
+}
+.outline:active,.secondary:active,.btn-secondary:active,button.outline:active{
+ border-color:rgba(174,143,255,.75)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 14px rgba(132,94,255,.2)!important;
+}
+.iconbtn,button.iconbtn,.icon-button{
+ display:inline-grid;place-items:center;
+ background:linear-gradient(145deg,rgba(29,43,72,.96),rgba(12,20,39,.98))!important;
+ border:1px solid rgba(148,137,223,.55)!important;
+ border-radius:15px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 0 15px rgba(115,89,222,.16)!important;
+}
+.iconbtn:active,button.iconbtn:active,.icon-button:active{
+ border-color:rgba(197,169,255,.9)!important;
+ box-shadow:0 0 18px rgba(145,101,255,.3)!important;
+}
+.chip,.pilltabs button,.genre-chip,.work-genre-chip,.badge{
+ border:1px solid rgba(113,139,192,.34)!important;
+ background:linear-gradient(145deg,rgba(17,28,50,.94),rgba(10,17,33,.96))!important;
+ color:#aebddd;
+ border-radius:11px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+.chip.selected,.pilltabs button.active,.genre-chip.active,.work-genre-chip.active{
+ color:#f4eaff!important;
+ background:linear-gradient(180deg,rgba(130,86,217,.38),rgba(70,48,128,.32))!important;
+ border-color:rgba(189,154,255,.7)!important;
+ box-shadow:inset 0 -3px 0 #b18aff,0 0 14px rgba(147,96,255,.19)!important;
+}
+.badge,.status-pill,.tag-success,.success{
+ background:linear-gradient(145deg,rgba(14,91,72,.72),rgba(8,55,47,.84))!important;
+ border-color:rgba(78,210,167,.42)!important;
+ color:#a9f4d8!important;
+}
+.rating,.rating-badge,.score{
+ color:#f2cb76!important;
+}
+.rating-badge,.score{
+ display:inline-flex;align-items:center;gap:5px;
+ padding:5px 9px;border-radius:10px;
+ background:linear-gradient(145deg,rgba(92,64,22,.58),rgba(47,34,19,.78))!important;
+ border:1px solid rgba(238,194,101,.34)!important;
+}
+
 </style>
 
 <style id="plotverse-cinematic-glass-v1">
@@ -347,6 +619,269 @@ button svg{filter:drop-shadow(0 1px 3px #0005)}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 
+
+<style id="plotverse-updatiq-fixed-shell">
+/* Match UPDATIQ's fixed header and dedicated scroll container on Android WebView. */
+html,body{height:100%;min-height:0;overflow:hidden}
+body{height:100dvh;overflow:hidden;padding:0;overscroll-behavior:none}
+.app{
+  height:100dvh;max-height:100dvh;min-height:0;
+  overflow-y:auto;overflow-x:hidden;
+  padding:calc(108px + env(safe-area-inset-top,0px)) 16px calc(116px + env(safe-area-inset-bottom,0px));
+  overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;touch-action:pan-y;
+}
+.app::-webkit-scrollbar{display:none}
+.top{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  width:100%;max-width:none;height:calc(80px + env(safe-area-inset-top,0px));
+  margin:0;
+  padding:calc(12px + env(safe-area-inset-top,0px)) max(16px,calc((100vw - 728px)/2 + 16px)) 10px;
+  box-sizing:border-box;
+  background:rgba(7,12,26,.98);
+  border-bottom:1px solid rgba(112,139,192,.25);
+  box-shadow:0 8px 20px rgba(0,0,0,.22);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+.logo{width:40px;height:40px;border-radius:0;background:transparent;box-shadow:none}
+.brand strong{font-size:21px;letter-spacing:.8px}
+.tag{font-size:9px;letter-spacing:1.5px;color:#5dd8ff;margin-top:2px}
+.notification-top-btn{width:40px;height:40px;border-radius:13px}
+.bottomnav{
+  position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+  z-index:1200!important;
+  transform:none!important;animation:none!important;
+  transition:none!important;will-change:auto!important;
+  backface-visibility:hidden;
+  background:rgba(7,12,26,.98);
+  border-top:1px solid rgba(72,101,148,.28);
+  box-shadow:0 -6px 20px rgba(0,0,0,.25);
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+}
+.navinner{width:100%;max-width:760px;margin:0 auto;gap:7px}
+.navitem{transform:none!important;animation:none!important;transition:color .15s ease,background .15s ease,border-color .15s ease!important}
+.navitem:active{transform:none!important}
+.screen{animation:none!important;transform:none!important}
+@media(max-width:380px){
+ .app{padding-left:13px;padding-right:13px}
+ .top{padding-left:13px;padding-right:13px}
+ .brand strong{font-size:19px}
+ .bottomnav{padding-left:7px;padding-right:7px}
+}
+@media(prefers-reduced-motion:reduce){
+ .bottomnav,.navitem,.screen{animation:none!important;transition:none!important;transform:none!important}
+}
+</style>
+
+
+<!-- Iconify: unified icon set for PLOTVERSE -->
+<script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+<style id="plotverse-iconify-system">
+iconify-icon{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.18em;flex:0 0 auto}
+.ico iconify-icon{width:22px;height:22px;vertical-align:middle}
+.logo iconify-icon{width:28px;height:28px}
+.poster-symbol iconify-icon{width:32px;height:32px}
+.mini-cover iconify-icon{width:22px;height:22px}
+.catalog-search-icon iconify-icon{width:20px;height:20px}
+.navitem .ico{display:flex;align-items:center;justify-content:center}
+</style>
+<script>
+(function(){
+ const iconMap={
+  '✧':'solar:stars-minimalistic-line-duotone','✦':'solar:star-fall-minimalistic-2-line-duotone',
+  '♛':'solar:crown-line-duotone','♧':'solar:bookmark-line-duotone','♟':'solar:users-group-rounded-line-duotone',
+  '♙':'solar:user-circle-line-duotone','✎':'solar:pen-new-square-line-duotone','★':'solar:star-bold',
+  '☆':'solar:star-line-duotone','❯':'solar:alt-arrow-right-line-duotone','⚑':'solar:filter-line-duotone',
+  '◉':'solar:planet-3-line-duotone','▦':'solar:widget-4-line-duotone','⌕':'solar:magnifer-line-duotone',
+  '☰':'solar:hamburger-menu-line-duotone','♥':'solar:heart-line-duotone',
+  '🔔':'solar:bell-line-duotone','🔍':'solar:magnifer-line-duotone',
+  '🌐':'solar:global-line-duotone','☷':'solar:library-line-duotone','⚙':'solar:settings-line-duotone',
+  '⌄':'solar:alt-arrow-down-line-duotone','⌃':'solar:alt-arrow-up-line-duotone',
+  '›':'solar:alt-arrow-right-line-duotone','‹':'solar:alt-arrow-left-line-duotone',
+  '→':'solar:arrow-right-line-duotone','＋':'solar:add-circle-line-duotone','⬇':'solar:download-line-duotone',
+  '✓':'solar:check-circle-line-duotone','×':'solar:close-circle-line-duotone'
+ };
+ function replaceTextIcons(root){
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+   if(!node.parentElement||node.parentElement.closest('script,style,textarea,input,iconify-icon,svg'))return;
+   const text=node.nodeValue;if(!text||!Object.keys(iconMap).some(k=>text.includes(k)))return;
+   const frag=document.createDocumentFragment();let rest=text;
+   while(rest.length){
+    let found=-1,key='';
+    for(const k of Object.keys(iconMap)){const i=rest.indexOf(k);if(i>=0&&(found<0||i<found)){found=i;key=k;}}
+    if(found<0){frag.appendChild(document.createTextNode(rest));break;}
+    if(found)frag.appendChild(document.createTextNode(rest.slice(0,found)));
+    const icon=document.createElement('iconify-icon');icon.setAttribute('icon',iconMap[key]);icon.setAttribute('aria-hidden','true');frag.appendChild(icon);
+    rest=rest.slice(found+key.length);
+   }
+   node.parentNode.replaceChild(frag,node);
+  });
+ }
+ function replaceInlineSvg(){
+  const map=[
+   ['.logo','solar:stars-minimalistic-line-duotone'],
+   ['.notification-top-btn','solar:bell-line-duotone'],
+   ['.notification-close','solar:close-circle-line-duotone'],
+   ['.catalog-search-icon','solar:magnifer-line-duotone'],
+   ['.filter-section-title > span','solar:filter-line-duotone'],
+   ['.chapters-header .iconbtn','solar:alt-arrow-left-line-duotone'],
+   ['.chapters-toolbar button','solar:download-line-duotone'],
+   ['.work-topbar button[aria-label="Назад"]','solar:alt-arrow-left-line-duotone'],
+   ['.work-stat-grid > div:nth-child(1) span','solar:document-text-line-duotone'],
+   ['.work-stat-grid > div:nth-child(2) span','solar:eye-line-duotone'],
+   ['.work-stat-grid > div:nth-child(3) span','solar:star-line-duotone'],
+   ['.work-stat-grid > div:nth-child(4) span','solar:users-group-rounded-line-duotone'],
+   ['.chapter-download','solar:download-line-duotone'],
+   ['.profile-top-btn','solar:user-circle-line-duotone'],
+   ['.catalog-filter','solar:filter-line-duotone'],
+   ['.filter-tab[aria-label="Сортировка"]','solar:sort-line-duotone'],
+   ['.filter-tab[aria-label="По популярности"]','solar:users-group-rounded-line-duotone'],
+   ['.follow-heart-btn','solar:heart-line-duotone'],
+   ['.work-read-button','solar:book-open-line-duotone'],
+   ['.work-genres-block h2','solar:tag-line-duotone'],
+   ['.related-head','solar:leaf-line-duotone'],
+   ['.work-comments-button','solar:chat-round-line-duotone'],
+   ['.work-status-picker-btn','solar:sort-vertical-line-duotone'],
+   ['.navitem[data-page="home"]','solar:home-2-line-duotone'],
+   ['.navitem[data-page="catalog"]','solar:compass-line-duotone'],
+   ['.navitem[data-page="library"]','solar:book-2-line-duotone'],
+   ['.navitem[data-page="profile"]','solar:user-circle-line-duotone'],
+   ['#pvFloatingStatus','solar:sort-vertical-line-duotone']
+  ];
+  map.forEach(([selector,name])=>document.querySelectorAll(selector+' svg').forEach(svg=>{
+   const icon=document.createElement('iconify-icon');icon.setAttribute('icon',name);icon.setAttribute('aria-hidden','true');svg.replaceWith(icon);
+  }));
+ }
+ function run(){replaceTextIcons(document.body);replaceInlineSvg();}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+ new MutationObserver(()=>{replaceTextIcons(document.body);replaceInlineSvg();}).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+
+
+/* Compact Android header: cap WebView safe-area values so the header cannot swallow the first screen. */
+<style id="plotverse-compact-topbar">
+:root{--pv-safe-top:min(env(safe-area-inset-top,0px),24px)}
+.app{padding-top:calc(76px + var(--pv-safe-top))!important}
+.top{
+  height:calc(64px + var(--pv-safe-top))!important;
+  min-height:0!important;
+  padding:calc(5px + var(--pv-safe-top)) max(13px,calc((100vw - 728px)/2 + 13px)) 5px!important;
+  gap:10px!important;
+  align-items:center!important;
+  overflow:hidden;
+}
+.top .logo,.top .notification-top-btn{width:42px!important;height:42px!important;flex-basis:42px!important}
+.top .brand strong{font-size:19px!important;line-height:1.1}
+.top .tag{font-size:10px!important;margin-top:2px;letter-spacing:.2px!important}
+@media(max-width:380px){
+ .app{padding-top:calc(74px + var(--pv-safe-top))!important}
+ .top{padding-left:12px!important;padding-right:12px!important}
+ .top .brand strong{font-size:17px!important}
+}
+</style>
+
+<style id="plotverse-cinematic-concept">
+:root{--bg:#070a12;--panel:#0e1422;--panel2:#151d30;--line:#263149;--text:#f2f3fb;--muted:#9ca9c4;--accent:#a78bfa;--accent2:#7c3aed;--gold:#f2c879}
+html,body{background:#070a12;color:var(--text)}
+body{background:radial-gradient(ellipse at 50% -12%,#252044 0,transparent 42%),#070a12}
+.app{max-width:760px;padding:calc(12px + env(safe-area-inset-top)) 15px calc(118px + env(safe-area-inset-bottom))}
+.top{gap:12px;padding:5px 0 18px}
+.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,#29254a,#11182b);border:1px solid #6f5ab4;box-shadow:inset 0 1px #ffffff20,0 0 24px #8b5cf620}
+.brand strong{font-size:20px;letter-spacing:1.4px}
+.tag{font-size:11px;letter-spacing:.2px;color:#9ba9c8}
+.notification-top-btn{width:46px;height:46px;flex-basis:46px;border-radius:15px;background:#10182a;border-color:#2a3855}
+.screen{animation:none!important}
+.sectionhead{margin:25px 0 13px}
+.sectionhead h2{font-size:18px;font-weight:750;letter-spacing:-.2px}
+.link{color:#c4a7ff;font-weight:650}
+.pv-feature-hero{height:250px;position:relative;overflow:hidden;isolation:isolate;cursor:pointer;margin:3px 0 22px;border:1px solid #53417a;border-radius:20px;background:linear-gradient(115deg,#19152a 0%,#201a36 48%,#0c1322 100%);box-shadow:0 12px 28px #0005}
+.pv-feature-art{position:absolute;inset:0 0 0 34%;z-index:-1;background:radial-gradient(ellipse at 65% 32%,#8d69b9 0,#4a356c 20%,#1d1a37 48%,transparent 72%),linear-gradient(135deg,#17172c,#0b1020);overflow:hidden}
+.pv-feature-art:before{content:"";position:absolute;width:220px;height:260px;right:-30px;top:-25px;border-radius:48% 52% 43% 57%;transform:rotate(24deg);background:linear-gradient(145deg,#b7a0e8 0%,#51416f 28%,#19172b 58%,#080e1c 100%);filter:blur(.3px);opacity:.72}
+.pv-feature-art:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#1a162b 0%,#1a162b60 25%,transparent 72%),linear-gradient(0deg,#151326 0%,transparent 65%)}
+.pv-feature-art iconify-icon{position:absolute;right:20%;top:27%;font-size:56px;color:#eadcff;filter:drop-shadow(0 0 24px #c4a7ff90);z-index:1}
+.pv-feature-orbit{position:absolute;z-index:1;right:7%;top:13%;width:155px;height:185px;border:1px solid #e1ceff45;border-radius:50%;transform:rotate(-24deg)}
+.pv-feature-copy{position:absolute;left:17px;right:12px;bottom:17px;max-width:75%;z-index:2}
+.pv-feature-kicker{display:inline-flex;padding:5px 8px;border:1px solid #9b78ed60;border-radius:7px;background:#201637d9;color:#d7c1ff;font-size:9px;font-weight:800;letter-spacing:.8px}
+.pv-feature-copy h1{font-size:27px;line-height:1.1;margin:8px 0 9px;letter-spacing:-.5px}
+.pv-feature-tags{display:flex;gap:5px;flex-wrap:wrap}
+.pv-feature-tags span{font-size:9px;padding:4px 7px;border:1px solid #ffffff20;border-radius:20px;background:#101522c9;color:#d4d7e8}
+.pv-feature-copy p{font-size:11px;line-height:1.4;color:#c0c4d7;margin:10px 0}
+.pv-feature-cta{display:inline-flex;align-items:center;gap:5px;color:#d6bdff;font-size:11px;font-weight:750}
+.pv-feature-index{position:absolute;right:13px;bottom:12px;font-size:11px;color:#eee5ff;z-index:2}
+.pv-feature-index i{font-style:normal;color:#aaa0c7}
+.horizontal-shelf{gap:10px;padding-bottom:8px}
+.popular-shelf .poster-card{flex-basis:38%}
+.poster-art{height:190px;border-radius:15px;background:linear-gradient(145deg,#322747,#17182a 64%,#0b101c);border-color:#403650}
+.poster-art:before{inset:12% 12%;border-color:#cbb5f52e}
+.poster-symbol{top:26%;font-size:44px}
+.poster-two{background:linear-gradient(145deg,#472637,#201522 66%,#0b101c)}
+.poster-three{background:linear-gradient(145deg,#303452,#17182a 66%,#0b101c)}
+.poster-caption{font-size:12px;margin-top:8px}
+.rating{color:#f2c879}
+.resume-tile{flex-basis:86%;padding:12px;border-radius:17px;background:linear-gradient(135deg,#111b2c,#15152a);border-color:#2d3852;box-shadow:0 7px 18px #0002}
+.mini-cover{width:62px;border:1px solid #4a4771;background:linear-gradient(145deg,#30375c,#17172a);font-size:22px}
+.progress{background:#292d43;height:5px}
+.progress span{background:linear-gradient(90deg,#6b8cff,#b48bff);border-radius:9px}
+.bottomnav{background:rgba(8,13,24,.97)!important;border-top:1px solid #28334b!important;box-shadow:0 -8px 25px #0005!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important;padding:7px 10px calc(8px + env(safe-area-inset-bottom))!important}
+.navinner{gap:5px}
+.navitem{min-height:60px;gap:5px;border-radius:14px;font-size:10px;color:#8d9bb8;padding:7px 2px 6px}
+.navitem .ico iconify-icon{width:24px;height:24px}
+.navitem.active{background:linear-gradient(145deg,#252044,#14172a)!important;border-color:#57418a!important;color:#eee5ff!important;box-shadow:inset 0 1px #ffffff12,0 0 18px #8b5cf625!important}
+.navitem.active:before{left:30%;right:30%;height:3px;background:linear-gradient(90deg,#8b5cf6,#c4a7ff)!important}
+.card,.resume,.listitem,.stat,.bookrow,.chapter{background:linear-gradient(145deg,#111a2a,#0e1421);border-color:#26334b;border-radius:16px;box-shadow:0 5px 18px #0002}
+.chips{gap:7px}
+.chip{background:#111827;border-color:#273149;color:#aab6cf}
+.chip.selected{background:#241b3b;border-color:#8c6bd8;color:#e4d7ff;box-shadow:inset 0 -2px #a78bfa}
+.catalog-searchbox{border:1px solid #303a54;background:#0e1421;border-radius:15px}
+.catalog-filter{border:1px solid #303a54;border-radius:14px;background:#0e1421}
+.catalog-book{background:linear-gradient(145deg,#111a2b,#0c1220);border-color:#27334a;border-radius:16px;box-shadow:0 6px 18px #0002}
+.catalog-cover{border-radius:13px 0 0 13px}
+.catalog-title{font-size:16px;font-weight:700;color:#f1effa}
+.catalog-chapters{font-size:13px;color:#98a5c0}
+.catalog-meta{background:#0d1421;border-color:#273149}
+.catalog-rating{color:#f2c879}
+.work-overview{gap:14px}
+.work-cover{border:1px solid #53427a;box-shadow:0 8px 24px #0004;background:radial-gradient(ellipse at 50% 28%,#5b4c84,#242039 56%,#101421)}
+.work-cover span{color:#e2d3ff}
+.work-read-button{border-radius:15px;min-height:58px;margin-bottom:28px;background:linear-gradient(110deg,#7551d9,#8d5df3);border-color:#a48bff;box-shadow:0 7px 24px #7545d633}
+.work-read-button strong{font-size:18px}
+.work-stat-grid>div{background:#0e1421;border-color:#28334a;border-radius:14px;min-height:95px}
+.work-stat-grid span{color:#c4a7ff}
+.work-genres-block h2,.work-fold-head{color:#c9b5ff}
+.work-genre-chip{background:#121a2a;border-color:#2c3851;color:#c4cce0}
+.work-fold{border-color:#252f45}
+.readertext{max-width:100%;font-size:19px;line-height:1.9;color:#e7e6f1}
+.readerhead{border-bottom:1px solid #252d42;padding-bottom:13px}
+.reader-controls{border:1px solid #242f46;background:#0e1421;border-radius:14px;padding:9px}
+.reader-controls button{background:#171e30;border-color:#2a3650}
+.field{background:#0e1421;border-color:#2b3650}
+.primary{background:linear-gradient(110deg,#7650d7,#8b5cf6);border-color:#a58bff;border-radius:13px}
+button:active{transform:none}
+@media(max-width:380px){
+ .app{padding-left:13px;padding-right:13px}
+ .pv-feature-hero{height:238px}
+ .pv-feature-copy{left:13px;max-width:83%}
+ .pv-feature-copy h1{font-size:24px}
+ .popular-shelf .poster-card{flex-basis:41%}
+ .poster-art{height:176px}
+ .resume-tile{flex-basis:91%}
+ .work-overview{grid-template-columns:38% 1fr}
+ .work-cover{height:250px}
+}
+.pv-feature-controls{position:absolute;right:10px;bottom:9px;display:flex;align-items:center;gap:4px;z-index:3}
+.pv-feature-controls button{width:27px;height:27px;padding:0;display:grid;place-items:center;border-radius:9px;border:1px solid #ffffff24;background:#101522c9;color:#e6d8ff}
+.pv-feature-controls button iconify-icon{width:16px;height:16px}
+.pv-feature-index{position:static;font-size:10px}
+.pv-feature-art.pv-feature-hamura{background:radial-gradient(ellipse at 65% 32%,#a45c75 0,#583147 24%,#211628 54%,transparent 75%),linear-gradient(135deg,#241522,#0b1020)}
+.pv-feature-art.pv-feature-hamura:before{background:linear-gradient(145deg,#f0b9ca 0%,#8a455d 28%,#301a2b 58%,#080e1c 100%)}
+.pv-feature-art.pv-feature-worlds{background:radial-gradient(ellipse at 65% 32%,#7f8ed0 0,#3e456e 24%,#1c1c36 54%,transparent 75%),linear-gradient(135deg,#17172c,#0b1020)}
+.pv-feature-art.pv-feature-worlds:before{background:linear-gradient(145deg,#b4c6ff 0%,#59649a 28%,#262542 58%,#080e1c 100%)}
+@media(max-width:380px){.pv-feature-controls{right:7px;bottom:7px}.pv-feature-copy{right:9px}.pv-feature-copy p{max-width:92%}}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -358,12 +893,38 @@ button svg{filter:drop-shadow(0 1px 3px #0005)}
 <div class="notification-backdrop" id="notificationBackdrop" onclick="closeNotifications()" aria-hidden="true"></div>
 <section class="screen" id="notifications"><div class="notifications-header"><h1 class="page-title">Уведомления</h1><div class="notifications-actions"><button class="link" onclick="pvMarkAllFeedRead()">Отметить всё прочитанным</button><button class="notification-close" onclick="closeNotifications()" aria-label="Закрыть уведомления">×</button></div></div><div class="notice notification-empty"><svg viewBox="0 0 160 130" aria-hidden="true"><path d="M25 25h80a18 18 0 0 1 18 18v40a18 18 0 0 1-18 18H77l-18 16-8-16H25A18 18 0 0 1 7 83V43a18 18 0 0 1 18-18Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><path d="M101 20c-7-13-25-7-25 5 0 11 14 19 25 27 11-8 25-16 25-27 0-12-18-18-25-5Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><circle cx="40" cy="61" r="4" fill="currentColor"/><circle cx="62" cy="61" r="4" fill="currentColor"/><circle cx="84" cy="61" r="4" fill="currentColor"/></svg><p>Здесь будут уведомления об обновлениях произведений, на которые ты подписан, и новых ответах на комментарии.</p></div><div id="notificationList"></div></section>
 <section class="screen active" id="home">
-  <div class="authorhero"><div class="logo" style="margin-bottom:13px">✦</div><h2>Твоя следующая история</h2><div class="muted" style="font-size:12px">Каталог очищен от демо-произведений. Скоро здесь появятся настоящие публикации.</div><button class="primary" style="margin-top:14px" onclick="go('author')">＋ Опубликовать своё произведение</button></div>
-  <div class="notice">Пока каталог пуст. Создай произведение в PLOTNEST и подготовь его к публикации здесь.</div>
-  <div class="sectionhead"><h2>Каталог произведений</h2><button class="link" onclick="go('catalog')">Открыть каталог →</button></div><div id="homeWorks" class="horizontal-shelf"></div>
- </section>
+ <article class="pv-feature-hero" id="pvFeatureHero" onclick="openBook(document.getElementById('pvFeatureTitle').dataset.bookName)">
+  <div class="pv-feature-art" aria-hidden="true"><div class="pv-feature-orbit"></div><iconify-icon id="pvFeatureIcon" icon="solar:stars-minimalistic-line-duotone"></iconify-icon></div>
+  <div class="pv-feature-copy"><span class="pv-feature-kicker" id="pvFeatureKicker">ПОПУЛЯРНОЕ СЕЙЧАС</span><h1 id="pvFeatureTitle" data-book-name="">Загружаем подборку</h1><div class="pv-feature-tags" id="pvFeatureTags"><span>Ранобэ</span></div><p id="pvFeatureDesc">Подбираем произведения с высоким рейтингом.</p><span class="pv-feature-cta">Открыть произведение <iconify-icon icon="solar:arrow-right-line-duotone"></iconify-icon></span></div>
+  <div class="pv-feature-controls"><button type="button" aria-label="Предыдущее популярное произведение" onclick="event.stopPropagation();pvFeatureStep(-1)"><iconify-icon icon="solar:alt-arrow-left-line-duotone"></iconify-icon></button><span class="pv-feature-index" id="pvFeatureIndex">01 <i>/ 03</i></span><button type="button" aria-label="Следующее популярное произведение" onclick="event.stopPropagation();pvFeatureStep(1)"><iconify-icon icon="solar:alt-arrow-right-line-duotone"></iconify-icon></button></div>
+ </article>
+ <div class="sectionhead"><h2>Популярное</h2><button class="link" onclick="go('catalog')">Весь каталог →</button></div>
+ <div class="horizontal-shelf popular-shelf">
+  <article class="poster-card" onclick="openBook('Путь теней')"><div class="poster-art poster-one"><span class="poster-symbol">✧</span><strong>ПУТЬ ТЕНЕЙ</strong></div><div class="poster-caption">Путь теней<div class="rating">★ 9.4</div></div></article>
+  <article class="poster-card" onclick="openBook('ХАМУРА: ИГРА КОРОЛЕЙ')"><div class="poster-art poster-two"><span class="poster-symbol">♛</span><strong>ХАМУРА: ИГРА КОРОЛЕЙ</strong></div><div class="poster-caption">ХАМУРА: ИГРА КОРОЛЕЙ<div class="rating">★ 9.1</div></div></article>
+  <article class="poster-card" onclick="openBook('За гранью миров')"><div class="poster-art poster-three"><span class="poster-symbol">◉</span><strong>ЗА ГРАНЬЮ МИРОВ</strong></div><div class="poster-caption">За гранью миров<div class="rating">★ 8.9</div></div></article>
+ </div>
+ <div class="sectionhead"><h2>Продолжить чтение</h2></div>
+ <div class="horizontal-shelf resume-shelf">
+  <article class="resume resume-tile" onclick="resumeReading()"><div class="mini-cover">✧</div><div class="resumeinfo"><strong>Путь теней</strong><div class="small">Глава 7 · <span id="resumeProgress">0</span>% прочитано</div><div class="progress"><span id="resumeBar"></span></div><span class="link resume-action">Продолжить →</span></div></article>
+  <article class="resume resume-tile" onclick="openBook('ХАМУРА: ИГРА КОРОЛЕЙ')"><div class="mini-cover" style="background:linear-gradient(145deg,#5d293a,#17131c)">♛</div><div class="resumeinfo"><strong>ХАМУРА: ИГРА КОРОЛЕЙ</strong><div class="small">Продолжить знакомство с миром</div><span class="link resume-action">Открыть →</span></div></article>
+  <article class="resume resume-tile" onclick="openBook('За гранью миров')"><div class="mini-cover" style="background:linear-gradient(145deg,#43365b,#17131c)">◉</div><div class="resumeinfo"><strong>За гранью миров</strong><div class="small">Ещё одна история для чтения</div><span class="link resume-action">Открыть →</span></div></article>
+ </div>
+ <div class="sectionhead"><h2>Новые главы</h2><button class="link" onclick="go('feed')">Все обновления ›</button></div>
+ <div class="horizontal-shelf">
+  <article class="poster-card" onclick="openBook('Путь теней')"><div class="poster-art poster-one"><span class="rank">1</span><span class="poster-symbol">✧</span><strong>Путь теней</strong></div><div class="poster-caption">Путь теней<div class="small">Новая глава · Глава 7</div></div></article>
+  <article class="poster-card" onclick="openBook('ХАМУРА: ИГРА КОРОЛЕЙ')"><div class="poster-art poster-two"><span class="rank">2</span><span class="poster-symbol">♛</span><strong>ХАМУРА: ИГРА КОРОЛЕЙ</strong></div><div class="poster-caption">ХАМУРА: ИГРА КОРОЛЕЙ<div class="small">Продолжение истории</div></div></article>
+  <article class="poster-card" onclick="openBook('За гранью миров')"><div class="poster-art poster-three"><span class="rank">3</span><span class="poster-symbol">◉</span><strong>За гранью миров</strong></div><div class="poster-caption">За гранью миров<div class="small">Новая глава</div></div></article>
+ </div>
+ <div class="sectionhead"><h2>Онгоинги</h2><button class="link" onclick="go('catalog')">Весь каталог ›</button></div>
+ <div class="horizontal-shelf ongoing-shelf">
+  <article class="poster-card" onclick="openBook('Путь теней')"><div class="poster-art ongoing-one"><span class="poster-symbol">✧</span><strong>Путь теней</strong><span class="ongoing-tag">ВЫХОДИТ</span></div><div class="poster-caption">Путь теней<div class="small">Тёмное фэнтези</div></div></article>
+  <article class="poster-card" onclick="openBook('ХАМУРА: ИГРА КОРОЛЕЙ')"><div class="poster-art ongoing-two"><span class="poster-symbol">♛</span><strong>ХАМУРА: ИГРА КОРОЛЕЙ</strong><span class="ongoing-tag">ВЫХОДИТ</span></div><div class="poster-caption">ХАМУРА: ИГРА КОРОЛЕЙ<div class="small">Фэнтези · Приключения</div></div></article>
+  <article class="poster-card" onclick="openBook('За гранью миров')"><div class="poster-art ongoing-three"><span class="poster-symbol">◉</span><strong>За гранью миров</strong><span class="ongoing-tag">ВЫХОДИТ</span></div><div class="poster-caption">За гранью миров<div class="small">Приключения</div></div></article>
+ </div>
+</section>
 
- <section class="screen catalog-screen" id="catalog">
+<section class="screen catalog-screen" id="catalog">
  <div class="catalog-searchbar"><div class="catalog-searchbox"><span class="catalog-search-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><input id="catalogSearch" placeholder="Поиск..." oninput="renderCatalog()" aria-label="Поиск произведений"></div><button class="catalog-filter" onclick="toggleCatalogFilters()" aria-label="Фильтры"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6.3 7.1V19l-3.4 1v-7.9Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button></div>
  <div class="catalog-filter-backdrop hidden" id="catalogFilterBackdrop" onclick="closeCatalogFilters()"></div>
  <aside class="catalog-filter-panel hidden" id="catalogFilterPanel" aria-label="Фильтры каталога">
@@ -446,13 +1007,13 @@ button svg{filter:drop-shadow(0 1px 3px #0005)}
 
 <section class="screen" id="author">
  <div class="authorhero"><div class="logo" style="margin-bottom:13px">✎</div><h2>Твоя мастерская</h2><div class="muted" style="font-size:12px">Создавай истории. Управляй главами. Находи читателей.</div><button class="primary" style="margin-top:14px" onclick="showCreate()">＋ Создать произведение</button></div>
- <div class="gridstats"><div class="stat"><span>Произведения</span><strong id="authorWorkCount">0</strong></div><div class="stat"><span>Черновики</span><strong id="authorDraftCount">0</strong></div><div class="stat"><span>Публикации</span><strong id="authorPublicationCount">0</strong></div></div>
+ <div class="gridstats"><div class="stat"><span>Произведения</span><strong>1</strong></div><div class="stat"><span>Черновики</span><strong id="authorDraftCount">0</strong></div><div class="stat"><span>Публикации</span><strong>0</strong></div></div>
  <div class="sectionhead"><h2>Аналитика автора</h2><span class="small">локальные данные</span></div><div class="gridstats"><div class="stat"><span>Открытия произведений</span><strong id="analyticsBookOpens">0</strong></div><div class="stat"><span>Открытия глав</span><strong id="analyticsChapterOpens">0</strong></div><div class="stat"><span>За 7 дней</span><strong id="analyticsRecentOpens">0</strong></div></div><div id="analyticsTrend" class="trendchart"></div><div id="analyticsList"></div><div class="notice">Эта статистика считается только на текущем устройстве и не отражает просмотры других читателей.</div>
  <div class="pilltabs"><button class="active" onclick="authorTab('works',this)">Произведения</button><button onclick="authorTab('drafts',this)">Черновики</button><button onclick="authorTab('publish',this)">Публикации</button></div>
- <div id="authorWorks"><div class="notice">У тебя пока нет произведений. Создай черновик или импортируй текст из PLOTNEST.</div></div>
-  <div id="authorCreate" class="card hidden"><h3 style="margin-top:0">Новое произведение</h3><input class="field" id="newTitle" placeholder="Название ранобэ"><input class="field" id="newGenre" placeholder="Жанр"><textarea class="field" id="newDesc" rows="4" placeholder="Краткое описание"></textarea><button class="primary" onclick="createBook()">Сохранить черновик</button></div>
- <div id="authorPublish" class="notice hidden"><strong style="color:#eee2f5">Публикация из PLOTNEST</strong><p>Демо-произведения удалены. Прямая синхронизация PLOTNEST пока не подключена к этой сборке, поэтому можно импортировать текстовый файл произведения.</p><label class="small">Текст произведения (.txt или .md)</label><input class="field" id="pvImportWorkFile" type="file" accept=".txt,.md,.markdown,text/plain" onchange="pvImportWorkFileChanged(event)"><div class="small" style="margin-top:8px">Импорт добавит настоящее произведение в локальный каталог PLOTVERSE.</div></div>
- </section>
+ <div id="authorWorks"><div class="resume"><div class="mini-cover">✧</div><div class="resumeinfo"><strong>Путь теней</strong><div class="small">27 глав · Локальный проект</div><div class="badge" style="margin-top:8px">Не опубликовано</div><div style="margin-top:8px"><button class="link" onclick="authorTab('publish',document.querySelectorAll('.pilltabs button')[2])">Подготовить публикацию →</button></div></div></div></div>
+ <div id="authorCreate" class="card hidden"><h3 style="margin-top:0">Новое произведение</h3><input class="field" id="newTitle" placeholder="Название ранобэ"><input class="field" id="newGenre" placeholder="Жанр"><textarea class="field" id="newDesc" rows="4" placeholder="Краткое описание"></textarea><button class="primary" onclick="createBook()">Сохранить черновик</button></div>
+ <div id="authorPublish" class="notice hidden"><strong style="color:#eee2f5">Связь с PLOTNEST</strong><p>В будущей версии здесь можно будет подключить аккаунт, выбрать произведение и отправить главы из PLOTNEST.</p><p><span class="badge">Интеграция запланирована</span></p><label class="small">Произведение</label><select class="field" id="publishBook"><option>Путь теней</option><option>ХАМУРА: ИГРА КОРОЛЕЙ</option></select><label class="small">Действие</label><select class="field" id="publishAction"><option>Сохранить как черновик</option><option>Отправить на проверку</option><option>Подготовить к публикации</option></select><button class="primary" onclick="pvCreateLocalAnnouncement()">Создать локальный анонс</button><div class="small" style="margin-top:8px">Анонс появится только в ленте на этом устройстве. Публичная публикация ещё не подключена.</div></div>
+</section>
 
 
 <section class="screen" id="clubs"><h1 class="page-title">Книжные клубы</h1><div class="notice">Локальный прототип: клубы, планы и обсуждения сохраняются на этом устройстве и пока не видны другим участникам.</div><div class="card" style="margin-bottom:14px"><h3 style="margin-top:0">Создать клуб</h3><input class="field" id="clubName" placeholder="Название клуба"><textarea class="field" id="clubDescription" rows="2" placeholder="О чём будет клуб?"></textarea><label class="small">Произведение</label><select class="field" id="clubWork"></select><label class="small">План чтения до главы</label><select class="field" id="clubPlanChapter"></select><button class="primary" style="width:100%" onclick="pvCreateClub()">Создать клуб</button></div><div id="clubsList"></div><div id="clubsEmpty" class="notice hidden">Клубов пока нет. Создай первый клуб для совместного чтения.</div></section>
@@ -498,6 +1059,8 @@ button svg{filter:drop-shadow(0 1px 3px #0005)}
  <div class="sectionhead"><h2>Моё пространство</h2></div>
  <button class="chapter" onclick="go('library')"><span class="chicon">▤</span><span class="chtext">Моя библиотека<small>Сохранённые произведения и полки</small></span><span>›</span></button>
  <button class="chapter author-entry" onclick="go('author')"><span class="chicon">✎</span><span class="chtext">Кабинет автора<small>Создание произведений, черновики и публикации</small></span><span>›</span></button>
+ <button class="chapter" onclick="document.getElementById('pvPublicationFile').click()"><span class="chicon">⇧</span><span class="chtext">Импорт публикации из PLOTNEST<small>Добавить произведение и главы в каталог PLOTVERSE</small></span><span>›</span></button>
+ <input id="pvPublicationFile" type="file" accept=".json,application/json" style="display:none" onchange="pvImportPublicationFile(event)">
  <button class="chapter" onclick="go('history')"><span class="chicon">◷</span><span class="chtext">История чтения<small>Недавно открытые главы</small></span><span>›</span></button>
  <button class="chapter" onclick="go('recommendations')"><span class="chicon">✦</span><span class="chtext">Рекомендации<small>Подборки по твоему чтению</small></span><span>›</span></button><button class="chapter" onclick="go('clubs')"><span class="chicon">♧</span><span class="chtext">Книжные клубы<small>Планы чтения и обсуждения</small></span><span>›</span></button>
  <button class="chapter" onclick="go('settings')"><span class="chicon">⚙</span><span class="chtext">Настройки<small>Чтение, обновления и приложение</small></span><span>›</span></button>
@@ -512,8 +1075,32 @@ button svg{filter:drop-shadow(0 1px 3px #0005)}
 </div></nav>
 <div id="toast" class="toast hidden"></div>
 <script>
-const books=[]; // Пустой каталог без демонстрационных произведений.
-let currentBook=books[0]||{name:'',author:'',genre:'',genres:[],rating:'0.0',chapters:0,desc:'',local:true,localChapters:[]}, activeGenre='Все', isBookmarked=false, fontSize=18, chapterIndex=6, readerLight=false, lastProgress=64;
+const books=[
+ {name:'Путь теней',author:'RAEFFSKY',genre:'Тёмное фэнтези',genres:['Фэнтези','Магия','Приключения','Мистика','Экшен','Школа','Супер сила','Драма'],rating:'9.4',chapters:27,desc:'В стенах магической академии пробуждается сила, о которой мир предпочёл забыть.',cls:'',format:'ranobe',type:'ranobe',status:'ongoing',web:true,origin:'🇯🇵',inMyList:true},
+ {name:'ХАМУРА: ИГРА КОРОЛЕЙ',author:'Автор',genre:'Фэнтези',genres:['Фэнтези','Экшен','Приключения','Боевые искусства','История','Магия'],rating:'9.1',chapters:42,desc:'Королевства вступают в игру, где каждая победа имеет свою цену.',cls:'hamura',format:'ranobe',type:'ranobe',status:'ongoing',web:true,origin:'🇯🇵',inMyList:false},
+ {name:'За гранью миров',author:'Автор',genre:'Приключения',genres:['Приключения','Фантастика','Космос','Мистика','Экшен'],rating:'8.9',chapters:16,desc:'Портал в неизвестность меняет судьбу обычного путешественника.',cls:'worlds',format:'ranobe',type:'ranobe',status:'released',web:false,origin:'🇰🇷',inMyList:false}
+];
+let pvFeaturedBooks=[],pvFeaturedIndex=0;
+function pvRenderFeaturedBook(){
+ const candidates=books.slice().sort((a,b)=>(Number(b.rating)||0)-(Number(a.rating)||0)||(Number(b.chapters)||0)-(Number(a.chapters)||0));
+ pvFeaturedBooks=candidates.slice(0,Math.min(5,candidates.length));
+ if(!pvFeaturedBooks.length)return;
+ pvFeaturedIndex=((pvFeaturedIndex%pvFeaturedBooks.length)+pvFeaturedBooks.length)%pvFeaturedBooks.length;
+ const b=pvFeaturedBooks[pvFeaturedIndex],title=document.getElementById('pvFeatureTitle'),desc=document.getElementById('pvFeatureDesc'),tags=document.getElementById('pvFeatureTags'),index=document.getElementById('pvFeatureIndex'),art=document.querySelector('.pv-feature-art'),hero=document.getElementById('pvFeatureHero'),kicker=document.getElementById('pvFeatureKicker');
+ if(!title||!desc||!tags||!index||!art||!hero)return;
+ title.textContent=b.name;title.dataset.bookName=b.name;desc.textContent=b.desc||'Открой новую историю и добавь её в свою библиотеку.';
+ kicker.textContent='ПОПУЛЯРНОЕ СЕЙЧАС · ★ '+(b.rating||'—');
+ tags.innerHTML=(Array.isArray(b.genres)?b.genres:b.genre?[b.genre]:['Ранобэ']).slice(0,3).map(g=>'<span>'+pvEscape(g)+'</span>').join('');
+ index.innerHTML=String(pvFeaturedIndex+1).padStart(2,'0')+' <i>/ '+String(pvFeaturedBooks.length).padStart(2,'0')+'</i>';
+ hero.setAttribute('aria-label','Популярное произведение: '+b.name);
+ art.classList.remove('pv-feature-hamura','pv-feature-worlds');
+ if(/хамура/i.test(b.name))art.classList.add('pv-feature-hamura');
+ else if(/за гранью/i.test(b.name))art.classList.add('pv-feature-worlds');
+ const icon=document.getElementById('pvFeatureIcon');
+ if(icon)icon.setAttribute('icon',/хамура/i.test(b.name)?'solar:crown-line-duotone':/за гранью/i.test(b.name)?'solar:planet-3-line-duotone':'solar:stars-minimalistic-line-duotone');
+}
+function pvFeatureStep(step){if(!pvFeaturedBooks.length)pvRenderFeaturedBook();if(!pvFeaturedBooks.length)return;pvFeaturedIndex=(pvFeaturedIndex+step+pvFeaturedBooks.length)%pvFeaturedBooks.length;pvRenderFeaturedBook();}
+let currentBook=books[0], activeGenre='Все', isBookmarked=false, fontSize=18, chapterIndex=6, readerLight=false, lastProgress=64;
 const chapterNames=['Пролог. Ночь безмолвия','Глава 1. Чужак','Глава 2. Знак','Глава 3. Тайный след','Глава 4. Запретная дверь','Глава 6. Тихий коридор','Глава 7. Колокол безмолвия','Глава 8. За седьмой дверью'];
 function openNotifications(){const panel=document.getElementById('notifications');if(panel&&panel.classList.contains('active')){closeNotifications();return;}go('notifications');const backdrop=document.getElementById('notificationBackdrop');if(backdrop)backdrop.classList.add('visible');document.body.classList.add('notifications-open');}
 function closeNotifications(){const panel=document.getElementById('notifications');if(!panel||!panel.classList.contains('active'))return;const backdrop=document.getElementById('notificationBackdrop');if(backdrop)backdrop.classList.remove('visible');document.body.classList.remove('notifications-open');const previous=pvScreenHistory.length?pvScreenHistory.pop():'home';go(previous,false);}
@@ -544,13 +1131,78 @@ function nextChapter(){chapterIndex=Math.min(chapterNames.length-1,chapterIndex+
 function prevChapter(){chapterIndex=Math.max(0,chapterIndex-1);openReader(chapterNames[chapterIndex],chapterIndex);}
 function saveProgress(){lastProgress=Math.min(100,lastProgress+1);document.getElementById('resumeProgress').textContent=lastProgress;document.getElementById('resumeBar').style.width=lastProgress+'%';toast('Место чтения сохранено в демонстрационном состоянии.');}
 function toggleBookmark(){isBookmarked=!isBookmarked;document.getElementById('bookmarkBtn').textContent=isBookmarked?'✓ В библиотеке':'♧ В библиотеку';toast(isBookmarked?'Добавлено в демонстрационную библиотеку':'Убрано из демонстрационной библиотеки');}
-function authorTab(t,el){document.querySelectorAll('.pilltabs button').forEach(function(b){b.classList.remove('active');});if(el)el.classList.add('active');document.getElementById('authorCreate').classList.toggle('hidden',t!=='create');document.getElementById('authorPublish').classList.toggle('hidden',t!=='publish');const works=document.getElementById('authorWorks');works.classList.toggle('hidden',t==='create'||t==='publish');if(t==='drafts')pvRenderDrafts();else if(t==='works'){pvRenderDrafts();const count=document.getElementById('authorWorkCount');if(count)count.textContent=String(pvState.importedBooks.length);}}
+function authorTab(t,el){document.querySelectorAll('.pilltabs button').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById('authorCreate').classList.toggle('hidden',t!=='create');document.getElementById('authorPublish').classList.toggle('hidden',t!=='publish');document.getElementById('authorWorks').classList.toggle('hidden',t==='create'||t==='publish');if(t==='drafts')document.getElementById('authorWorks').innerHTML='<div class="notice">Черновики будут храниться локально и синхронизироваться после реализации аккаунта.</div>';else if(t==='works')document.getElementById('authorWorks').innerHTML='<div class="resume"><div class="mini-cover">✧</div><div class="resumeinfo"><strong>Путь теней</strong><div class="small">27 глав · Локальный проект</div><div class="badge" style="margin-top:8px">Не опубликовано</div></div></div>';}
+function showCreate(){authorTab('create',document.querySelectorAll('.pilltabs button')[0]);document.querySelectorAll('.pilltabs button').forEach(b=>b.classList.remove('active'));}
+function createBook(){let title=document.getElementById('newTitle').value.trim();if(!title){toast('Введи название произведения.');return;}toast('Черновик «'+title+'» создан только в макете.');document.getElementById('newTitle').value='';document.getElementById('newGenre').value='';document.getElementById('newDesc').value='';authorTab('drafts',document.querySelectorAll('.pilltabs button')[1]);}
+let toastTimer;function toast(msg){let el=document.getElementById('toast');el.textContent=msg;el.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add('hidden'),2500);}
+renderCatalog();
+const PV_STORE_KEY='plotverse.local.v2';
+let pvState={bookmarks:[],progress:{},fontSize:18,readerLight:false,drafts:[],history:[],comments:{},followingAuthors:[],feedItems:[],analyticsEvents:[],hiddenGenres:[],excludeReadWorks:true,clubs:[],importedBooks:[],profileName:'Читатель',currentBook:'Путь теней'};
+function pvLoad(){try{const raw=localStorage.getItem(PV_STORE_KEY);if(raw){const x=JSON.parse(raw);if(x&&typeof x==='object')pvState=Object.assign(pvState,x);}}catch(e){console.warn('PLOTVERSE local data could not be read',e);}if(!Array.isArray(pvState.bookmarks))pvState.bookmarks=[];if(!pvState.progress||typeof pvState.progress!=='object')pvState.progress={};if(!Array.isArray(pvState.drafts))pvState.drafts=[];if(!Array.isArray(pvState.history))pvState.history=[];if(!pvState.comments||typeof pvState.comments!=='object')pvState.comments={};if(!Array.isArray(pvState.followingAuthors))pvState.followingAuthors=[];if(!Array.isArray(pvState.feedItems))pvState.feedItems=[];if(!Array.isArray(pvState.analyticsEvents))pvState.analyticsEvents=[];if(!Array.isArray(pvState.hiddenGenres))pvState.hiddenGenres=[];if(typeof pvState.excludeReadWorks!=='boolean')pvState.excludeReadWorks=true;if(!Array.isArray(pvState.clubs))pvState.clubs=[];if(!Array.isArray(pvState.importedBooks))pvState.importedBooks=[];}
+function pvSave(){try{localStorage.setItem(PV_STORE_KEY,JSON.stringify(pvState));return true;}catch(e){console.error('PLOTVERSE local save failed',e);toast('Не удалось сохранить данные. Проверь свободное место на устройстве.');return false;}}
+function pvEditProfile(){const entered=prompt('Имя профиля (до 32 символов)',pvState.profileName||'Читатель');if(entered===null)return;const name=String(entered).trim().slice(0,32);if(!name){toast('Имя профиля не может быть пустым.');return;}pvState.profileName=name;if(pvSave()){const el=document.getElementById('profileDisplayName');if(el)el.textContent=name;toast('Имя профиля сохранено на устройстве.');}} function pvBookmarked(name){return pvState.bookmarks.indexOf(name)>=0;}
+function openReader(name,index){if(typeof index==='number')chapterIndex=index;else{const found=chapterNames.indexOf(name);if(found>=0)chapterIndex=found;}chapterIndex=Math.max(0,Math.min(chapterNames.length-1,chapterIndex));const title=chapterNames[chapterIndex]||name;document.getElementById('readerTitle').textContent=title.replace(/^Глава \d+\.\s*/,'').replace(/^Пролог\.\s*/,'');document.getElementById('readerNumber').textContent=title.split('.')[0].toUpperCase();pvState.currentBook=currentBook.name;pvState.history=[{book:currentBook.name,chapterIndex:chapterIndex,chapter:title,at:Date.now()}].concat(pvState.history.filter(h=>h.book!==currentBook.name||h.chapterIndex!==chapterIndex)).slice(0,30);lastProgress=Math.round(((chapterIndex+1)/Math.max(1,chapterNames.length))*100);pvState.progress[currentBook.name]={chapterIndex:chapterIndex,percent:lastProgress};pvSave();applyPVReaderSettings();go('reader');}
+function applyPVReaderSettings(){const t=document.getElementById('readerText');if(!t)return;t.style.fontSize=fontSize+'px';t.style.color=readerLight?'#29232e':'#e7dfe9';t.style.background=readerLight?'#eee8f2':'transparent';t.style.padding=readerLight?'15px':'0';t.style.borderRadius='12px';document.getElementById('fontValue').textContent=fontSize;document.getElementById('resumeProgress').textContent=lastProgress;document.getElementById('resumeBar').style.width=lastProgress+'%';}
+function changeFont(d){fontSize=Math.max(14,Math.min(26,fontSize+d));pvState.fontSize=fontSize;pvSave();applyPVReaderSettings();}
+function toggleReaderTheme(){readerLight=!readerLight;pvState.readerLight=readerLight;pvSave();applyPVReaderSettings();}
+function saveProgress(){lastProgress=Math.round(((chapterIndex+1)/Math.max(1,chapterNames.length))*100);pvState.progress[currentBook.name]={chapterIndex:chapterIndex,percent:lastProgress};pvSave();applyPVReaderSettings();toast('Место чтения сохранено на устройстве.');}
+function toggleBookmark(){const name=currentBook.name;const i=pvState.bookmarks.indexOf(name);if(i>=0)pvState.bookmarks.splice(i,1);else pvState.bookmarks.push(name);pvSave();document.getElementById('bookmarkBtn').textContent=pvBookmarked(name)?'✓ В библиотеке':'♧ В библиотеку';toast(pvBookmarked(name)?'Добавлено в библиотеку':'Удалено из библиотеки');}
+function pvCreateBook(){const title=document.getElementById('newTitle').value.trim();if(!title){toast('Введи название произведения.');return;}pvState.drafts.push({title:title,genre:document.getElementById('newGenre').value.trim(),desc:document.getElementById('newDesc').value.trim(),createdAt:Date.now()});pvSave();document.getElementById('newTitle').value='';document.getElementById('newGenre').value='';document.getElementById('newDesc').value='';toast('Черновик сохранён на устройстве.');}
+function pvInit(){pvLoad();pvUpdateResumeTile();pvRenderFeaturedBook();const profileNameEl=document.getElementById('profileDisplayName');if(profileNameEl)profileNameEl.textContent=pvState.profileName||'Читатель';pvSyncImportedBooks();fontSize=Math.max(14,Math.min(26,Number(pvState.fontSize)||18));readerLight=!!pvState.readerLight;currentBook=books.find(b=>b.name===pvState.currentBook)||books[0];const p=pvState.progress[currentBook.name]||{};const initialChapterNames=pvGetChapterNames(currentBook);chapterIndex=Math.max(0,Math.min(initialChapterNames.length-1,p.chapterIndex==null?(currentBook.local?0:6):Number(p.chapterIndex)));lastProgress=p.percent==null?0:Number(p.percent);document.getElementById('bookmarkBtn').textContent=pvBookmarked(currentBook.name)?'✓ В библиотеке':'♧ В библиотеку';applyPVReaderSettings();}
+pvInit();
+function openBook(name){try{const picked=books.find(b=>b.name===name)||books.find(b=>String(b.name).toLowerCase()===String(name).toLowerCase())||books[0];if(!picked){toast('Произведения пока недоступны');return;}currentBook=picked;if(typeof pvState==='object'){pvState.currentBook=currentBook.name;pvSave();}const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val==null?'':val;};set('detailName',currentBook.name);set('detailGenre',currentBook.genre);set('detailAuthor',currentBook.author);set('detailRating',currentBook.rating);set('statRating',currentBook.rating);set('detailChapters',currentBook.chapters);set('detailDesc',currentBook.desc);set('bookmarkBtn',pvBookmarked(currentBook.name)?'✓ В библиотеке':'♧ В библиотеку');try{renderChapters();}catch(e){console.error('renderChapters failed',e);}go('detail');}catch(e){console.error('openBook failed',e);const detail=document.getElementById('detail');if(detail){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));detail.classList.add('active');window.scrollTo(0,0);}else toast('Не удалось открыть карточку произведения');}}
+function resumeReading(){const last=pvState.history[0];const name=(last&&last.book)||pvState.currentBook||'Путь теней';currentBook=books.find(b=>b.name===name)||books[0];const p=pvState.progress[currentBook.name]||{};const names=pvGetChapterNames(currentBook);const index=Math.max(0,Math.min(names.length-1,p.chapterIndex==null?(currentBook.local?0:6):Number(p.chapterIndex)));openReader(names[index],index);}
+
+let pvActiveShelf='Все';
+function openBookByIndex(i){openBook(books[i]&&books[i].name||books[0].name);}
+function setShelf(shelf,el){pvActiveShelf=shelf;document.querySelectorAll('#shelfChips .chip').forEach(c=>c.classList.remove('selected'));if(el)el.classList.add('selected');renderLibrary();}
+function renderLibrary(){const root=document.getElementById('libraryList');if(!root)return;const list=books.map((b,i)=>({b:b,i:i})).filter(x=>{if(!pvBookmarked(x.b.name))return false;if(pvActiveShelf==='Все')return true;return !!(pvState.shelves&&pvState.shelves[x.b.name])&&pvState.shelves[x.b.name]===pvActiveShelf;});root.innerHTML=list.map(x=>'<div class="bookrow library-book-card"><div class="cover '+pvEscape(x.b.cls||'')+'" onclick="openBookByIndex('+x.i+')"><div class="coverlabel">'+pvEscape(x.b.name)+'</div></div><div class="library-book-info"><h3>'+pvEscape(x.b.name)+'</h3><div class="small">'+pvEscape(x.b.author)+' · '+pvEscape(x.b.genre)+'</div><button onclick="openBookByIndex('+x.i+')">Открыть</button></div></div>').join('');document.getElementById('libraryEmpty').classList.toggle('hidden',list.length>0);}
+
+/* Reading badges are rendered only for an explicitly saved shelf status. No default "Читаю". */
+function pvApplyShelfBadges(){
+ const stateMap={'Читаю':{cls:'pv-status-reading',label:'ЧИТАЮ'},'Завершено':{cls:'pv-status-completed',label:'ПРОЧИТАНО'},'Прочитано':{cls:'pv-status-completed',label:'ПРОЧИТАНО'},'Брошено':{cls:'pv-status-dropped',label:'БРОШЕНО'},'В планах':{cls:'pv-status-planned',label:'В ПЛАНАХ'}};
+ const allStatus=['pv-status-reading','pv-status-completed','pv-status-dropped','pv-status-planned'];
+ document.querySelectorAll('.poster-card,.catalog-book,.work-mini-card,.resume-tile,.bookrow').forEach(card=>{
+  const text=(card.innerText||card.textContent||'').replace(/\s+/g,' ').trim();
+  const art=card.querySelector('.poster-art,.catalog-cover,.work-mini-art,.mini-cover,.cover');
+  let matched=null;
+  if(typeof books!=='undefined'&&Array.isArray(books)){
+   matched=books.filter(b=>b&&b.name&&text.includes(b.name)).sort((a,b)=>b.name.length-a.name.length)[0]||null;
+  }
+  const shelves=pvState&&pvState.shelves&&typeof pvState.shelves==='object'?pvState.shelves:{};
+  const shelf=matched&&Object.prototype.hasOwnProperty.call(shelves,matched.name)?shelves[matched.name]:'';
+  const meta=stateMap[shelf];
+  /* Clear every old badge first, including stale classes/data from previous renders. */
+  card.classList.remove('pv-status-card',...allStatus);
+  card.removeAttribute('data-pv-status');
+  if(art){art.classList.remove('pv-status-art');art.removeAttribute('data-pv-status');}
+  if(!meta||!matched)return;
+  card.classList.add('pv-status-card',meta.cls);
+  if(card.classList.contains('resume-tile'))card.setAttribute('data-pv-status',meta.label);
+  else if(art){art.classList.add('pv-status-art');art.setAttribute('data-pv-status',meta.label);}
+ });
+}
+function pvUpdateWorkStatusButton(){const status=pvState.shelves&&currentBook&&pvState.shelves[currentBook.name]||'';['workStatusBtn','pvFloatingStatus'].forEach(function(id){const button=document.getElementById(id);if(button){if(!button.dataset)button.dataset={};button.dataset.status=status;}});const floating=document.getElementById('pvFloatingStatus');const detail=document.getElementById('detail');if(floating){if(!floating.style)floating.style={};floating.style.display=detail&&detail.classList&&detail.classList.contains('active')?'flex':'none';}}
+function pvOpenStatusPicker(){if(!currentBook)return;const modal=document.getElementById('pvStatusPickerModal');if(!modal)return;const current=pvState.shelves&&pvState.shelves[currentBook.name]||'';const options=modal.querySelectorAll('[data-work-status]');options.forEach(function(option){const selected=option.getAttribute('data-work-status')===current;option.classList.toggle('is-selected',selected);option.setAttribute('aria-pressed',selected?'true':'false');});modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');}
+function pvCloseStatusPicker(){const modal=document.getElementById('pvStatusPickerModal');if(modal){modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');}}
+function pvChooseWorkStatus(status){if(!currentBook)return;const allowed=['Читаю','Завершено','Брошено','В планах',''];if(allowed.indexOf(status)<0)return;changeShelfByIndex(books.indexOf(currentBook),status);pvUpdateWorkStatusButton();pvCloseStatusPicker();toast(status?'Статус произведения обновлён.':'Метка статуса снята.');}
+function changeShelfByIndex(i,shelf){if(!books[i])return;if(!pvState.shelves)pvState.shelves={};if(!shelf||shelf==='Без метки')delete pvState.shelves[books[i].name];else pvState.shelves[books[i].name]=shelf;pvSave();renderLibrary();pvApplyShelfBadges();}
+const pvGoOriginal=go;go=function(id){pvGoOriginal(id);if(id==='library')renderLibrary();if(typeof pvApplyShelfBadges==='function')pvApplyShelfBadges();pvUpdateWorkStatusButton();};
+const pvBookmarkOriginal=toggleBookmark;toggleBookmark=function(){pvBookmarkOriginal();renderLibrary();pvApplyShelfBadges();};
+renderLibrary();pvApplyShelfBadges();
+const pvStatusObserver=new MutationObserver(function(){pvApplyShelfBadges();});
+pvStatusObserver.observe(document.body,{childList:true,subtree:true});
+
+function pvEscape(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function pvRenderDrafts(){const count=document.getElementById('authorDraftCount');if(count)count.textContent=String(pvState.drafts.length);const root=document.getElementById('authorWorks');if(!root)return;root.innerHTML=pvState.drafts.length?pvState.drafts.map(function(d,i){return '<div class="resume" style="margin-bottom:10px"><div class="mini-cover">✎</div><div class="resumeinfo"><strong>'+pvEscape(d.title)+'</strong><div class="small">'+pvEscape(d.genre||'Без жанра')+'</div><p class="small">'+pvEscape(d.desc||'Описание не добавлено')+'</p><button onclick="pvDeleteDraft('+i+')">Удалить черновик</button></div></div>';}).join(''):'<div class="notice">Черновиков пока нет. Создай произведение, чтобы сохранить его на устройстве.</div>';}
+function pvDeleteDraft(i){pvState.drafts.splice(i,1);pvSave();pvRenderDrafts();toast('Черновик удалён.');}
+function createBook(){const title=document.getElementById('newTitle').value.trim();if(!title){toast('Введи название произведения.');return;}pvState.drafts.push({title:title,genre:document.getElementById('newGenre').value.trim(),desc:document.getElementById('newDesc').value.trim(),createdAt:Date.now()});pvSave();document.getElementById('newTitle').value='';document.getElementById('newGenre').value='';document.getElementById('newDesc').value='';authorTab('drafts',document.querySelectorAll('.pilltabs button')[1]);pvRenderDrafts();toast('Черновик сохранён на устройстве.');}
+function authorTab(t,el){document.querySelectorAll('.pilltabs button').forEach(function(b){b.classList.remove('active');});if(el)el.classList.add('active');document.getElementById('authorCreate').classList.toggle('hidden',t!=='create');document.getElementById('authorPublish').classList.toggle('hidden',t!=='publish');const works=document.getElementById('authorWorks');works.classList.toggle('hidden',t==='create'||t==='publish');if(t==='drafts')pvRenderDrafts();else if(t==='works'){works.innerHTML='<div class="resume"><div class="mini-cover">✧</div><div class="resumeinfo"><strong>Путь теней</strong><div class="small">Локальный проект · не опубликовано</div></div></div>';}}
 function pvChapterKey(book,index){return book+'::'+index;}
 function pvChapterBody(index){const names=pvGetChapterNames(currentBook);if(currentBook&&currentBook.local&&Array.isArray(currentBook.localChapters)){const chapter=currentBook.localChapters[index];return chapter&&chapter.text?'<p>'+pvEscape(chapter.text).replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')+'</p>':'';}if(index===chapterIndex){const node=document.getElementById('readerText');if(node&&node.innerHTML&&!node.innerHTML.includes('Текст главы пока недоступен'))return node.innerHTML;}if(index===6&&typeof pvSampleChapterHtml!=='undefined')return pvSampleChapterHtml;return '';}
 function pvIsChapterSaved(index){return !!(pvState.offlineChapters&&pvState.offlineChapters[pvChapterKey(currentBook.name,index)]);}
 function pvSaveChapter(index){const names=pvGetChapterNames(currentBook);if(index<0||index>=names.length)return;if(!pvState.offlineChapters)pvState.offlineChapters={};const key=pvChapterKey(currentBook.name,index);if(pvState.offlineChapters[key]){delete pvState.offlineChapters[key];pvSave();renderChapters();pvOfflineStats();toast('Глава удалена из офлайн-хранилища.');return;}const body=pvChapterBody(index);if(!body||body.includes('Текст главы пока недоступен')){toast('Полный текст этой главы пока не загружен.');return;}pvState.offlineChapters[key]={book:currentBook.name,index:index,title:names[index],savedAt:Date.now(),html:body};if(pvSave()){renderChapters();pvOfflineStats();toast('Глава сохранена на устройстве.');}}
 function pvSaveAllAvailableChapters(){const names=pvGetChapterNames(currentBook);if(!pvState.offlineChapters)pvState.offlineChapters={};let saved=0;names.forEach(function(title,index){const key=pvChapterKey(currentBook.name,index);if(pvState.offlineChapters[key])return;const body=pvChapterBody(index);if(!body||body.includes('Текст главы пока недоступен'))return;pvState.offlineChapters[key]={book:currentBook.name,index:index,title:title,savedAt:Date.now(),html:body};saved++;});if(saved&&pvSave()){renderChapters();pvOfflineStats();toast('Сохранено офлайн глав: '+saved+'.');}else if(!saved)toast('Нет новых глав с доступным полным текстом для сохранения.');} function pvShareCurrentBook(){const textValue=currentBook.name+' | '+currentBook.author+'\n'+(currentBook.description||'')+'\nPLOTVERSE';if(window.PlotverseAndroid&&typeof window.PlotverseAndroid.shareText==='function'){window.PlotverseAndroid.shareText(textValue);return;}if(typeof navigator!=='undefined'&&navigator.share){navigator.share({title:currentBook.name,text:textValue}).catch(function(){toast('Не удалось открыть меню отправки.');});return;}toast('Отправка недоступна в этой версии WebView.');} function pvExportData(){const data=JSON.stringify(pvState,null,2);if(window.PlotverseAndroid&&typeof window.PlotverseAndroid.saveBackup==='function'){window.PlotverseAndroid.saveBackup(data);return;}const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='plotverse-backup.json';a.click();setTimeout(function(){URL.revokeObjectURL(url);},1000);toast('Резервная копия подготовлена.');}
-function pvImportWorkFileChanged(event){const file=event.target.files&&event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(){try{if(!pvAddImportedBook(file.name,String(reader.result||'')))return;pvSave();renderCatalog();renderLibrary();pvRenderDrafts();const count=document.getElementById('authorWorkCount');if(count)count.textContent=String(pvState.importedBooks.length);toast('Произведение импортировано в каталог.');}catch(e){toast('Не удалось импортировать произведение.');}event.target.value='';};reader.readAsText(file);}
 function pvImportData(event){const file=event.target.files&&event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(){try{const data=JSON.parse(String(reader.result));if(!data||typeof data!=='object'||!Array.isArray(data.bookmarks)||!data.progress||!Array.isArray(data.drafts))throw new Error('Неверный формат резервной копии');pvState=Object.assign(pvState,data);if(!Array.isArray(pvState.chapterBookmarks))pvState.chapterBookmarks=[];if(!Array.isArray(pvState.history))pvState.history=[];if(!pvState.offlineChapters||typeof pvState.offlineChapters!=='object')pvState.offlineChapters={};if(!pvState.shelves||typeof pvState.shelves!=='object')pvState.shelves={};if(!Array.isArray(pvState.analyticsEvents))pvState.analyticsEvents=[];if(!Array.isArray(pvState.hiddenGenres))pvState.hiddenGenres=[];if(typeof pvState.excludeReadWorks!=='boolean')pvState.excludeReadWorks=true;if(!Array.isArray(pvState.clubs))pvState.clubs=[];if(!Array.isArray(pvState.importedBooks))pvState.importedBooks=[];pvSyncImportedBooks();if(pvSave()){fontSize=Math.max(14,Math.min(26,Number(pvState.fontSize)||18));readerLight=!!pvState.readerLight;pvLineHeight=Math.max(1.3,Math.min(2.3,Number(pvState.lineHeight)||1.85));pvReaderWidth=Math.max(70,Math.min(100,Number(pvState.readerWidth)||100));renderLibrary();pvRenderDrafts();renderHistory();renderChapters();pvOfflineStats();applyPVReaderSettings();toast('Резервная копия восстановлена.');}}catch(e){toast('Не удалось импортировать файл: неверный формат.');}event.target.value='';};reader.readAsText(file);}
 function renderChapters(){const root=document.getElementById('chapterList');root.innerHTML=chapterNames.map(function(n,i){const saved=pvIsChapterSaved(i);return '<div class="chapter" style="display:flex;align-items:center;gap:8px"><button style="flex:1;text-align:left;border:0;background:transparent;padding:8px 4px" onclick="openReaderByIndex('+i+')"><span class="chicon">'+(i<chapterIndex?'✓':'▤')+'</span><span class="chtext">'+pvEscape(n)+'<small>'+(i===chapterIndex?'Продолжить чтение':i<chapterIndex?'Прочитано':'Открыть главу')+'</small></span></button><button aria-label="'+(saved?'Удалить офлайн-главу':'Сохранить офлайн')+'" onclick="pvSaveChapter('+i+')">'+(saved?'✓ Офлайн':'↓')+'</button></div>';}).join('');}
 
@@ -652,11 +1304,51 @@ pvInitClubForm();renderClubs();
 
 function pvCreateLocalAnnouncement(){const name=document.getElementById('publishBook').value;const book=books.find(function(b){return b.name===name;})||books[0];pvAddFeedItem({id:'local-'+Date.now(),author:book.author,title:'Анонс: '+book.name,description:'Локальный демонстрационный анонс произведения. Он не отправлен на сервер и не виден другим читателям.',local:true});toast('Локальный анонс добавлен в ленту.');go('feed');}
 
-function pvSyncImportedBooks(){if(!Array.isArray(pvState.importedBooks))pvState.importedBooks=[];for(let i=books.length-1;i>=0;i--){if(books[i].local)books.splice(i,1);}pvState.importedBooks.forEach(function(book){if(book&&book.name&&Array.isArray(book.localChapters))books.push(Object.assign({},book,{local:true,cls:'imported'}));});if(!currentBook||!currentBook.name||!books.some(function(b){return b.name===currentBook.name;}))currentBook=books[0]||{name:'',author:'',genre:'',genres:[],rating:'0.0',chapters:0,desc:'',local:true,localChapters:[]};}
+function pvSyncImportedBooks(){if(!Array.isArray(pvState.importedBooks))pvState.importedBooks=[];for(let i=books.length-1;i>=0;i--){if(books[i].local)books.splice(i,1);}pvState.importedBooks.forEach(function(book){if(book&&book.name&&Array.isArray(book.localChapters))books.push(Object.assign({},book,{local:true,cls:'imported'}));});}
 function pvGetChapterNames(book){const target=book||currentBook;return target&&target.local&&Array.isArray(target.localChapters)?target.localChapters.map(function(c){return c.title||'Глава';}):chapterNames;}
+function pvUpdateResumeTile(){
+ const tile=document.querySelector('.resume-shelf .resume-tile');if(!tile||typeof tile.querySelector!=='function')return;
+ const last=Array.isArray(pvState.history)?pvState.history[0]:null;
+ const name=(last&&last.book)||pvState.currentBook||'Путь теней';
+ const book=books.find(function(b){return b.name===name;})||books[0];if(!book)return;
+ const names=pvGetChapterNames(book),progress=(pvState.progress&&pvState.progress[book.name])||{};
+ const fallbackIndex=book.local?0:6;
+ const index=Math.max(0,Math.min(Math.max(0,names.length-1),progress.chapterIndex==null?(last&&last.book===book.name?Number(last.chapterIndex)||0:fallbackIndex):Number(progress.chapterIndex)||0));
+ const rawPercent=Number(progress.percent)||0;
+ const percent=rawPercent>0?Math.max(0,Math.min(100,rawPercent)):Math.round(((index+1)/Math.max(1,names.length))*100);
+ const title=tile.querySelector('.resumeinfo strong'),small=tile.querySelector('.resumeinfo .small'),bar=tile.querySelector('.progress span');
+ if(title)title.textContent=book.name;
+ if(small)small.textContent=(names[index]||('Глава '+(index+1))).replace(/^Глава\s*\d+[.:]?\s*/i,'Глава '+(index+1)+' · ')+' · '+percent+'% прочитано';
+ const progressLabel=document.getElementById('resumeProgress');if(progressLabel)progressLabel.textContent=String(percent);
+ if(bar)bar.style.width=percent+'%';
+}
 function pvGetChapterTitle(bookName,index){const target=books.find(function(b){return b.name===bookName;});const names=pvGetChapterNames(target);return names[Math.max(0,Math.min(names.length-1,Number(index)||0))]||'Глава';}
 function pvParseTextChapters(raw){const text=String(raw||'').replace(/\r\n?/g,'\n');const lines=text.split('\n');const heading=/^\s*(?:#{1,3}\s+.+|(?:пролог|эпилог|глава|chapter|prologue)\b.*)$/i;const chapters=[];let title=null,body=[];function push(){const content=body.join('\n').trim();if(content)chapters.push({title:title||'Начало',text:content});}for(const line of lines){if(heading.test(line)){push();title=line.replace(/^\s*#{1,3}\s+/,'').trim();body=[];}else body.push(line);}push();if(!chapters.length)chapters.push({title:'Полный текст',text:text.trim()});return chapters.filter(function(c){return !!c.text;});}
 function pvAddImportedBook(fileTitle,text){const raw=String(text||'').trim();if(!raw){toast('Файл пустой.');return false;}if(raw.length>1800000){toast('Файл слишком большой для локального хранилища. Раздели его на несколько файлов.');return false;}let title=String(fileTitle||'Импортированная книга').replace(/\.(txt|md|markdown)$/i,'').trim()||'Импортированная книга';if(books.some(function(b){return b.name===title;})){let n=2;while(books.some(function(b){return b.name===title+' ('+n+')';}))n++;title+=' ('+n+')';}const chapters=pvParseTextChapters(raw);const book={name:title,author:'Импортированный файл',genre:'Импортировано',rating:'0.0',chapters:chapters.length,desc:'Локальная книга из текстового файла. Доступна офлайн.',cls:'imported',local:true,localId:'local-'+Date.now()+'-'+Math.floor(Math.random()*100000),localChapters:chapters};if(!Array.isArray(pvState.importedBooks))pvState.importedBooks=[];if(!pvState.bookmarks.includes(title))pvState.bookmarks.push(title);pvState.importedBooks.push(book);if(!pvSave()){pvState.importedBooks.pop();pvState.bookmarks=pvState.bookmarks.filter(function(x){return x!==title;});return false;}books.push(book);renderCatalog();renderLibrary();pvOfflineStats();toast('Книга импортирована: '+title);return true;}
+function pvAddPublishedWork(pack){
+ try{
+  if(!pack||pack.format!=='PLOTVERSE_PUBLICATION_V1'||!Array.isArray(pack.chapters))throw new Error('invalid-publication');
+  const rawSize=JSON.stringify(pack).length;if(rawSize>1600000)throw new Error('publication-too-large');
+  const chapters=pack.chapters.map(function(ch,i){return {title:String(ch&&ch.title||('Глава '+(i+1))).trim(),text:String(ch&&ch.text||'').replace(/\r\n?/g,'\n').trim()};}).filter(function(ch){return !!ch.text;});
+  if(!chapters.length)throw new Error('empty-chapters');
+  if(chapters.length>2000)throw new Error('too-many-chapters');
+  let title=String(pack.title||'Произведение из PLOTNEST').trim().slice(0,160)||'Произведение из PLOTNEST';
+  if(books.some(function(b){return b.name===title;})){let n=2;while(books.some(function(b){return b.name===title+' ('+n+')';}))n++;title+=' ('+n+')';}
+  const genre=String(pack.genre||'Авторское произведение').trim();
+  const book={name:title,author:String(pack.author||'RAEFFSKY').trim().slice(0,80)||'RAEFFSKY',genre:genre||'Авторское произведение',genres:genre.split(/[,;|]/).map(function(g){return g.trim();}).filter(Boolean).slice(0,8),rating:'0.0',chapters:chapters.length,desc:String(pack.description||'Авторское произведение, опубликованное из PLOTNEST.').trim().slice(0,1200),cls:'imported',format:'ranobe',type:'ranobe',status:String(pack.status||'ongoing'),origin:'✍️',year:new Date().getFullYear(),readers:'1',comments:'0',local:true,localId:'plotnest-'+Date.now()+'-'+Math.floor(Math.random()*100000),sourceApp:'PLOTNEST',publishedAt:String(pack.publishedAt||new Date().toISOString()),localChapters:chapters};
+  if(!Array.isArray(pvState.importedBooks))pvState.importedBooks=[];
+  if(!Array.isArray(pvState.bookmarks))pvState.bookmarks=[];
+  pvState.importedBooks.push(book);pvState.bookmarks.push(title);
+  if(!pvSave()){pvState.importedBooks.pop();pvState.bookmarks=pvState.bookmarks.filter(function(x){return x!==title;});return false;}
+  pvSyncImportedBooks();renderCatalog();renderLibrary();pvOfflineStats();
+  toast('Опубликовано из PLOTNEST: '+title+' · '+chapters.length+' глав');return true;
+ }catch(e){console.error('PLOTVERSE publication import failed',e);toast(e&&e.message==='publication-too-large'?'Публикация больше 1,6 МБ. Раздели её на части.':'Не удалось импортировать публикацию. Проверь JSON и наличие текста в главах.');return false;}
+}
+function pvImportPublicationFile(event){
+ const input=event&&event.target,file=input&&input.files&&input.files[0];if(!file)return;
+ if(file.size>2*1024*1024){toast('Файл больше 2 МБ. Экспортируй произведение частями.');input.value='';return;}
+ const reader=new FileReader();reader.onload=function(){try{const pack=JSON.parse(String(reader.result||''));if(!pvAddPublishedWork(pack))return;}catch(e){toast('Не удалось прочитать публикацию. Выбери JSON, экспортированный из PLOTNEST.');}finally{input.value='';}};reader.onerror=function(){toast('Не удалось прочитать файл.');input.value='';};reader.readAsText(file,'UTF-8');
+}
 function pvImportTextBook(event){const input=event&&event.target;const file=input&&input.files&&input.files[0];if(!file)return;if(file.size>2*1024*1024){toast('Файл больше 2 МБ. Раздели книгу на несколько файлов.');input.value='';return;}const reader=new FileReader();reader.onload=function(){pvAddImportedBook(file.name,String(reader.result||''));input.value='';};reader.onerror=function(){toast('Не удалось прочитать файл.');input.value='';};reader.readAsText(file,'UTF-8');}
 function pvRemoveImportedBook(localId){const book=pvState.importedBooks.find(function(b){return b.localId===localId;});if(!book)return;const name=book.name;pvState.importedBooks=pvState.importedBooks.filter(function(b){return b.localId!==localId;});pvState.bookmarks=pvState.bookmarks.filter(function(x){return x!==name;});if(pvState.shelves)delete pvState.shelves[name];if(pvState.progress)delete pvState.progress[name];if(pvState.offlineChapters)Object.keys(pvState.offlineChapters).forEach(function(k){if(k.indexOf(name+'::')===0)delete pvState.offlineChapters[k];});if(Array.isArray(pvState.chapterBookmarks))pvState.chapterBookmarks=pvState.chapterBookmarks.filter(function(k){const key=typeof k==='string'?k:k&&k.key;return typeof key!=='string'||key.indexOf(name+'::')!==0;});if(pvState.comments)Object.keys(pvState.comments).forEach(function(k){if(k.indexOf(name+'::')===0)delete pvState.comments[k];});pvState.history=pvState.history.filter(function(h){return h.book!==name;});pvSyncImportedBooks();if(currentBook&&currentBook.localId===localId){currentBook=books[0];pvState.currentBook=currentBook.name;go('catalog');}pvSave();renderCatalog();renderLibrary();renderHistory();renderAnalytics();pvOfflineStats();toast('Импортированная книга удалена.');}
 renderCatalog=function(){
@@ -694,7 +1386,8 @@ renderCatalog=function(){
 function pvRemoveImportedBookByIndex(index){const book=books[index];if(book&&book.local)pvRemoveImportedBook(book.localId);}
 renderChapters=function(){const names=pvGetChapterNames();const root=document.getElementById('chapterList');if(!root)return;root.innerHTML=names.map(function(name,i){const offline=currentBook.local||pvIsChapterSaved(i);return '<button class="chapter" onclick="openReaderByIndex('+i+')"><span class="chicon">'+(offline?'✓':'▤')+'</span><span class="chtext">'+pvEscape(name)+'<small>'+(currentBook.local?'Сохранено офлайн':offline?'Сохранено офлайн':i===chapterIndex?'Продолжить чтение':i<chapterIndex?'Прочитано':'Открыть главу')+'</small></span><span>›</span></button>';}).join('');};
 const pvOpenReaderBeforeLocal=openReader;
-openReader=function(name,index){if(!currentBook||!currentBook.local)return pvOpenReaderBeforeLocal(name,index);const names=pvGetChapterNames();if(typeof index==='number')chapterIndex=index;else{const found=names.indexOf(name);if(found>=0)chapterIndex=found;}chapterIndex=Math.max(0,Math.min(names.length-1,chapterIndex));const chapter=currentBook.localChapters[chapterIndex];document.getElementById('readerTitle').textContent=chapter.title||'Глава '+(chapterIndex+1);document.getElementById('readerNumber').textContent='ГЛАВА '+(chapterIndex+1);const text=String(chapter.text||'');document.getElementById('readerText').innerHTML=text.split(/\n\s*\n/).map(function(p){return '<p>'+pvEscape(p).replace(/\n/g,'<br>')+'</p>';}).join('')||'<p>В этой главе пока нет текста.</p>';pvState.currentBook=currentBook.name;pvState.history=[{book:currentBook.name,chapterIndex:chapterIndex,chapter:chapter.title||'Глава '+(chapterIndex+1),at:Date.now()}].concat(pvState.history.filter(function(h){return h.book!==currentBook.name||h.chapterIndex!==chapterIndex;})).slice(0,30);const saved=pvState.progress[currentBook.name]||{};lastProgress=Math.round(((chapterIndex+1)/Math.max(1,names.length))*100);pvState.progress[currentBook.name]={chapterIndex:chapterIndex,percent:lastProgress};pvSave();applyPVReaderSettings();go('reader');pvRevealedCommentIds=[];pvRenderComments();pvTrackEvent('chapter',currentBook.name,chapterIndex);renderChapters();};
+openReader=function(name,index){if(!currentBook||!currentBook.local)return pvOpenReaderBeforeLocal(name,index);const names=pvGetChapterNames();if(typeof index==='number')chapterIndex=index;else{const found=names.indexOf(name);if(found>=0)chapterIndex=found;}chapterIndex=Math.max(0,Math.min(names.length-1,chapterIndex));const chapter=currentBook.localChapters[chapterIndex];document.getElementById('readerTitle').textContent=chapter.title||'Глава '+(chapterIndex+1);document.getElementById('readerNumber').textContent='ГЛАВА '+(chapterIndex+1);const text=String(chapter.text||'');document.getElementById('readerText').innerHTML=text.split(/\n\s*\n/).map(function(p){return '<p>'+pvEscape(p).replace(/\n/g,'<br>')+'</p>';}).join('')||'<p>В этой главе пока нет текста.</p>';pvState.currentBook=currentBook.name;pvState.history=[{book:currentBook.name,chapterIndex:chapterIndex,chapter:chapter.title||'Глава '+(chapterIndex+1),at:Date.now()}].concat(pvState.history.filter(function(h){return h.book!==currentBook.name||h.chapterIndex!==chapterIndex;})).slice(0,30);pvUpdateResumeTile();const saved=pvState.progress[currentBook.name]||{};lastProgress=Math.round(((chapterIndex+1)/Math.max(1,names.length))*100);pvState.progress[currentBook.name]={chapterIndex:chapterIndex,percent:lastProgress};pvSave();applyPVReaderSettings();go('reader');pvRevealedCommentIds=[];pvRenderComments();pvTrackEvent('chapter',currentBook.name,chapterIndex);renderChapters();};
+const pvOpenReaderBeforeResume=openReader;openReader=function(name,index){const result=pvOpenReaderBeforeResume(name,index);pvUpdateResumeTile();return result;};
 nextChapter=function(){const names=pvGetChapterNames();chapterIndex=Math.min(names.length-1,chapterIndex+1);openReader(names[chapterIndex],chapterIndex);};
 prevChapter=function(){const names=pvGetChapterNames();chapterIndex=Math.max(0,chapterIndex-1);openReader(names[chapterIndex],chapterIndex);};
 const pvIsChapterSavedStatic=pvIsChapterSaved;
