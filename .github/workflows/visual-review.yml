@@ -29,6 +29,22 @@ jobs:
           test -f app/src/main/assets/index.html
           test -f app/src/main/java/com/plotverse/app/MainActivity.java
 
+      - name: Validate PLOTNEST publication import and reader progress
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          source = Path("app/src/main/assets/index.html").read_text(encoding="utf-8")
+          required = {
+              "PLOTNEST publication importer": "function pvAddPublishedWork(pack)",
+              "publication file picker handler": "function pvImportPublicationFile(event)",
+              "continue-reading progress": "function pvUpdateResumeTile()",
+          }
+          missing = [name for name, marker in required.items() if marker not in source]
+          if missing:
+              raise SystemExit("Missing integration feature(s): " + ", ".join(missing))
+          print("Verified PLOTNEST integration: " + ", ".join(required))
+          PY
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
